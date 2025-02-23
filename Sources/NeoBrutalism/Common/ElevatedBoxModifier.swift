@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct ElevatedBoxModifier: NeoBrutalismBase, ViewModifier {
+    public let elevated: Bool
 
     func body(content: Content) -> some View {
         content
@@ -8,7 +9,10 @@ struct ElevatedBoxModifier: NeoBrutalismBase, ViewModifier {
                 Color.white
             }
             .cornerRadius(cornerRadius)
-            .shadow(color: .black, radius: 0.0, x: shadowOffset, y: shadowOffset)
+            .shadow(color: .black,
+                    radius: 0.0,
+                    x: elevated ? shadowOffset : 0.0,
+                    y: elevated ? shadowOffset : 0.0)
             .overlay(
                 RoundedRectangle(cornerRadius: cornerRadius)
                     .stroke(Theme.standard.border, lineWidth: strokeWidth)
@@ -16,9 +20,9 @@ struct ElevatedBoxModifier: NeoBrutalismBase, ViewModifier {
     }
 }
 
-extension View {
-    public func elevatedBox() -> some View {
-        modifier(ElevatedBoxModifier())
+public extension View {
+    func elevatedBox(elevated: Bool = true) -> some View {
+        modifier(ElevatedBoxModifier(elevated: elevated))
     }
 }
 
@@ -30,6 +34,10 @@ extension View {
             .background { Color.orange }
             .elevatedBox()
 
+        Text("Harry Potter")
+            .padding(8.0)
+            .background { Color.orange }
+            .elevatedBox(elevated: false)
+
     }.padding()
 }
-

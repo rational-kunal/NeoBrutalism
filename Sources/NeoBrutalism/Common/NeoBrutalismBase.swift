@@ -11,9 +11,9 @@ extension NeoBrutalismBase where Self: View {
     // Usually is a vertical size
     var size: CGFloat { 16.0 }
 
-    var padding: CGFloat { 14.0 }
+    var padding: CGFloat { 12.0 }
 
-    var spacing: CGFloat { 24.0 }
+    var spacing: CGFloat { 12.0 }
 
 }
 

@@ -3,8 +3,10 @@ import SwiftUI
 struct Theme {
     let clear: Color = .clear
     let main: Color
+    let dark: Color
     let border: Color
     let text: Color
+    let textDark: Color
 }
 
 extension Theme {
@@ -13,14 +15,10 @@ extension Theme {
             light: .init(red: 0.53, green: 0.67, blue: 0.93),
             dark: .init(red: 0.53, green: 0.67, blue: 0.93)
         ),
-        border: .init(
-            light: .black,
-            dark: .white
-        ),
-        text: .init(
-            light: .black,
-            dark: .white
-        )
+        dark: .black,
+        border: .black,
+        text: .black,
+        textDark: .white
     )
 }
 

@@ -5,6 +5,8 @@ public struct Card<Header, Main, Footer>: NeoBrutalismBase, View where Header: V
     let main: Main
     let footer: Footer?
 
+    var spacing: CGFloat { 24.0 }
+
     public init(@ViewBuilder header: () -> Header? = { EmptyView() },
                 @ViewBuilder main: () -> Main,
                 @ViewBuilder footer: () -> Footer? = { EmptyView() }) {
