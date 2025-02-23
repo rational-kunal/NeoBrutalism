@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ElevatedBoxModifier: NeoBrutalismBase, ViewModifier {
+struct NeoBrutalismBoxModifier: NeoBrutalismBase, ViewModifier {
     public let elevated: Bool
 
     func body(content: Content) -> some View {
@@ -21,8 +21,8 @@ struct ElevatedBoxModifier: NeoBrutalismBase, ViewModifier {
 }
 
 public extension View {
-    func elevatedBox(elevated: Bool = true) -> some View {
-        modifier(ElevatedBoxModifier(elevated: elevated))
+    func neoBrutalismBox(elevated: Bool = true) -> some View {
+        modifier(NeoBrutalismBoxModifier(elevated: elevated))
     }
 }
 
@@ -32,12 +32,12 @@ public extension View {
         Text("Harry Potter")
             .padding(8.0)
             .background { Color.orange }
-            .elevatedBox()
+            .neoBrutalismBox()
 
         Text("Harry Potter")
             .padding(8.0)
             .background { Color.orange }
-            .elevatedBox(elevated: false)
+            .neoBrutalismBox(elevated: false)
 
     }.padding()
 }

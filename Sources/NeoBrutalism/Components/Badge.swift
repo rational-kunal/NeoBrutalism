@@ -46,7 +46,7 @@ public struct Badge<Content>: NeoBrutalismBase, View where Content: View {
                 
             }
         })
-        .elevatedBox(elevated: false)
+        .neoBrutalismBox(elevated: false)
     }
 }
 

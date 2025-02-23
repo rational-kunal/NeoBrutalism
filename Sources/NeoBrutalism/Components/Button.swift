@@ -48,7 +48,7 @@ public struct Button<Content>: NeoBrutalismBase, View where Content: View {
                 Theme.standard.main
             }
         })
-        .elevatedBox(elevated: elevated)
+        .neoBrutalismBox(elevated: elevated)
     }
 
     private func updateElevention(isPressed: Bool) {

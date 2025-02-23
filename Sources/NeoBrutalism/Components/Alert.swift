@@ -59,7 +59,7 @@ public struct Alert<Icon, Head, Desc>: NeoBrutalismBase, View where Icon: View, 
                 return Theme.standard.dark
             }
         })
-        .elevatedBox()
+        .neoBrutalismBox()
     }
 }
 

@@ -1,25 +1,60 @@
-# NeoBrutalism
+# NeoBrutalism components
 
-![GitHub tag (latest SemVer)](https://github.com/rational-kunal/NeoBrutalism/actions/workflows/ci.yml/badge.svg?branch=main)
+Neo Brutalism design system in SwiftUI. The credit for design goes to https://www.neobrutalism.dev.
+Figma: https://www.figma.com/community/file/1445024004618320019
 
+## Components
 
-## Example
+| Componets | Status | Note |
+| -- |:--:| --:|
+| Accordion | 🚧 | |
+| Alert Dialog | | |
+| Alert | 🚧 | |
+| Avatar | 🚧 | |
+| Badge | 🚧 | |
+| Breadcrumb | 🤷 | Not usefull on mobile |
+| Button | 🚧 | |
+| Calendar |  | |
+| Card | 🚧 | |
+| Carousel | | |
+| Checkbox | 🚧 | |
+| Collapsible | | |
+| Combobox | | |
+| Command | | |
+| Context Menu | | |
+| Date Picker | | |
+| Data Table | | |
+| Dialog | | |
+| Drawer | | |
+| Form | | |
+| Hover Card | | |
+| Image Card | | |
+| Input Otp | | |
+| Input | | |
+| Label | | |
+| Marquee | | |
+| Menubar | | |
+| Navigation Menu | | |
+| Pagination | | |
+| Popover | | |
+| Progress | | |
+| Radio Group | | |
+| Resizable | | |
+| Scroll Area | | |
+| Select | | |
+| Sheet | | |
+| Skeleton | | |
+| Slider | | |
+| Switch | 🚧 | |
+| Table | | |
+| Tabs | | |
+| Textarea | | |
+| Toast | | |
+| Tooltip | | |
 
-To run the example project, clone this repo, and open iOS Example.xcworkspace from the iOS Example directory.
-
-
-## Requirements
-
-
-## Installation
-
-Add this to your project using Swift Package Manager. In Xcode that is simply: File > Swift Packages > Add Package Dependency... and you're done. Alternative installations options are shown below for legacy projects.
-
-## Author
-
-Kunal
-
-
-## License
-
-NeoBrutalism is available under the MIT license. See [the LICENSE file](LICENSE) for more information.
+**Additional support to consider**
+- [ ] Dark mode
+- [ ] Size
+- [ ] Enable
+- [ ] Padding
+- [ ] UI / Snapshot testing

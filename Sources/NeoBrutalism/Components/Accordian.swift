@@ -45,7 +45,7 @@ public struct Accordion<Trigger, Content>: NeoBrutalismBase, View where Trigger:
                 }
             }
         }
-        .elevatedBox()
+        .neoBrutalismBox()
     }
 }
 

@@ -29,7 +29,7 @@ public struct Card<Header, Main, Footer>: NeoBrutalismBase, View where Header: V
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(padding)
         }
-        .elevatedBox()
+        .neoBrutalismBox()
     }
 }
 
