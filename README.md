@@ -53,8 +53,9 @@ Figma: https://www.figma.com/community/file/1445024004618320019
 | Tooltip | | |
 
 **Additional support to consider**
-- [ ] Dark mode
+- [ ] Themes + Dark mode
 - [ ] Size
 - [ ] Enable
 - [ ] Padding
 - [ ] UI / Snapshot testing
+- [ ] Font

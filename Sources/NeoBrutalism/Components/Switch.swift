@@ -27,9 +27,10 @@ struct ThumbShape: Shape {
     }
 }
 
-public struct Switch: NeoBrutalismBase, View {
+public struct Switch: View {
 
     @Environment(\.isEnabled) private var isEnabled
+    @Environment(\.neoBrutalismTheme) var theme: Theme
 
     @Binding private var isOn: Bool
 
@@ -41,24 +42,24 @@ public struct Switch: NeoBrutalismBase, View {
         ZStack {
             // Background color
             if !isEnabled {
-                Theme.standard.main.disabled
+                theme.main.opacity(0.5)
             } else if isOn {
-                Theme.standard.main
+                theme.main
             } else {
-                Theme.standard.clear
+                theme.clear
             }
 
             // Thumb
             ThumbShape(position: isOn ? 1 : 0)
-                .stroke(.black, style: StrokeStyle(lineWidth: strokeWidth, lineCap: .round, lineJoin: .round))
-                .padding(.all, 2 * strokeWidth)
+                .stroke(.black, style: StrokeStyle(lineWidth: theme.borderWidth, lineCap: .round, lineJoin: .round))
+                .padding(.all, 2 * theme.borderWidth)
         }
         .contentShape(Rectangle())
-        .frame(width: 2 * size, height: size)
-        .cornerRadius(size)
+        .frame(width: 2 * theme.size, height: theme.size)
+        .cornerRadius(theme.size)
         .overlay(
-            RoundedRectangle(cornerRadius: size)
-                .stroke(.black, lineWidth: strokeWidth)
+            RoundedRectangle(cornerRadius: theme.size)
+                .stroke(.black, lineWidth: theme.borderWidth)
         )
         .onTapGesture {
             if isEnabled {

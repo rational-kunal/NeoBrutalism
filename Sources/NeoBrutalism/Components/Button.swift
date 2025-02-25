@@ -1,13 +1,15 @@
 import SwiftUI
 
-public struct Button<Content>: NeoBrutalismBase, View where Content: View {
+public struct Button<Content>: View where Content: View {
     public enum ButtonType {
-        case primary, neutral
+        case `default`, neutral
     }
 
     public enum ButtonVariant {
         case `default`, noShadow, reverse
     }
+
+    @Environment(\.neoBrutalismTheme) var theme: Theme
 
     @State private var elevated: Bool
 
@@ -16,7 +18,7 @@ public struct Button<Content>: NeoBrutalismBase, View where Content: View {
     private let content: Content
     private let action: () -> Void
 
-    public init(type: ButtonType = .primary, variant: ButtonVariant = .default, @ViewBuilder content: () -> Content, action: @escaping () -> Void) {
+    public init(type: ButtonType = .default, variant: ButtonVariant = .default, @ViewBuilder content: () -> Content, action: @escaping () -> Void) {
         self.type = type
         self.variant = variant
         self.content = content()
@@ -24,11 +26,21 @@ public struct Button<Content>: NeoBrutalismBase, View where Content: View {
         self.elevated = variant == .default
     }
 
+    private var textForegroundColor: Color {
+        switch type {
+        case .default:
+            theme.mainText
+        case .neutral:
+            theme.text
+        }
+    }
+
     public var body: some View {
         ZStack {
             content
+                .foregroundStyle(textForegroundColor)
         }
-        .padding(padding)
+        .padding(theme.padding)
         .contentShape(Rectangle())
         .onLongPressGesture(minimumDuration: 0.0,
                             perform: {},
@@ -42,10 +54,10 @@ public struct Button<Content>: NeoBrutalismBase, View where Content: View {
                             })
         .background(content: {
             switch type {
+            case .default:
+                theme.main
             case .neutral:
-                Theme.standard.clear
-            case .primary:
-                Theme.standard.main
+                theme.bw
             }
         })
         .neoBrutalismBox(elevated: elevated)

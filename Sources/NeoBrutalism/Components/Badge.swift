@@ -1,28 +1,26 @@
 import SwiftUI
 
-public struct Badge<Content>: NeoBrutalismBase, View where Content: View {
+public struct Badge<Content>: View where Content: View {
     public enum BadgeType {
-        case primary, neutral, danger
+        case `default`, neutral
     }
+
+    @Environment(\.neoBrutalismTheme) var theme: Theme
 
     private let type: BadgeType
     private let content: Content
 
-    public init(type: BadgeType = .primary, @ViewBuilder content: () -> Content) {
+    public init(type: BadgeType = .default, @ViewBuilder content: () -> Content) {
         self.type = type
         self.content = content()
     }
     
-    var padding: CGFloat { 10.0 }
-    
     private var textForegroundColor: Color {
         switch type {
+        case .default:
+            return theme.mainText
         case .neutral:
-            return Theme.standard.text
-        case .primary:
-            return Theme.standard.text
-        case .danger:
-            return Theme.standard.textDark
+            return theme.text
         }
     }
 
@@ -32,17 +30,15 @@ public struct Badge<Content>: NeoBrutalismBase, View where Content: View {
                 .font(.caption)
                 .foregroundStyle(textForegroundColor)
         }
-        .padding(.horizontal, padding)
+        .padding(.horizontal, theme.padding)
         .padding(.vertical, 2.0)
         
         .background(content: {
             switch type {
+            case .default:
+                theme.main
             case .neutral:
-                Theme.standard.clear
-            case .primary:
-                Theme.standard.main
-            case .danger:
-                Theme.standard.dark
+                theme.bw
                 
             }
         })
@@ -62,10 +58,10 @@ public struct Badge<Content>: NeoBrutalismBase, View where Content: View {
             
             Badge(type: .neutral) {
                 Text("Xyz")
-                    .font(.title)
+                    .font(.caption2)
             }
             
-            Badge(type: .danger) {
+            Badge(type: .default) {
                 Text("Xyz")
             }
             

@@ -4,6 +4,7 @@ import SwiftUI
  TODO: 🚧 WIP 🚧
  */
 
+/**
 public struct Avatar<Fallback>: NeoBrutalismBase, View where Fallback: View {
     private let imgUrl: URL
     private let fallback: Fallback
@@ -51,3 +52,4 @@ public struct Avatar<Fallback>: NeoBrutalismBase, View where Fallback: View {
         Spacer()
     }.padding()
 }
+*/

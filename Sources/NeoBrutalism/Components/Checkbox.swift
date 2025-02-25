@@ -13,8 +13,9 @@ private struct CheckboxShape: Shape {
     }
 }
 
-public struct Checkbox: NeoBrutalismBase, View {
+public struct Checkbox: View {
     @Environment(\.isEnabled) private var isEnabled
+    @Environment(\.neoBrutalismTheme) var theme: Theme
 
     @Binding private var isOn: Bool
 
@@ -26,24 +27,24 @@ public struct Checkbox: NeoBrutalismBase, View {
         ZStack {
             // Background color
             if !isEnabled {
-                Theme.standard.main.disabled
+                theme.main.opacity(0.5)
             } else if isOn {
-                Theme.standard.main
+                theme.main
             } else {
-                Theme.standard.clear
+                theme.clear
             }
 
             // Checkbox
             if isOn {
                 CheckboxShape()
-                    .stroke(Theme.standard.border, style: StrokeStyle(lineWidth: strokeWidth, lineCap: .round, lineJoin: .round))
+                    .stroke(theme.border, style: StrokeStyle(lineWidth: theme.borderWidth, lineCap: .round, lineJoin: .round))
             }
         }
         .contentShape(Rectangle())
-        .frame(width: size, height: size)
+        .frame(width: theme.size, height: theme.size)
         .overlay(
             Rectangle()
-                .stroke(Theme.standard.border, lineWidth: strokeWidth)
+                .stroke(theme.border, lineWidth: theme.borderWidth)
         )
         .onTapGesture {
             if isEnabled {

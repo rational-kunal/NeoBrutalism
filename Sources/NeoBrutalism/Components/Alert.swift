@@ -1,11 +1,12 @@
 import SwiftUI
 
-public struct Alert<Icon, Head, Desc>: NeoBrutalismBase, View where Icon: View, Head: View, Desc: View {
+public struct Alert<Icon, Head, Desc>: View where Icon: View, Head: View, Desc: View {
+
     public enum AlertType {
-        case neutral
-        case primary
-        case danger
+        case `default`, danger
     }
+    
+    @Environment(\.neoBrutalismTheme) var theme: Theme
 
     private let type: AlertType
 
@@ -15,16 +16,14 @@ public struct Alert<Icon, Head, Desc>: NeoBrutalismBase, View where Icon: View, 
 
     private var textForegroundColor: Color {
         switch type {
-        case .neutral:
-            return Theme.standard.text
-        case .primary:
-            return Theme.standard.text
+        case .default:
+            return theme.mainText
         case .danger:
-            return Theme.standard.textDark
+            return theme.text
         }
     }
 
-    public init(type: AlertType = .neutral, @ViewBuilder desc: () -> Desc, @ViewBuilder icon: () -> Icon = { Image(systemName: "terminal") }, @ViewBuilder head: () -> Head) {
+    public init(type: AlertType = .default, @ViewBuilder desc: () -> Desc, @ViewBuilder icon: () -> Icon = { Image(systemName: "terminal") }, @ViewBuilder head: () -> Head) {
         self.type = type
         self.head = head()
         self.icon = icon()
@@ -35,7 +34,7 @@ public struct Alert<Icon, Head, Desc>: NeoBrutalismBase, View where Icon: View, 
         ZStack {
             HStack(alignment: .top) {
                 icon
-                    .frame(minWidth: size)
+                    .frame(minWidth: theme.size)
                     .foregroundStyle(textForegroundColor)
                     .padding(.top, 1.0)
                 VStack(alignment: .leading) {
@@ -48,15 +47,13 @@ public struct Alert<Icon, Head, Desc>: NeoBrutalismBase, View where Icon: View, 
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(padding)
+        .padding(theme.padding)
         .background(content: {
             switch type {
-            case .neutral:
-                return Theme.standard.clear
-            case .primary:
-                return Theme.standard.main
+            case .default:
+                theme.main
             case .danger:
-                return Theme.standard.dark
+                theme.bw
             }
         })
         .neoBrutalismBox()
@@ -80,7 +77,7 @@ public struct Alert<Icon, Head, Desc>: NeoBrutalismBase, View where Icon: View, 
             Text("Head")
         }
 
-        Alert(type: .primary) {
+        Alert() {
             Text("Desc")
         } icon: {
             EmptyView()

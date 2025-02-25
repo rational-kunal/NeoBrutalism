@@ -1,6 +1,8 @@
 import SwiftUI
 
-public struct Accordion<Trigger, Content>: NeoBrutalismBase, View where Trigger: View, Content: View {
+public struct Accordion<Trigger, Content>: View where Trigger: View, Content: View {
+    @Environment(\.neoBrutalismTheme) var theme: Theme
+
     let trigger: Trigger
     let content: Content
 
@@ -15,21 +17,21 @@ public struct Accordion<Trigger, Content>: NeoBrutalismBase, View where Trigger:
         ZStack {
             VStack(spacing: 0.0) {
                 ZStack {
-                    Theme.standard.main
+                    theme.main
                     HStack {
                         trigger
                             .bold()
-                            .padding(padding)
+                            .padding(theme.padding)
                             .frame(maxWidth: .infinity, alignment: .leading)
 
                         Image(systemName: "chevron.down")
                             .rotationEffect(.degrees(isExpanded ? 180 : 0))
                             .animation(.interactiveSpring, value: isExpanded)
-                            .padding(.trailing, padding)
+                            .padding(.trailing, theme.padding)
                     }
                 }
                 .overlay(Divider()
-                    .frame(maxWidth: .infinity, maxHeight: strokeWidth)
+                    .frame(maxWidth: .infinity, maxHeight: theme.borderWidth)
                     .background(Color.black), alignment: .bottom)
                 .onTapGesture {
                     withAnimation(.interactiveSpring) {
@@ -40,7 +42,7 @@ public struct Accordion<Trigger, Content>: NeoBrutalismBase, View where Trigger:
 
                 if isExpanded {
                     content
-                        .padding(padding)
+                        .padding(theme.padding)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
             }
