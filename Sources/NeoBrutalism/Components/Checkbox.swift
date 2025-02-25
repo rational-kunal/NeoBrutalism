@@ -56,8 +56,8 @@ public struct Checkbox: View {
     }
 }
 
-@available(iOS 17.0, *)
-#Preview {
+@available(iOS 18.0, *)
+#Preview(traits: .modifier(NeoBrutalismPreviewHelper())) {
     @Previewable @State var checkboxState1 = true
     @Previewable @State var checkboxState2 = false
 

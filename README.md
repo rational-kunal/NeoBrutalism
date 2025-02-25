@@ -37,7 +37,7 @@ Figma: https://www.figma.com/community/file/1445024004618320019
 | Navigation Menu | | |
 | Pagination | | |
 | Popover | | |
-| Progress | | |
+| Progress | 🚧 | |
 | Radio Group | | |
 | Resizable | | |
 | Scroll Area | | |
@@ -53,9 +53,12 @@ Figma: https://www.figma.com/community/file/1445024004618320019
 | Tooltip | | |
 
 **Additional support to consider**
-- [ ] Themes + Dark mode
-- [ ] Size
-- [ ] Enable
-- [ ] Padding
-- [ ] UI / Snapshot testing
-- [ ] Font
+
+| Support | Status | Notes |
+| -- |:--:| --:|
+| Themes + Dark mode | ✅ | |
+| Size / Spacings | | |
+| UI + Snapshot testing | | Look into how to automatically test the previews |
+| Font | | |
+| Add namespace | | Consumer should access APIs with prefix like NB.Alert |
+

@@ -51,7 +51,8 @@ public struct Switch: View {
 
             // Thumb
             ThumbShape(position: isOn ? 1 : 0)
-                .stroke(.black, style: StrokeStyle(lineWidth: theme.borderWidth, lineCap: .round, lineJoin: .round))
+                .fill(theme.blank)
+                .stroke(theme.border, style: StrokeStyle(lineWidth: theme.borderWidth, lineCap: .round, lineJoin: .round))
                 .padding(.all, 2 * theme.borderWidth)
         }
         .contentShape(Rectangle())
@@ -71,8 +72,8 @@ public struct Switch: View {
     }
 }
 
-@available(iOS 17.0, *)
-#Preview {
+@available(iOS 18.0, *)
+#Preview(traits: .modifier(NeoBrutalismPreviewHelper())) {
     @Previewable @State var switchState1 = true
     @Previewable @State var switchState2 = false
 

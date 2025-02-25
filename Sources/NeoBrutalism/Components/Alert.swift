@@ -60,8 +60,8 @@ public struct Alert<Icon, Head, Desc>: View where Icon: View, Head: View, Desc: 
     }
 }
 
-@available(iOS 17.0, *)
-#Preview {
+@available(iOS 18.0, *)
+#Preview(traits: .modifier(NeoBrutalismPreviewHelper())) {
     VStack(spacing: 18.0) {
         Alert {
             Text("Desc")
@@ -85,6 +85,5 @@ public struct Alert<Icon, Head, Desc>: View where Icon: View, Head: View, Desc: 
             Text("Head")
         }
 
-        Spacer()
-    }.padding()
+    }
 }

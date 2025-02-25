@@ -14,7 +14,7 @@ public struct Badge<Content>: View where Content: View {
         self.type = type
         self.content = content()
     }
-    
+
     private var textForegroundColor: Color {
         switch type {
         case .default:
@@ -32,42 +32,32 @@ public struct Badge<Content>: View where Content: View {
         }
         .padding(.horizontal, theme.padding)
         .padding(.vertical, 2.0)
-        
         .background(content: {
             switch type {
             case .default:
                 theme.main
             case .neutral:
                 theme.bw
-                
             }
         })
         .neoBrutalismBox(elevated: false)
     }
 }
 
-@available(iOS 17.0, *)
-#Preview {
-    ZStack {
-        Color.gray
-            .ignoresSafeArea()
-        VStack(spacing: 18.0) {
-            Badge {
-                Text("Xyz")
-            }
-            
-            Badge(type: .neutral) {
-                Text("Xyz")
-                    .font(.caption2)
-            }
-            
-            Badge(type: .default) {
-                Text("Xyz")
-            }
-            
-            Spacer()
+@available(iOS 18.0, *)
+#Preview(traits: .modifier(NeoBrutalismPreviewHelper())) {
+    VStack(spacing: 18.0) {
+        Badge {
+            Text("Xyz")
         }
-        .padding()
+
+        Badge(type: .neutral) {
+            Text("Xyz")
+                .font(.caption2)
+        }
+
+        Badge(type: .default) {
+            Text("Xyz")
+        }
     }
 }
-

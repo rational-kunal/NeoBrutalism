@@ -44,14 +44,22 @@ public struct Card<Header, Main, Footer>: View where Header: View, Main: View, F
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(theme.padding)
+            .background(content: {
+                switch type {
+                case .default:
+                    theme.main
+                case .neutral:
+                    theme.bw
+                }
+            })
         }
         .neoBrutalismBox()
     }
 }
 
-@available(iOS 17.0, *)
-#Preview {
-    VStack(spacing: 12.0) {
+@available(iOS 18.0, *)
+#Preview(traits: .modifier(NeoBrutalismPreviewHelper())) {
+    VStack(spacing: 24.0) {
         Card {
             Text("Header")
         } main: {
@@ -60,6 +68,12 @@ public struct Card<Header, Main, Footer>: View where Header: View, Main: View, F
             Text("Footer")
         }
 
-        Spacer()
-    }.padding()
+        Card(type: .neutral) {
+            Text("Header")
+        } main: {
+            Text("Main")
+        } footer: {
+            Text("Footer")
+        }
+    }
 }

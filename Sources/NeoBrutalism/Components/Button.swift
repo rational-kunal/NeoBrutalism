@@ -76,8 +76,8 @@ public struct Button<Content>: View where Content: View {
     }
 }
 
-@available(iOS 17.0, *)
-#Preview {
+@available(iOS 18.0, *)
+#Preview(traits: .modifier(NeoBrutalismPreviewHelper())) {
     VStack(spacing: 18.0) {
         Button {
             Text("Accio")
@@ -96,7 +96,5 @@ public struct Button<Content>: View where Content: View {
         } action: {
             print("OPEN")
         }
-
-        Spacer()
     }.padding()
 }

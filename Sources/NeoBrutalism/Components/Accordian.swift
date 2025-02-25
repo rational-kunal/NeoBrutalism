@@ -47,12 +47,13 @@ public struct Accordion<Trigger, Content>: View where Trigger: View, Content: Vi
                 }
             }
         }
+        .foregroundStyle(theme.mainText)
         .neoBrutalismBox()
     }
 }
 
-@available(iOS 17.0, *)
-#Preview {
+@available(iOS 18.0, *)
+#Preview(traits: .modifier(NeoBrutalismPreviewHelper())) {
     VStack(spacing: 18.0) {
         Accordion {
             Text("Piertotum Locomotor")
@@ -65,7 +66,6 @@ public struct Accordion<Trigger, Content>: View where Trigger: View, Content: Vi
         } content: {
             Text("Pitradev Sanrakshanam - पितृदेव संरक्षणम्")
         }
-
-        Spacer()
+        
     }.padding()
 }
