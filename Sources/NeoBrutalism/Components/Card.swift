@@ -12,10 +12,12 @@ public struct Card<Header, Main, Footer>: View where Header: View, Main: View, F
     let main: Main
     let footer: Footer?
 
-    public init(type: CardType = .default,
-                @ViewBuilder header: () -> Header? = { EmptyView() },
-                @ViewBuilder main: () -> Main,
-                @ViewBuilder footer: () -> Footer? = { EmptyView() }) {
+    public init(
+        type: CardType = .default,
+        @ViewBuilder header: () -> Header? = { EmptyView() },
+        @ViewBuilder main: () -> Main,
+        @ViewBuilder footer: () -> Footer? = { EmptyView() }
+    ) {
         self.type = type
         self.header = header()
         self.main = main()

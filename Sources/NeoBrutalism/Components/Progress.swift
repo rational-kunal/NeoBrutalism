@@ -13,19 +13,18 @@ public struct Progress: View {
     public var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
-                
                 HStack(spacing: 0) {
                     // Progress bar
                     Rectangle()
                         .fill(theme.main)
                         .frame(width: max(0, min(value, 1)) * geometry.size.width, height: theme.size)
-                    
+
                     if value > 0.001 && value < 0.99 {
                         Divider()
                             .frame(width: theme.borderWidth, height: geometry.size.height)
                             .background(Color.black)
                     }
-                    
+
                     // Background bar
                     Rectangle()
                         .fill(theme.blank)

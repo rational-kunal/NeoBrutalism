@@ -5,8 +5,8 @@
 //  Created by Kunal on 17 Feb 2025.
 //
 
-import SwiftUI
 import NeoBrutalism
+import SwiftUI
 
 struct AccordianView: View {
     var body: some View {
@@ -18,7 +18,6 @@ struct AccordianView: View {
             } content: {
                 Text("Welcome to the Hogwarts Express.")
             }
-
         }
     }
 }
@@ -70,9 +69,9 @@ struct ContentView: View {
                 Text("Neo Brutalism")
                     .font(.caption)
             }
-            
+
             AccordianView()
-            
+
             CheckboxView()
         }
         .padding()

@@ -1,4 +1,1 @@
-
-class NeoBrutalism {
-    
-}
+class NeoBrutalism {}

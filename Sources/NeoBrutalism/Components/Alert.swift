@@ -1,11 +1,10 @@
 import SwiftUI
 
 public struct Alert<Icon, Head, Desc>: View where Icon: View, Head: View, Desc: View {
-
     public enum AlertType {
         case `default`, danger
     }
-    
+
     @Environment(\.neoBrutalismTheme) var theme: Theme
 
     private let type: AlertType
@@ -23,7 +22,10 @@ public struct Alert<Icon, Head, Desc>: View where Icon: View, Head: View, Desc: 
         }
     }
 
-    public init(type: AlertType = .default, @ViewBuilder desc: () -> Desc, @ViewBuilder icon: () -> Icon = { Image(systemName: "terminal") }, @ViewBuilder head: () -> Head) {
+    public init(
+        type: AlertType = .default, @ViewBuilder desc: () -> Desc,
+        @ViewBuilder icon: () -> Icon = { Image(systemName: "terminal") }, @ViewBuilder head: () -> Head
+    ) {
         self.type = type
         self.head = head()
         self.icon = icon()
@@ -77,13 +79,12 @@ public struct Alert<Icon, Head, Desc>: View where Icon: View, Head: View, Desc: 
             Text("Head")
         }
 
-        Alert() {
+        Alert {
             Text("Desc")
         } icon: {
             EmptyView()
         } head: {
             Text("Head")
         }
-
     }
 }

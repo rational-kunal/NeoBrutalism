@@ -11,10 +11,12 @@ struct NeoBrutalismBoxModifier: ViewModifier {
                 theme.blank
             }
             .cornerRadius(theme.borderRadius)
-            .shadow(color: theme.border,
-                    radius: 0.0,
-                    x: elevated ? theme.boxShadowX : 0.0,
-                    y: elevated ? theme.boxShadowY : 0.0)
+            .shadow(
+                color: theme.border,
+                radius: 0.0,
+                x: elevated ? theme.boxShadowX : 0.0,
+                y: elevated ? theme.boxShadowY : 0.0
+            )
             .overlay(
                 RoundedRectangle(cornerRadius: theme.borderRadius)
                     .stroke(Color.black, lineWidth: theme.borderWidth)
@@ -34,7 +36,7 @@ public extension View {
         Text("Harry Potter")
             .padding(8.0)
             .neoBrutalismBox()
-        
+
         Text("Harry Potter")
             .padding(8.0)
             .background { Color.orange }

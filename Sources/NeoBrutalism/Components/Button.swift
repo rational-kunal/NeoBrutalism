@@ -18,12 +18,15 @@ public struct Button<Content>: View where Content: View {
     private let content: Content
     private let action: () -> Void
 
-    public init(type: ButtonType = .default, variant: ButtonVariant = .default, @ViewBuilder content: () -> Content, action: @escaping () -> Void) {
+    public init(
+        type: ButtonType = .default, variant: ButtonVariant = .default,
+        @ViewBuilder content: () -> Content, action: @escaping () -> Void
+    ) {
         self.type = type
         self.variant = variant
         self.content = content()
         self.action = action
-        self.elevated = variant == .default
+        elevated = variant == .default
     }
 
     private var textForegroundColor: Color {
@@ -42,16 +45,18 @@ public struct Button<Content>: View where Content: View {
         }
         .padding(theme.padding)
         .contentShape(Rectangle())
-        .onLongPressGesture(minimumDuration: 0.0,
-                            perform: {},
-                            onPressingChanged: { pressed in
-                                withAnimation(.interactiveSpring) {
-                                    updateElevention(isPressed: pressed)
-                                }
-                                if !pressed {
-                                    action()
-                                }
-                            })
+        .onLongPressGesture(
+            minimumDuration: 0.0,
+            perform: {},
+            onPressingChanged: { pressed in
+                withAnimation(.interactiveSpring) {
+                    updateElevention(isPressed: pressed)
+                }
+                if !pressed {
+                    action()
+                }
+            }
+        )
         .background(content: {
             switch type {
             case .default:
@@ -84,13 +89,13 @@ public struct Button<Content>: View where Content: View {
         } action: {
             print("OPEN")
         }
-        
+
         Button(variant: .reverse) {
             Text("Accio")
         } action: {
             print("OPEN")
         }
-        
+
         Button(type: .neutral, variant: .noShadow) {
             Image(systemName: "plus")
         } action: {

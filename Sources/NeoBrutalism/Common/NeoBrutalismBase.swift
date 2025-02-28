@@ -1,12 +1,7 @@
 import SwiftUI
 
+protocol NeoBrutalismBase {}
 
-protocol NeoBrutalismBase { }
+extension NeoBrutalismBase where Self: View {}
 
-extension NeoBrutalismBase where Self: View {
-
-}
-
-extension NeoBrutalismBase where Self: ViewModifier {
-
-}
+extension NeoBrutalismBase where Self: ViewModifier {}

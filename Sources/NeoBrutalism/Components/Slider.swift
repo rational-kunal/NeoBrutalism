@@ -39,11 +39,12 @@ public struct Slider: View {
                         .stroke(theme.border, lineWidth: theme.borderWidth)
                         .frame(width: theme.size, height: theme.size)
                         .position(.init(x: thumbOffsetX, y: thumbOffsetY))
-                        .gesture(DragGesture().onChanged { value in
-                            let startLocation = value.startLocation.x / geometry.size.width
-                            let translation = value.translation.width / geometry.size.width
-                            self.value = max(0, min(1, startLocation + translation))
-                        })
+                        .gesture(
+                            DragGesture().onChanged { value in
+                                let startLocation = value.startLocation.x / geometry.size.width
+                                let translation = value.translation.width / geometry.size.width
+                                self.value = max(0, min(1, startLocation + translation))
+                            })
                 }
                 .frame(width: geometry.size.width - theme.size, height: theme.size)
             }

@@ -30,9 +30,11 @@ public struct Accordion<Trigger, Content>: View where Trigger: View, Content: Vi
                             .padding(.trailing, theme.padding)
                     }
                 }
-                .overlay(Divider()
-                    .frame(maxWidth: .infinity, maxHeight: theme.borderWidth)
-                    .background(Color.black), alignment: .bottom)
+                .overlay(
+                    Divider()
+                        .frame(maxWidth: .infinity, maxHeight: theme.borderWidth)
+                        .background(Color.black), alignment: .bottom
+                )
                 .onTapGesture {
                     withAnimation(.interactiveSpring) {
                         isExpanded.toggle()
@@ -66,6 +68,6 @@ public struct Accordion<Trigger, Content>: View where Trigger: View, Content: Vi
         } content: {
             Text("Pitradev Sanrakshanam - पितृदेव संरक्षणम्")
         }
-        
+
     }.padding()
 }

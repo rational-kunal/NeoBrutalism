@@ -11,7 +11,6 @@ extension View {
 }
 
 struct Theme {
-
     // MARK: Color
 
     var main: Color
@@ -55,7 +54,7 @@ struct Theme {
 
     // MARK: Themes
 
-    static let `default`: Theme = Theme(
+    static let `default`: Theme = .init(
         main: Color(
             light: .rgb(0.533, 0.667, 0.933),
             dark: .rgb(0.533, 0.667, 0.933)
@@ -92,13 +91,15 @@ struct Theme {
         padding: 12.0,
         spacing: 12.0, xlspacing: 24.0,
         borderWidth: 2.0, borderRadius: 5.0,
-        boxShadowX: 4.0, boxShadowY: 4.0)
-
+        boxShadowX: 4.0, boxShadowY: 4.0
+    )
 }
 
-
 extension UIColor {
-    convenience init(light lightColor: @escaping @autoclosure () -> UIColor, dark darkColor: @escaping @autoclosure () -> UIColor) {
+    convenience init(
+        light lightColor: @escaping @autoclosure () -> UIColor,
+        dark darkColor: @escaping @autoclosure () -> UIColor
+    ) {
         self.init { traitCollection in
             switch traitCollection.userInterfaceStyle {
             case .light:
@@ -123,7 +124,10 @@ extension UIColor {
 }
 
 extension Color {
-    init(light lightColor: @escaping @autoclosure () -> UIColor, dark darkColor: @escaping @autoclosure () -> UIColor) {
+    init(
+        light lightColor: @escaping @autoclosure () -> UIColor,
+        dark darkColor: @escaping @autoclosure () -> UIColor
+    ) {
         self.init(UIColor(light: lightColor(), dark: darkColor()))
     }
 }

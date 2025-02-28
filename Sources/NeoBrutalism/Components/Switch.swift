@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct ThumbShape: Shape {
-
     // 0 for left, 1 for right
     var position: CGFloat
 
@@ -16,26 +15,26 @@ struct ThumbShape: Shape {
         let circleX = rect.minX + (rect.width - diameter) * position + diameter / 2
         let circleY = rect.midY
 
-        path.addEllipse(in: CGRect(
-            x: circleX - diameter / 2,
-            y: circleY - diameter / 2,
-            width: diameter,
-            height: diameter
-        ))
+        path.addEllipse(
+            in: CGRect(
+                x: circleX - diameter / 2,
+                y: circleY - diameter / 2,
+                width: diameter,
+                height: diameter
+            ))
 
         return path
     }
 }
 
 public struct Switch: View {
-
     @Environment(\.isEnabled) private var isEnabled
     @Environment(\.neoBrutalismTheme) var theme: Theme
 
     @Binding private var isOn: Bool
 
     public init(isOn: Binding<Bool>) {
-        self._isOn = isOn
+        _isOn = isOn
     }
 
     public var body: some View {
@@ -52,7 +51,10 @@ public struct Switch: View {
             // Thumb
             ThumbShape(position: isOn ? 1 : 0)
                 .fill(theme.blank)
-                .stroke(theme.border, style: StrokeStyle(lineWidth: theme.borderWidth, lineCap: .round, lineJoin: .round))
+                .stroke(
+                    theme.border,
+                    style: StrokeStyle(lineWidth: theme.borderWidth, lineCap: .round, lineJoin: .round)
+                )
                 .padding(.all, 2 * theme.borderWidth)
         }
         .contentShape(Rectangle())
