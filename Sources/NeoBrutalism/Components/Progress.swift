@@ -39,17 +39,6 @@ public struct Progress: View {
     }
 }
 
-struct OrangeBackground: PreviewModifier {
-    func body(content: Content, context: Void) -> some View {
-        content
-            .padding()
-            .background {
-                RoundedRectangle(cornerRadius: 16)
-                    .fill(.orange)
-            }
-    }
-}
-
 @available(iOS 18.0, *)
 #Preview(traits: .modifier(NeoBrutalismPreviewHelper())) {
     VStack {

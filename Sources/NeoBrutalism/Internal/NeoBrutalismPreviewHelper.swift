@@ -11,15 +11,6 @@ struct NeoBrutalismPreviewHelper: PreviewModifier {
                 content
                     .padding()
             }
-            .colorScheme(.light)
-
-            ZStack {
-                theme.background
-                    .ignoresSafeArea()
-                content
-                    .padding()
-            }
-            .colorScheme(.dark)
         }
         .environment(\.neoBrutalismTheme, theme)
     }

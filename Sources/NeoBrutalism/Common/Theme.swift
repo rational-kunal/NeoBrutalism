@@ -38,6 +38,7 @@ struct Theme {
 
     /* Usually is a vertical size */
     var size: CGFloat
+    var ssize: CGFloat
 
     var padding: CGFloat
 
@@ -87,7 +88,7 @@ struct Theme {
             light: .rgb(0.0, 0.0, 0.0),
             dark: .rgb(0.0, 0.0, 0.0)
         ),
-        size: 16.0,
+        size: 16.0, ssize: 8.0,
         padding: 12.0,
         spacing: 12.0, xlspacing: 24.0,
         borderWidth: 2.0, borderRadius: 5.0,
