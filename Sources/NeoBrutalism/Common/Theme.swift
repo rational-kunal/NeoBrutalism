@@ -10,7 +10,7 @@ extension View {
     }
 }
 
-struct Theme {
+public struct Theme: Sendable {
     // MARK: Color
 
     var main: Color
@@ -20,7 +20,7 @@ struct Theme {
 
     var overlay: Color
 
-    var background: Color
+    public var background: Color
 
     var blank: Color
 
@@ -40,6 +40,7 @@ struct Theme {
     var ssize: CGFloat
 
     var padding: CGFloat
+    var xlpadding: CGFloat
 
     var spacing: CGFloat
     var xlspacing: CGFloat
@@ -54,7 +55,7 @@ struct Theme {
 
     // MARK: Themes
 
-    static let `default`: Theme = .init(
+    public static let `default`: Theme = .init(
         main: Color(
             light: .rgb(0.533, 0.667, 0.933),
             dark: .rgb(0.533, 0.667, 0.933)
@@ -88,7 +89,7 @@ struct Theme {
             dark: .rgb(0.0, 0.0, 0.0)
         ),
         size: 16.0, ssize: 8.0,
-        padding: 12.0,
+        padding: 12.0, xlpadding: 24.0,
         spacing: 12.0, xlspacing: 24.0,
         borderWidth: 2.0, borderRadius: 5.0,
         boxShadowX: 4.0, boxShadowY: 4.0

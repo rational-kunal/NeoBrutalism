@@ -7,8 +7,9 @@ struct NeoBrutalismBoxModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         content
+            .foregroundStyle(theme.text)
             .background {
-                theme.blank
+                theme.background
             }
             .cornerRadius(theme.borderRadius)
             .shadow(
@@ -30,8 +31,8 @@ public extension View {
     }
 }
 
-@available(iOS 17.0, *)
-#Preview {
+@available(iOS 18.0, *)
+#Preview(traits: .modifier(NeoBrutalismPreviewHelper())) {
     VStack(spacing: 12.0) {
         Text("Harry Potter")
             .padding(8.0)

@@ -27,7 +27,7 @@ public struct Progress: View {
 
                     // Background bar
                     Rectangle()
-                        .fill(theme.blank)
+                        .fill(theme.bw)
                         .frame(height: theme.size)
                 }
             }

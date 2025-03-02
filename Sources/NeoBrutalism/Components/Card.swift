@@ -35,7 +35,7 @@ public struct Card<Header, Main, Footer>: View where Header: View, Main: View, F
 
     public var body: some View {
         ZStack {
-            VStack(alignment: .leading, spacing: theme.xlspacing) {
+            VStack(alignment: .leading, spacing: theme.spacing) {
                 header
                     .foregroundStyle(textForegroundColor)
                     .bold()
@@ -45,7 +45,7 @@ public struct Card<Header, Main, Footer>: View where Header: View, Main: View, F
                     .foregroundStyle(textForegroundColor)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(theme.padding)
+            .padding(theme.xlpadding)
             .background(content: {
                 switch type {
                 case .default:

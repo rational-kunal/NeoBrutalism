@@ -2,7 +2,7 @@ import SwiftUI
 
 public struct Alert<Icon, Head, Desc>: View where Icon: View, Head: View, Desc: View {
     public enum AlertType {
-        case `default`, danger
+        case `default`, neutral
     }
 
     @Environment(\.neoBrutalismTheme) var theme: Theme
@@ -17,14 +17,14 @@ public struct Alert<Icon, Head, Desc>: View where Icon: View, Head: View, Desc: 
         switch type {
         case .default:
             return theme.mainText
-        case .danger:
+        case .neutral:
             return theme.text
         }
     }
 
     public init(
         type: AlertType = .default, @ViewBuilder desc: () -> Desc,
-        @ViewBuilder icon: () -> Icon = { Image(systemName: "terminal") }, @ViewBuilder head: () -> Head
+        @ViewBuilder icon: () -> Icon = { EmptyView() }, @ViewBuilder head: () -> Head
     ) {
         self.type = type
         self.head = head()
@@ -54,7 +54,7 @@ public struct Alert<Icon, Head, Desc>: View where Icon: View, Head: View, Desc: 
             switch type {
             case .default:
                 theme.main
-            case .danger:
+            case .neutral:
                 theme.bw
             }
         })
@@ -71,7 +71,7 @@ public struct Alert<Icon, Head, Desc>: View where Icon: View, Head: View, Desc: 
             Text("Alert")
         }
 
-        Alert(type: .danger) {
+        Alert(type: .neutral) {
             Text("Desc")
         } icon: {
             Image(systemName: "questionmark")

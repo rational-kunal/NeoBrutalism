@@ -46,6 +46,7 @@ public struct Checkbox: View {
             Rectangle()
                 .stroke(theme.border, lineWidth: theme.borderWidth)
         )
+        .opacity(isEnabled ? 1 : 0.5)
         .onTapGesture {
             if isEnabled {
                 withAnimation(.interactiveSpring) {

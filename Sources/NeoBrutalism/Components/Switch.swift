@@ -64,6 +64,7 @@ public struct Switch: View {
             RoundedRectangle(cornerRadius: theme.size)
                 .stroke(.black, lineWidth: theme.borderWidth)
         )
+        .opacity(isEnabled ? 1.0 : 0.5)
         .onTapGesture {
             if isEnabled {
                 withAnimation(.interactiveSpring) {

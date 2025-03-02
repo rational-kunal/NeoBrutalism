@@ -42,11 +42,15 @@ public struct Accordion<Trigger, Content>: View where Trigger: View, Content: Vi
                 }
                 .fixedSize(horizontal: false, vertical: true)
 
-                if isExpanded {
-                    content
-                        .padding(theme.padding)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
+                content
+                    .padding(theme.padding)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .frame(maxHeight: isExpanded ? nil : 0.0)
+                    .clipped()
+                    .background(content: {
+                        theme.bw
+                    })
+                    .foregroundStyle(theme.text)
             }
         }
         .foregroundStyle(theme.mainText)
