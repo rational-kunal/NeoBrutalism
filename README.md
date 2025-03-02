@@ -1,23 +1,29 @@
 # NeoBrutalism components
 
-Neo Brutalism design system in SwiftUI. The credit for design goes to https://www.neobrutalism.dev.
-Figma: https://www.figma.com/community/file/1445024004618320019
+Building the Neo Brutalism components in SwiftUI. 
+
+<p float="left">
+  <img src="https://github.com/user-attachments/assets/7bd95348-e88a-4022-adde-c25f74741590" width="300px" />
+  <img src="https://github.com/user-attachments/assets/77fbead7-7c3c-4b7e-9931-709b55cd0b3a" width="300px" /> 
+</p>
 
 ## Components
 
+I have built commonly used components and will create complex components as needed for my personal projects. A more comprehensive README is on the way.
+
 | Componets | Status | Note |
 | -- |:--:| --:|
-| Accordion | 🚧 | |
+| Accordion | ✅ | |
 | Alert Dialog | | |
-| Alert | 🚧 | |
+| Alert | ✅ | |
 | Avatar | 🚧 | |
-| Badge | 🚧 | |
+| Badge | ✅ | |
 | Breadcrumb | 🤷 | Not usefull on mobile |
-| Button | 🚧 | |
+| Button | ✅ | |
 | Calendar |  | |
-| Card | 🚧 | |
+| Card | ✅ | |
 | Carousel | | |
-| Checkbox | 🚧 | |
+| Checkbox | ✅ | |
 | Collapsible | | |
 | Combobox | | |
 | Command | | |
@@ -30,22 +36,22 @@ Figma: https://www.figma.com/community/file/1445024004618320019
 | Hover Card | | |
 | Image Card | | |
 | Input Otp | | |
-| Input | | |
+| Input | ✅ | |
 | Label | | |
 | Marquee | | |
 | Menubar | | |
 | Navigation Menu | | |
 | Pagination | | |
 | Popover | | |
-| Progress | 🚧 | |
+| Progress | ✅ | |
 | Radio Group | | |
 | Resizable | | |
 | Scroll Area | | |
 | Select | | |
 | Sheet | | |
 | Skeleton | | |
-| Slider | | |
-| Switch | 🚧 | |
+| Slider | ✅ | |
+| Switch | ✅ | |
 | Table | | |
 | Tabs | | |
 | Textarea | | |
@@ -62,3 +68,6 @@ Figma: https://www.figma.com/community/file/1445024004618320019
 | Font | | |
 | Add namespace | | Consumer should access APIs with prefix like NB.Alert |
 
+---
+
+The credit for the design belongs to https://www.neobrutalism.dev.
