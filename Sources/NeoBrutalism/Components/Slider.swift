@@ -31,7 +31,7 @@ public struct Slider: View {
                             .frame(height: theme.size)
                     }
                 }
-                .frame(width: geometry.size.width - theme.size, height: theme.ssize)
+                .frame(width: geometry.size.width - theme.size, height: theme.smsize)
                 .neoBrutalismBox(elevated: false)
                 .overlay {
                     Circle()

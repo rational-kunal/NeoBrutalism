@@ -36,12 +36,13 @@ public struct Theme: Sendable {
     // MARK: Spacings
 
     /* Usually is a vertical size */
+    var smsize: CGFloat
     var size: CGFloat
-    var ssize: CGFloat
 
     var padding: CGFloat
     var xlpadding: CGFloat
 
+    var smspacing: CGFloat
     var spacing: CGFloat
     var xlspacing: CGFloat
 
@@ -88,9 +89,9 @@ public struct Theme: Sendable {
             light: .rgb(0.0, 0.0, 0.0),
             dark: .rgb(0.0, 0.0, 0.0)
         ),
-        size: 16.0, ssize: 8.0,
+        smsize: 8.0, size: 16.0,
         padding: 12.0, xlpadding: 24.0,
-        spacing: 12.0, xlspacing: 24.0,
+        smspacing: 8.0, spacing: 12.0, xlspacing: 24.0,
         borderWidth: 2.0, borderRadius: 5.0,
         boxShadowX: 4.0, boxShadowY: 4.0
     )
