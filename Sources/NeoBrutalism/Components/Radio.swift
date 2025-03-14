@@ -2,7 +2,7 @@ import SwiftUI
 
 extension EnvironmentValues {
     @Entry var neoBrutalism_radioItemDidSelect: RadioGroup.RadioItemDidSelect = { _ in }
-    @Entry var neoBrutalism_selectedRadioItemValue: Int? = nil
+    @Entry var neoBrutalism_selectedRadioItemValue: AnyEquatable? = nil
 }
 
 public struct RadioIndicator: View {
@@ -29,15 +29,21 @@ public struct RadioIndicator: View {
 
 public struct RadioItem<Label>: View where Label: View {
     @Environment(\.neoBrutalismTheme) var theme: Theme
-    @Environment(\.neoBrutalism_selectedRadioItemValue) var selectedRadioItemValue: Int?
+    @Environment(\.neoBrutalism_selectedRadioItemValue) var selectedRadioItemValue: AnyEquatable?
     @Environment(\.neoBrutalism_radioItemDidSelect) var radioItemDidSelect: RadioGroup.RadioItemDidSelect
 
-    var value: Int
-    var selected: Bool { selectedRadioItemValue == value }
+    var value: AnyEquatable
+    var selected: Bool {
+        if let selectedRadioItemValue {
+            return selectedRadioItemValue.isEqual(value)
+        }
+        return false
+    }
+
     var label: Label
 
     public init(
-        value: Int,
+        value: AnyEquatable,
         @ViewBuilder label: () -> Label
     ) {
         self.value = value
@@ -58,19 +64,27 @@ public struct RadioItem<Label>: View where Label: View {
     }
 }
 
-public struct RadioGroup<Content>: View where Content: View {
-    typealias RadioItemDidSelect = (Int) -> Void
+public struct RadioGroup<Content, ValueType>: View where Content: View, ValueType: Equatable {
+    typealias RadioItemDidSelect = (AnyEquatable) -> Void
 
     @Environment(\.neoBrutalismTheme) var theme: Theme
 
-    @Binding var value: Int
+    @Binding var value: AnyEquatable
     let content: Content
 
     public init(
-        value: Binding<Int>,
+        value: Binding<ValueType>,
         @ViewBuilder content: () -> Content
     ) {
-        _value = value
+        // Convert to Binding<any Equatable>
+        _value = Binding<AnyEquatable>(
+            get: { value.wrappedValue },
+            set: { newValue in
+                if let newValue = newValue as? ValueType {
+                    value.wrappedValue = newValue
+                }
+            }
+        )
         self.content = content()
     }
 
@@ -89,6 +103,9 @@ public struct RadioGroup<Content>: View where Content: View {
 #Preview(traits: .modifier(NeoBrutalismPreviewHelper())) {
     @Previewable @State var value = 0
     VStack(spacing: 24.0) {
+        Text("\(value)")
+            .font(.caption)
+
         RadioGroup(value: $value) {
             RadioItem(value: 0) {
                 Text("First")
