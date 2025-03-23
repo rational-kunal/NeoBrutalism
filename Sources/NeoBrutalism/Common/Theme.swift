@@ -13,48 +13,48 @@ public extension View {
 public struct Theme: Sendable {
     // MARK: Color
 
-    public var main: Color
+    public private(set) var main: Color
 
     /* white and secondary black - main color when the UI element should be emphasised */
-    public var bw: Color
+    public private(set) var bw: Color
 
-    public var overlay: Color
+    public private(set) var overlay: Color
 
-    public var background: Color
+    public private(set) var background: Color
 
-    public var blank: Color
+    public private(set) var blank: Color
 
-    public var border: Color
+    public private(set) var border: Color
 
-    public var text: Color
+    public private(set) var text: Color
 
     /* text that is placed on background with main color */
-    public var mainText: Color
+    public private(set) var mainText: Color
 
-    public var clear: Color = .clear
+    public private(set) var clear: Color = .clear
 
     // MARK: Spacings
 
     /* Usually is a vertical size */
-    public var smsize: CGFloat
-    public var size: CGFloat
-    public var xlsize: CGFloat
+    public private(set) var smsize: CGFloat
+    public private(set) var size: CGFloat
+    public private(set) var xlsize: CGFloat
 
-    public var smpadding: CGFloat
-    public var padding: CGFloat
-    public var xlpadding: CGFloat
+    public private(set) var smpadding: CGFloat
+    public private(set) var padding: CGFloat
+    public private(set) var xlpadding: CGFloat
 
-    public var smspacing: CGFloat
-    public var spacing: CGFloat
-    public var xlspacing: CGFloat
+    public private(set) var smspacing: CGFloat
+    public private(set) var spacing: CGFloat
+    public private(set) var xlspacing: CGFloat
 
-    public var borderWidth: CGFloat
+    public private(set) var borderWidth: CGFloat
 
-    public var borderRadius: CGFloat
+    public private(set) var borderRadius: CGFloat
 
-    public var boxShadowX: CGFloat
+    public private(set) var boxShadowX: CGFloat
 
-    public var boxShadowY: CGFloat
+    public private(set) var boxShadowY: CGFloat
 
     // MARK: Themes
 
@@ -97,9 +97,57 @@ public struct Theme: Sendable {
         borderWidth: 2.0, borderRadius: 5.0,
         boxShadowX: 4.0, boxShadowY: 4.0
     )
+
+    public func updateBy(
+        main: Color? = nil,
+        bw: Color? = nil,
+        overlay: Color? = nil,
+        background: Color? = nil,
+        blank: Color? = nil,
+        border: Color? = nil,
+        text: Color? = nil,
+        mainText: Color? = nil,
+        smsize: CGFloat? = nil,
+        size: CGFloat? = nil,
+        xlsize: CGFloat? = nil,
+        smpadding: CGFloat? = nil,
+        padding: CGFloat? = nil,
+        xlpadding: CGFloat? = nil,
+        smspacing: CGFloat? = nil,
+        spacing: CGFloat? = nil,
+        xlspacing: CGFloat? = nil,
+        borderWidth: CGFloat? = nil,
+        borderRadius: CGFloat? = nil,
+        boxShadowX: CGFloat? = nil,
+        boxShadowY: CGFloat? = nil
+    ) -> Theme {
+        return Theme(
+            main: main ?? self.main,
+            bw: bw ?? self.bw,
+            overlay: overlay ?? self.overlay,
+            background: background ?? self.background,
+            blank: blank ?? self.blank,
+            border: border ?? self.border,
+            text: text ?? self.text,
+            mainText: mainText ?? self.mainText,
+            smsize: smsize ?? self.smsize,
+            size: size ?? self.size,
+            xlsize: xlsize ?? self.xlsize,
+            smpadding: smpadding ?? self.smpadding,
+            padding: padding ?? self.padding,
+            xlpadding: xlpadding ?? self.xlpadding,
+            smspacing: smspacing ?? self.smspacing,
+            spacing: spacing ?? self.spacing,
+            xlspacing: xlspacing ?? self.xlspacing,
+            borderWidth: borderWidth ?? self.borderWidth,
+            borderRadius: borderRadius ?? self.borderRadius,
+            boxShadowX: boxShadowX ?? self.boxShadowX,
+            boxShadowY: boxShadowY ?? self.boxShadowY
+        )
+    }
 }
 
-extension UIColor {
+public extension UIColor {
     convenience init(
         light lightColor: @escaping @autoclosure () -> UIColor,
         dark darkColor: @escaping @autoclosure () -> UIColor
@@ -127,7 +175,7 @@ extension UIColor {
     }
 }
 
-extension Color {
+public extension Color {
     init(
         light lightColor: @escaping @autoclosure () -> UIColor,
         dark darkColor: @escaping @autoclosure () -> UIColor
