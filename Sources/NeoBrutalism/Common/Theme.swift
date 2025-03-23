@@ -1,10 +1,10 @@
 import SwiftUI
 
-extension EnvironmentValues {
+public extension EnvironmentValues {
     @Entry var neoBrutalismTheme: Theme = .default
 }
 
-extension View {
+public extension View {
     func neoBrutalism(theme: Theme) -> some View {
         environment(\.neoBrutalismTheme, theme)
     }
@@ -13,48 +13,48 @@ extension View {
 public struct Theme: Sendable {
     // MARK: Color
 
-    var main: Color
+    public var main: Color
 
     /* white and secondary black - main color when the UI element should be emphasised */
-    var bw: Color
+    public var bw: Color
 
-    var overlay: Color
+    public var overlay: Color
 
     public var background: Color
 
-    var blank: Color
+    public var blank: Color
 
-    var border: Color
+    public var border: Color
 
-    var text: Color
+    public var text: Color
 
     /* text that is placed on background with main color */
-    var mainText: Color
+    public var mainText: Color
 
-    var clear: Color = .clear
+    public var clear: Color = .clear
 
     // MARK: Spacings
 
     /* Usually is a vertical size */
-    var smsize: CGFloat
-    var size: CGFloat
-    var xlsize: CGFloat
+    public var smsize: CGFloat
+    public var size: CGFloat
+    public var xlsize: CGFloat
 
-    var smpadding: CGFloat
-    var padding: CGFloat
-    var xlpadding: CGFloat
+    public var smpadding: CGFloat
+    public var padding: CGFloat
+    public var xlpadding: CGFloat
 
-    var smspacing: CGFloat
-    var spacing: CGFloat
-    var xlspacing: CGFloat
+    public var smspacing: CGFloat
+    public var spacing: CGFloat
+    public var xlspacing: CGFloat
 
-    var borderWidth: CGFloat
+    public var borderWidth: CGFloat
 
-    var borderRadius: CGFloat
+    public var borderRadius: CGFloat
 
-    var boxShadowX: CGFloat
+    public var boxShadowX: CGFloat
 
-    var boxShadowY: CGFloat
+    public var boxShadowY: CGFloat
 
     // MARK: Themes
 

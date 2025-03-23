@@ -3,6 +3,8 @@ import SwiftUI
 public struct TextSkeleton: View {
     @Environment(\.neoBrutalismTheme) var theme: Theme
 
+    public init() {}
+
     public var body: some View {
         Rectangle()
             .fill(theme.clear)

@@ -3,6 +3,8 @@ import SwiftUI
 public struct RoundSkeleton: View {
     @Environment(\.neoBrutalismTheme) var theme: Theme
 
+    public init() {}
+
     public var body: some View {
         Circle()
             .fill(theme.clear)
