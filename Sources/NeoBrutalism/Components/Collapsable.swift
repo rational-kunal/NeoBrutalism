@@ -1,36 +1,36 @@
 import SwiftUI
 
 extension EnvironmentValues {
-    @Entry var neoBrutalism_collapsableDidToggle: Collapsable.CollapsableDidToggle = {}
-    @Entry var neoBrutalism_collapsableIsExpanded: Bool = false
+    @Entry var nbCollapsableDidToggle: NBCollapsable.CollapsableDidToggle = {}
+    @Entry var nbCollapsableIsExpanded: Bool = false
 }
 
-struct CollapsableContent<Content>: View where Content: View {
-    @Environment(\.neoBrutalism_collapsableIsExpanded) var isExpanded
+public struct NBCollapsableContent<Content>: View where Content: View {
+    @Environment(\.nbCollapsableIsExpanded) var isExpanded
 
     let content: Content
 
-    init(@ViewBuilder content: () -> Content) {
+    public init(@ViewBuilder content: () -> Content) {
         self.content = content()
     }
 
-    var body: some View {
+    public var body: some View {
         if isExpanded {
             content
         }
     }
 }
 
-struct CollapsibleTrigger<Trigger>: View where Trigger: View {
-    @Environment(\.neoBrutalism_collapsableDidToggle) var collapsableDidToggle
+public struct NBCollapsibleTrigger<Trigger>: View where Trigger: View {
+    @Environment(\.nbCollapsableDidToggle) var collapsableDidToggle
 
     let trigger: Trigger
 
-    init(@ViewBuilder trigger: () -> Trigger) {
+    public init(@ViewBuilder trigger: () -> Trigger) {
         self.trigger = trigger()
     }
 
-    var body: some View {
+    public var body: some View {
         trigger
             .contentShape(Rectangle())
             .onTapGesture {
@@ -39,52 +39,52 @@ struct CollapsibleTrigger<Trigger>: View where Trigger: View {
     }
 }
 
-struct Collapsable<Content>: View where Content: View {
-    @Environment(\.neoBrutalismTheme) var theme: Theme
+public struct NBCollapsable<Content>: View where Content: View {
+    @Environment(\.nbTheme) var theme: NBTheme
 
     typealias CollapsableDidToggle = () -> Void
 
     @Binding var isExpanded: Bool
     let content: Content
 
-    init(isExpanded: Binding<Bool>,
-         @ViewBuilder content: () -> Content)
+    public init(isExpanded: Binding<Bool>,
+                @ViewBuilder content: () -> Content)
     {
         _isExpanded = isExpanded
         self.content = content()
     }
 
-    var body: some View {
+    public var body: some View {
         VStack(spacing: theme.smspacing) {
             content
-                .environment(\.neoBrutalism_collapsableIsExpanded, isExpanded)
-                .environment(\.neoBrutalism_collapsableDidToggle) { isExpanded.toggle() }
+                .environment(\.nbCollapsableIsExpanded, isExpanded)
+                .environment(\.nbCollapsableDidToggle) { isExpanded.toggle() }
         }
     }
 }
 
 @available(iOS 18.0, *)
-#Preview(traits: .modifier(NeoBrutalismPreviewHelper())) {
+#Preview(traits: .modifier(NBPreviewHelper())) {
     @Previewable @State var isExapanded = true
 
     VStack {
-        Collapsable(isExpanded: $isExapanded) {
-            FlatCard {
+        NBCollapsable(isExpanded: $isExapanded) {
+            NBFlatCard {
                 HStack {
                     Text("Some")
                     Spacer()
-                    CollapsibleTrigger {
+                    NBCollapsibleTrigger {
                         Image(systemName: "chevron.up.chevron.down.square.fill")
                     }
                 }
             }
 
-            FlatCard(type: .neutral) {
+            NBFlatCard(type: .neutral) {
                 Text("another card")
             }
 
-            CollapsableContent {
-                FlatCard(type: .default) {
+            NBCollapsableContent {
+                NBFlatCard(type: .default) {
                     Text("Content")
                     Text("Content")
                     Text("Content")

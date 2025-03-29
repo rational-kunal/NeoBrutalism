@@ -1,7 +1,7 @@
 import SwiftUI
 
-public struct RoundSkeleton: View {
-    @Environment(\.neoBrutalismTheme) var theme: Theme
+public struct NBRoundSkeleton: View {
+    @Environment(\.nbTheme) var theme: NBTheme
 
     public init() {}
 
@@ -13,17 +13,17 @@ public struct RoundSkeleton: View {
                     .stroke(Color.black, lineWidth: theme.borderWidth)
             )
             .padding(theme.smpadding)
-            .frame(width: .infinity, height: .infinity)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
 @available(iOS 18.0, *)
-#Preview(traits: .modifier(NeoBrutalismPreviewHelper())) {
+#Preview(traits: .modifier(NBPreviewHelper())) {
     @Previewable @State var value = 0
     VStack(spacing: 12.0) {
-        RoundSkeleton()
+        NBRoundSkeleton()
 
-        RoundSkeleton()
+        NBRoundSkeleton()
             .frame(width: 120, height: 120)
     }
 }

@@ -27,9 +27,9 @@ struct ThumbShape: Shape {
     }
 }
 
-public struct Switch: View {
+public struct NBSwitch: View {
     @Environment(\.isEnabled) private var isEnabled
-    @Environment(\.neoBrutalismTheme) var theme: Theme
+    @Environment(\.nbTheme) var theme: NBTheme
 
     @Binding private var isOn: Bool
 
@@ -39,23 +39,8 @@ public struct Switch: View {
 
     public var body: some View {
         ZStack {
-            // Background color
-            if !isEnabled {
-                theme.main.opacity(0.5)
-            } else if isOn {
-                theme.main
-            } else {
-                theme.clear
-            }
-
-            // Thumb
-            ThumbShape(position: isOn ? 1 : 0)
-                .fill(theme.blank)
-                .stroke(
-                    theme.border,
-                    style: StrokeStyle(lineWidth: theme.borderWidth, lineCap: .round, lineJoin: .round)
-                )
-                .padding(.all, 2 * theme.borderWidth)
+            backgroundColor
+            thumbShape
         }
         .contentShape(Rectangle())
         .frame(width: 2 * theme.size, height: theme.size)
@@ -75,22 +60,44 @@ public struct Switch: View {
     }
 }
 
+extension NBSwitch {
+    private var backgroundColor: Color {
+        if !isEnabled {
+            theme.main.opacity(0.5)
+        } else if isOn {
+            theme.main
+        } else {
+            theme.clear
+        }
+    }
+
+    private var thumbShape: some View {
+        ThumbShape(position: isOn ? 1 : 0)
+            .fill(theme.blank)
+            .stroke(
+                theme.border,
+                style: StrokeStyle(lineWidth: theme.borderWidth, lineCap: .round, lineJoin: .round)
+            )
+            .padding(.all, 2 * theme.borderWidth)
+    }
+}
+
 @available(iOS 18.0, *)
-#Preview(traits: .modifier(NeoBrutalismPreviewHelper())) {
+#Preview(traits: .modifier(NBPreviewHelper())) {
     @Previewable @State var switchState1 = true
     @Previewable @State var switchState2 = false
 
     HStack {
         VStack {
             HStack {
-                Switch(isOn: $switchState1)
+                NBSwitch(isOn: $switchState1)
                 Text("Switch")
             }
-            Switch(isOn: $switchState1)
+            NBSwitch(isOn: $switchState1)
                 .disabled(true)
-            Switch(isOn: $switchState2)
+            NBSwitch(isOn: $switchState2)
                 .disabled(true)
-            Switch(isOn: $switchState2)
+            NBSwitch(isOn: $switchState2)
         }
     }
 }

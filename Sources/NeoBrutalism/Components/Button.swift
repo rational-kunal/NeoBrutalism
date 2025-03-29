@@ -1,25 +1,25 @@
 import SwiftUI
 
-public struct Button<Content>: View where Content: View {
+public struct NBButton<Content>: View where Content: View {
     public enum ButtonType {
         case `default`, neutral
     }
 
-    public enum ButtonVariant {
+    public enum ShadowVariant {
         case `default`, noShadow, reverse
     }
 
-    @Environment(\.neoBrutalismTheme) var theme: Theme
+    @Environment(\.nbTheme) var theme: NBTheme
 
     @State private var elevated: Bool
 
     private let type: ButtonType
-    private let variant: ButtonVariant
+    private let variant: ShadowVariant
     private let content: Content
     private let action: () -> Void
 
     public init(
-        type: ButtonType = .default, variant: ButtonVariant = .default,
+        type: ButtonType = .default, variant: ShadowVariant = .default,
         @ViewBuilder content: () -> Content, action: @escaping () -> Void
     ) {
         self.type = type
@@ -27,15 +27,6 @@ public struct Button<Content>: View where Content: View {
         self.content = content()
         self.action = action
         elevated = variant == .default
-    }
-
-    private var textForegroundColor: Color {
-        switch type {
-        case .default:
-            theme.mainText
-        case .neutral:
-            theme.text
-        }
     }
 
     public var body: some View {
@@ -57,15 +48,8 @@ public struct Button<Content>: View where Content: View {
                 }
             }
         )
-        .background(content: {
-            switch type {
-            case .default:
-                theme.main
-            case .neutral:
-                theme.bw
-            }
-        })
-        .neoBrutalismBox(elevated: elevated)
+        .background(backgroundColor)
+        .nbBox(elevated: elevated)
     }
 
     private func updateElevention(isPressed: Bool) {
@@ -81,22 +65,42 @@ public struct Button<Content>: View where Content: View {
     }
 }
 
+extension NBButton {
+    private var textForegroundColor: Color {
+        switch type {
+        case .default:
+            theme.mainText
+        case .neutral:
+            theme.text
+        }
+    }
+
+    private var backgroundColor: Color {
+        switch type {
+        case .default:
+            theme.main
+        case .neutral:
+            theme.bw
+        }
+    }
+}
+
 @available(iOS 18.0, *)
-#Preview(traits: .modifier(NeoBrutalismPreviewHelper())) {
+#Preview(traits: .modifier(NBPreviewHelper())) {
     VStack(spacing: 18.0) {
-        Button {
+        NBButton {
             Text("Accio")
         } action: {
             print("OPEN")
         }
 
-        Button(variant: .reverse) {
+        NBButton(variant: .reverse) {
             Text("Accio")
         } action: {
             print("OPEN")
         }
 
-        Button(type: .neutral, variant: .noShadow) {
+        NBButton(type: .neutral, variant: .noShadow) {
             Image(systemName: "plus")
         } action: {
             print("OPEN")

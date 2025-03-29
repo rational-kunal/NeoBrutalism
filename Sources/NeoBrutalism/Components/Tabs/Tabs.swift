@@ -1,14 +1,14 @@
 import SwiftUI
 
 extension EnvironmentValues {
-    @Entry var neoBrutalism_tabItemDidSelect: Tabs.TabItemDidSelect = { _ in }
-    @Entry var neoBrutalism_selectedTabItem: AnyEquatable? = nil
+    @Entry var nbTabItemDidSelect: NBTabs.TabItemDidSelect = { _ in }
+    @Entry var nbSelectedTabItem: AnyEquatable? = nil
 }
 
-public struct Tabs<Content: View, ValueType: Equatable>: View {
+public struct NBTabs<Content: View, ValueType: Equatable>: View {
     typealias TabItemDidSelect = (AnyEquatable) -> Void
 
-    @Environment(\.neoBrutalismTheme) private var theme: Theme
+    @Environment(\.nbTheme) private var theme: NBTheme
     @Binding private var selectedTabItem: AnyEquatable
     let content: Content
 
@@ -24,27 +24,27 @@ public struct Tabs<Content: View, ValueType: Equatable>: View {
         VStack(alignment: .leading, spacing: theme.smspacing) {
             content
         }
-        .environment(\.neoBrutalism_selectedTabItem, selectedTabItem)
-        .environment(\.neoBrutalism_tabItemDidSelect) { selectedTabItem = $0 }
+        .environment(\.nbSelectedTabItem, selectedTabItem)
+        .environment(\.nbTabItemDidSelect) { selectedTabItem = $0 }
     }
 }
 
 @available(iOS 18.0, *)
-#Preview(traits: .modifier(NeoBrutalismPreviewHelper())) {
+#Preview(traits: .modifier(NBPreviewHelper())) {
     @Previewable @State var value = 0
 
     VStack(spacing: 24.0) {
-        Tabs(selectedTabItem: $value) {
-            TabsList {
-                TabsTrigger(tabItem: 0) { Text("First") }
-                TabsTrigger(tabItem: 1) { Text("Second") }
+        NBTabs(selectedTabItem: $value) {
+            NBTabsList {
+                NBTabsTrigger(tabItem: 0) { Text("First") }
+                NBTabsTrigger(tabItem: 1) { Text("Second") }
             }
-            FlatCard {
+            NBFlatCard {
                 ZStack {
-                    TabsContent(tabItem: 0) {
+                    NBTabsContent(tabItem: 0) {
                         Text("First")
                     }
-                    TabsContent(tabItem: 1) {
+                    NBTabsContent(tabItem: 1) {
                         VStack {
                             Text("Second")
                             Text("Second")

@@ -1,7 +1,7 @@
 import SwiftUI
 
-public struct Accordion<Trigger, Content>: View where Trigger: View, Content: View {
-    @Environment(\.neoBrutalismTheme) var theme: Theme
+public struct NBAccordion<Trigger, Content>: View where Trigger: View, Content: View {
+    @Environment(\.nbTheme) var theme: NBTheme
 
     let trigger: Trigger
     let content: Content
@@ -16,31 +16,17 @@ public struct Accordion<Trigger, Content>: View where Trigger: View, Content: Vi
     public var body: some View {
         ZStack {
             VStack(spacing: 0.0) {
-                ZStack {
-                    theme.main
-                    HStack {
-                        trigger
-                            .bold()
-                            .padding(theme.padding)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-
-                        Image(systemName: "chevron.down")
-                            .rotationEffect(.degrees(isExpanded ? 180 : 0))
-                            .animation(.interactiveSpring, value: isExpanded)
-                            .padding(.trailing, theme.padding)
+                triggerWrappedView
+                    .overlay(
+                        Divider()
+                            .frame(maxWidth: .infinity, maxHeight: theme.borderWidth)
+                            .background(theme.border), alignment: .bottom
+                    )
+                    .onTapGesture {
+                        withAnimation(.interactiveSpring) {
+                            isExpanded.toggle()
+                        }
                     }
-                }
-                .overlay(
-                    Divider()
-                        .frame(maxWidth: .infinity, maxHeight: theme.borderWidth)
-                        .background(Color.black), alignment: .bottom
-                )
-                .onTapGesture {
-                    withAnimation(.interactiveSpring) {
-                        isExpanded.toggle()
-                    }
-                }
-                .fixedSize(horizontal: false, vertical: true)
 
                 content
                     .padding(theme.padding)
@@ -54,20 +40,40 @@ public struct Accordion<Trigger, Content>: View where Trigger: View, Content: Vi
             }
         }
         .foregroundStyle(theme.mainText)
-        .neoBrutalismBox()
+        .nbBox()
+    }
+}
+
+extension NBAccordion {
+    var triggerWrappedView: some View {
+        ZStack {
+            theme.main
+            HStack {
+                trigger
+                    .bold()
+                    .padding(theme.padding)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                Image(systemName: "chevron.down")
+                    .rotationEffect(.degrees(isExpanded ? 180 : 0))
+                    .animation(.interactiveSpring, value: isExpanded)
+                    .padding(.trailing, theme.padding)
+            }
+        }
+        .fixedSize(horizontal: false, vertical: true)
     }
 }
 
 @available(iOS 18.0, *)
-#Preview(traits: .modifier(NeoBrutalismPreviewHelper())) {
+#Preview(traits: .modifier(NBPreviewHelper())) {
     VStack(spacing: 18.0) {
-        Accordion {
+        NBAccordion {
             Text("Piertotum Locomotor")
         } content: {
             Text("Pratimo Jeevit Bhavh - प्रतिमा जीवित भाव")
         }
 
-        Accordion {
+        NBAccordion {
             Text("Expecto Patronum")
         } content: {
             Text("Pitradev Sanrakshanam - पितृदेव संरक्षणम्")

@@ -1,7 +1,7 @@
 import SwiftUI
 
-public struct Progress: View {
-    @Environment(\.neoBrutalismTheme) var theme: Theme
+public struct NBProgress: View {
+    @Environment(\.nbTheme) var theme: NBTheme
 
     /** Value from 0 to 1 */
     @Binding private var value: CGFloat
@@ -34,16 +34,16 @@ public struct Progress: View {
         }
         .frame(height: theme.size)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .neoBrutalismBox(elevated: false)
+        .nbBox(elevated: false)
     }
 }
 
 @available(iOS 18.0, *)
-#Preview(traits: .modifier(NeoBrutalismPreviewHelper())) {
+#Preview(traits: .modifier(NBPreviewHelper())) {
     VStack {
-        Progress(value: .constant(0.0))
-        Progress(value: .constant(0.52))
-        Progress(value: .constant(0.2))
-        Progress(value: .constant(1.0))
+        NBProgress(value: .constant(0.0))
+        NBProgress(value: .constant(0.52))
+        NBProgress(value: .constant(0.2))
+        NBProgress(value: .constant(1.0))
     }
 }

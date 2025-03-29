@@ -1,7 +1,7 @@
 import SwiftUI
 
-public struct Slider: View {
-    @Environment(\.neoBrutalismTheme) var theme: Theme
+public struct NBSlider: View {
+    @Environment(\.nbTheme) var theme: NBTheme
 
     /** Value from 0 to 1 */
     @Binding private var value: CGFloat
@@ -32,7 +32,7 @@ public struct Slider: View {
                     }
                 }
                 .frame(width: geometry.size.width - theme.size, height: theme.smsize)
-                .neoBrutalismBox(elevated: false)
+                .nbBox(elevated: false)
                 .overlay {
                     Circle()
                         .fill(theme.blank)
@@ -54,7 +54,7 @@ public struct Slider: View {
 }
 
 @available(iOS 18.0, *)
-#Preview(traits: .modifier(NeoBrutalismPreviewHelper())) {
+#Preview(traits: .modifier(NBPreviewHelper())) {
     @Previewable @State var sliderValue: CGFloat = 0.5
 
     VStack {
@@ -63,11 +63,11 @@ public struct Slider: View {
                 Text("\(sliderValue, specifier: "%.2f")")
                     .padding(.horizontal)
                     .frame(width: 100.0)
-                Slider(value: $sliderValue)
+                NBSlider(value: $sliderValue)
             }
         }
-        Slider(value: .constant(0.52))
-        Slider(value: .constant(0.2))
-        Slider(value: .constant(1.0))
+        NBSlider(value: .constant(0.52))
+        NBSlider(value: .constant(0.2))
+        NBSlider(value: .constant(1.0))
     }
 }

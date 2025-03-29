@@ -1,9 +1,9 @@
 import SwiftUI
 
-public struct TabsTrigger<Label: View>: View {
-    @Environment(\.neoBrutalismTheme) private var theme: Theme
-    @Environment(\.neoBrutalism_selectedTabItem) private var selectedTabItem: AnyEquatable?
-    @Environment(\.neoBrutalism_tabItemDidSelect) private var tabsItemDidSelect: Tabs.TabItemDidSelect
+public struct NBTabsTrigger<Label: View>: View {
+    @Environment(\.nbTheme) private var theme: NBTheme
+    @Environment(\.nbSelectedTabItem) private var selectedTabItem: AnyEquatable?
+    @Environment(\.nbTabItemDidSelect) private var tabsItemDidSelect: NBTabs.TabItemDidSelect
 
     let tabItem: AnyEquatable
     let label: Label
@@ -28,7 +28,9 @@ public struct TabsTrigger<Label: View>: View {
             }
 
         if isSelected {
-            styledLabel.neoBrutalismBox(elevated: false)
+            styledLabel
+                .nbBox(elevated: false)
+                .foregroundStyle(theme.mainText)
         } else {
             styledLabel
         }

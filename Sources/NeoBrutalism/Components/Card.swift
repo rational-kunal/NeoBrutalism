@@ -1,11 +1,11 @@
 import SwiftUI
 
-public struct Card<Header, Main, Footer>: View where Header: View, Main: View, Footer: View {
+public struct NBCard<Header, Main, Footer>: View where Header: View, Main: View, Footer: View {
     public enum CardType {
         case `default`, neutral
     }
 
-    @Environment(\.neoBrutalismTheme) var theme: Theme
+    @Environment(\.nbTheme) var theme: NBTheme
 
     let type: CardType
     let header: Header?
@@ -24,6 +24,28 @@ public struct Card<Header, Main, Footer>: View where Header: View, Main: View, F
         self.footer = footer()
     }
 
+    public var body: some View {
+        ZStack {
+            VStack(alignment: .leading, spacing: theme.spacing) {
+                header
+                    .foregroundStyle(textForegroundColor)
+                    .bold()
+
+                main
+                    .foregroundStyle(textForegroundColor)
+
+                footer
+                    .foregroundStyle(textForegroundColor)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(theme.xlpadding)
+            .background(backgroundColor)
+        }
+        .nbBox()
+    }
+}
+
+extension NBCard {
     private var textForegroundColor: Color {
         switch type {
         case .default:
@@ -33,36 +55,20 @@ public struct Card<Header, Main, Footer>: View where Header: View, Main: View, F
         }
     }
 
-    public var body: some View {
-        ZStack {
-            VStack(alignment: .leading, spacing: theme.spacing) {
-                header
-                    .foregroundStyle(textForegroundColor)
-                    .bold()
-                main
-                    .foregroundStyle(textForegroundColor)
-                footer
-                    .foregroundStyle(textForegroundColor)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(theme.xlpadding)
-            .background(content: {
-                switch type {
-                case .default:
-                    theme.main
-                case .neutral:
-                    theme.bw
-                }
-            })
+    private var backgroundColor: Color {
+        switch type {
+        case .default:
+            theme.main
+        case .neutral:
+            theme.bw
         }
-        .neoBrutalismBox()
     }
 }
 
 @available(iOS 18.0, *)
-#Preview(traits: .modifier(NeoBrutalismPreviewHelper())) {
+#Preview(traits: .modifier(NBPreviewHelper())) {
     VStack(spacing: 24.0) {
-        Card {
+        NBCard {
             Text("Header")
         } main: {
             Text("Main")
@@ -70,7 +76,7 @@ public struct Card<Header, Main, Footer>: View where Header: View, Main: View, F
             Text("Footer")
         }
 
-        Card(type: .neutral) {
+        NBCard(type: .neutral) {
             Text("Header")
         } main: {
             Text("Main")

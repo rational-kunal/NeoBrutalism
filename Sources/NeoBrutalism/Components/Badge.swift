@@ -1,11 +1,11 @@
 import SwiftUI
 
-public struct Badge<Content>: View where Content: View {
+public struct NBBadge<Content>: View where Content: View {
     public enum BadgeType {
         case `default`, neutral
     }
 
-    @Environment(\.neoBrutalismTheme) var theme: Theme
+    @Environment(\.nbTheme) var theme: NBTheme
 
     private let type: BadgeType
     private let content: Content
@@ -15,6 +15,20 @@ public struct Badge<Content>: View where Content: View {
         self.content = content()
     }
 
+    public var body: some View {
+        ZStack {
+            content
+                .font(.caption)
+                .foregroundStyle(textForegroundColor)
+        }
+        .padding(.horizontal, theme.padding)
+        .padding(.vertical, theme.smpadding / 2)
+        .background(backgroundColor)
+        .nbBox(elevated: false)
+    }
+}
+
+extension NBBadge {
     private var textForegroundColor: Color {
         switch type {
         case .default:
@@ -24,39 +38,29 @@ public struct Badge<Content>: View where Content: View {
         }
     }
 
-    public var body: some View {
-        ZStack {
-            content
-                .font(.caption)
-                .foregroundStyle(textForegroundColor)
+    private var backgroundColor: Color {
+        switch type {
+        case .default:
+            return theme.main
+        case .neutral:
+            return theme.bw
         }
-        .padding(.horizontal, theme.padding)
-        .padding(.vertical, 2.0)
-        .background(content: {
-            switch type {
-            case .default:
-                theme.main
-            case .neutral:
-                theme.bw
-            }
-        })
-        .neoBrutalismBox(elevated: false)
     }
 }
 
 @available(iOS 18.0, *)
-#Preview(traits: .modifier(NeoBrutalismPreviewHelper())) {
+#Preview(traits: .modifier(NBPreviewHelper())) {
     VStack(spacing: 18.0) {
-        Badge {
+        NBBadge {
             Text("Xyz")
         }
 
-        Badge(type: .neutral) {
+        NBBadge(type: .neutral) {
             Text("Xyz")
                 .font(.caption2)
         }
 
-        Badge(type: .default) {
+        NBBadge(type: .default) {
             Text("Xyz")
         }
     }

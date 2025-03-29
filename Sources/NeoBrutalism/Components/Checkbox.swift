@@ -1,6 +1,6 @@
 import SwiftUI
 
-private struct CheckboxShape: Shape {
+private struct NBCheckboxShape: Shape {
     func path(in rect: CGRect) -> Path {
         var path = Path()
         let scale = min(rect.width, rect.height) / 16.0
@@ -13,9 +13,9 @@ private struct CheckboxShape: Shape {
     }
 }
 
-public struct Checkbox: View {
+public struct NBCheckbox: View {
     @Environment(\.isEnabled) private var isEnabled
-    @Environment(\.neoBrutalismTheme) var theme: Theme
+    @Environment(\.nbTheme) var theme: NBTheme
 
     @Binding private var isOn: Bool
 
@@ -25,19 +25,11 @@ public struct Checkbox: View {
 
     public var body: some View {
         ZStack {
-            // Background color
-            if !isEnabled {
-                theme.main.opacity(0.5)
-            } else if isOn {
-                theme.main
-            } else {
-                theme.clear
-            }
+            backgroundColor
 
             // Checkbox
             if isOn {
-                CheckboxShape()
-                    .stroke(theme.border, style: StrokeStyle(lineWidth: theme.borderWidth, lineCap: .round, lineJoin: .round))
+                checkboxShape
             }
         }
         .contentShape(Rectangle())
@@ -57,22 +49,39 @@ public struct Checkbox: View {
     }
 }
 
+extension NBCheckbox {
+    private var checkboxShape: some View {
+        NBCheckboxShape()
+            .stroke(theme.border, style: StrokeStyle(lineWidth: theme.borderWidth, lineCap: .round, lineJoin: .round))
+    }
+
+    private var backgroundColor: Color {
+        if !isEnabled {
+            theme.main.opacity(0.5)
+        } else if isOn {
+            theme.main
+        } else {
+            theme.clear
+        }
+    }
+}
+
 @available(iOS 18.0, *)
-#Preview(traits: .modifier(NeoBrutalismPreviewHelper())) {
+#Preview(traits: .modifier(NBPreviewHelper())) {
     @Previewable @State var checkboxState1 = true
     @Previewable @State var checkboxState2 = false
 
     HStack {
         VStack {
             HStack {
-                Checkbox(isOn: $checkboxState1)
+                NBCheckbox(isOn: $checkboxState1)
                 Text("Checkbox")
             }
-            Checkbox(isOn: $checkboxState1)
+            NBCheckbox(isOn: $checkboxState1)
                 .disabled(true)
-            Checkbox(isOn: $checkboxState2)
+            NBCheckbox(isOn: $checkboxState2)
                 .disabled(true)
-            Checkbox(isOn: $checkboxState2)
+            NBCheckbox(isOn: $checkboxState2)
         }
     }
 }

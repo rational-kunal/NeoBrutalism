@@ -1,7 +1,7 @@
 import SwiftUI
 
-public struct TabsContent<Content: View>: View {
-    @Environment(\.neoBrutalism_selectedTabItem) private var selectedTabItem: AnyEquatable?
+public struct NBTabsContent<Content: View>: View {
+    @Environment(\.nbSelectedTabItem) private var selectedTabItem: AnyEquatable?
 
     let tabItem: AnyEquatable
     let content: Content
@@ -21,15 +21,15 @@ public struct TabsContent<Content: View>: View {
 }
 
 @available(iOS 18.0, *)
-#Preview(traits: .modifier(NeoBrutalismPreviewHelper())) {
+#Preview(traits: .modifier(NBPreviewHelper())) {
     @Previewable @State var value = 0
 
     VStack(spacing: 24.0) {
-        FlatCard {
-            TabsContent(tabItem: 0) {
+        NBFlatCard {
+            NBTabsContent(tabItem: 0) {
                 Text("First")
             }
         }
     }
-    .environment(\.neoBrutalism_selectedTabItem, 0)
+    .environment(\.nbSelectedTabItem, 0)
 }

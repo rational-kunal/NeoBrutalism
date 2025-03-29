@@ -1,8 +1,8 @@
 import SwiftUI
 
-public struct Input: View {
+public struct NBInput: View {
     @Environment(\.isEnabled) private var isEnabled
-    @Environment(\.neoBrutalismTheme) var theme: Theme
+    @Environment(\.nbTheme) var theme: NBTheme
 
     @Binding private var text: String
     private let placeholder: String?
@@ -17,19 +17,19 @@ public struct Input: View {
             .textFieldStyle(.plain)
             .padding(theme.padding)
             .background(theme.bw)
-            .neoBrutalismBox(elevated: false)
+            .nbBox(elevated: false)
             .opacity(isEnabled ? 1.0 : 0.5)
     }
 }
 
 @available(iOS 18.0, *)
-#Preview(traits: .modifier(NeoBrutalismPreviewHelper())) {
+#Preview(traits: .modifier(NBPreviewHelper())) {
     @Previewable @State var inputValue = ""
     @Previewable @State var switchState2 = false
 
     VStack {
-        Input(text: $inputValue)
-        Input(text: $inputValue)
+        NBInput(text: $inputValue)
+        NBInput(text: $inputValue)
             .disabled(true)
     }
 }

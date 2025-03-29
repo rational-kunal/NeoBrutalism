@@ -1,7 +1,7 @@
 import SwiftUI
 
-public struct TabsList<Content: View>: View {
-    @Environment(\.neoBrutalismTheme) private var theme: Theme
+public struct NBTabsList<Content: View>: View {
+    @Environment(\.nbTheme) private var theme: NBTheme
     let content: Content
 
     public init(@ViewBuilder content: () -> Content) {
@@ -13,7 +13,8 @@ public struct TabsList<Content: View>: View {
             content.frame(maxWidth: .infinity)
         }
         .padding(theme.smpadding)
+        .foregroundStyle(theme.mainText)
         .background(theme.main)
-        .neoBrutalismBox(elevated: false)
+        .nbBox(elevated: false)
     }
 }

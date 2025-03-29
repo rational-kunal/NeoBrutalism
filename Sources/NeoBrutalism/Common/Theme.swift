@@ -1,16 +1,16 @@
 import SwiftUI
 
 public extension EnvironmentValues {
-    @Entry var neoBrutalismTheme: Theme = .default
+    @Entry var nbTheme: NBTheme = .default
 }
 
 public extension View {
-    func neoBrutalism(theme: Theme) -> some View {
-        environment(\.neoBrutalismTheme, theme)
+    func nbTheme(_ theme: NBTheme) -> some View {
+        environment(\.nbTheme, theme)
     }
 }
 
-public struct Theme: Sendable {
+public struct NBTheme: Sendable {
     // MARK: Color
 
     public private(set) var main: Color
@@ -58,7 +58,7 @@ public struct Theme: Sendable {
 
     // MARK: Themes
 
-    public static let `default`: Theme = .init(
+    public static let `default`: NBTheme = .init(
         main: Color(
             light: .rgb(0.533, 0.667, 0.933),
             dark: .rgb(0.533, 0.667, 0.933)
@@ -120,8 +120,8 @@ public struct Theme: Sendable {
         borderRadius: CGFloat? = nil,
         boxShadowX: CGFloat? = nil,
         boxShadowY: CGFloat? = nil
-    ) -> Theme {
-        return Theme(
+    ) -> NBTheme {
+        return NBTheme(
             main: main ?? self.main,
             bw: bw ?? self.bw,
             overlay: overlay ?? self.overlay,

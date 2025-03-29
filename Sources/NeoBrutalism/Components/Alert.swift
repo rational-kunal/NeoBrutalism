@@ -1,11 +1,11 @@
 import SwiftUI
 
-public struct Alert<Icon, Head, Desc>: View where Icon: View, Head: View, Desc: View {
+public struct NBAlert<Icon, Head, Desc>: View where Icon: View, Head: View, Desc: View {
     public enum AlertType {
         case `default`, neutral
     }
 
-    @Environment(\.neoBrutalismTheme) var theme: Theme
+    @Environment(\.nbTheme) var theme: NBTheme
 
     private let type: AlertType
 
@@ -35,43 +35,51 @@ public struct Alert<Icon, Head, Desc>: View where Icon: View, Head: View, Desc: 
     public var body: some View {
         ZStack {
             HStack(alignment: .top) {
-                icon
-                    .frame(minWidth: theme.size)
-                    .foregroundStyle(textForegroundColor)
-                    .padding(.top, 1.0)
+                iconWrappedView
+
                 VStack(alignment: .leading) {
                     head
-                        .foregroundStyle(textForegroundColor)
                         .bold()
                     desc
-                        .foregroundStyle(textForegroundColor)
                 }
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(theme.padding)
-        .background(content: {
-            switch type {
-            case .default:
-                theme.main
-            case .neutral:
-                theme.bw
-            }
-        })
-        .neoBrutalismBox()
+        .foregroundStyle(textForegroundColor)
+        .background(backgroundColor)
+        .nbBox()
+    }
+}
+
+extension NBAlert {
+    var iconWrappedView: some View {
+        icon
+            .frame(minWidth: theme.size)
+            .foregroundStyle(textForegroundColor)
+            .padding(.top, 1.0)
+    }
+
+    var backgroundColor: Color {
+        switch type {
+        case .default:
+            theme.main
+        case .neutral:
+            theme.bw
+        }
     }
 }
 
 @available(iOS 18.0, *)
-#Preview(traits: .modifier(NeoBrutalismPreviewHelper())) {
+#Preview(traits: .modifier(NBPreviewHelper())) {
     VStack(spacing: 18.0) {
-        Alert {
+        NBAlert {
             Text("Desc")
         } head: {
             Text("Alert")
         }
 
-        Alert(type: .neutral) {
+        NBAlert(type: .neutral) {
             Text("Desc")
         } icon: {
             Image(systemName: "questionmark")
@@ -79,7 +87,7 @@ public struct Alert<Icon, Head, Desc>: View where Icon: View, Head: View, Desc: 
             Text("Head")
         }
 
-        Alert {
+        NBAlert {
             Text("Desc")
         } icon: {
             EmptyView()

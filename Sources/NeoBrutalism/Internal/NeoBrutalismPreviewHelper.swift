@@ -1,7 +1,7 @@
 import SwiftUI
 
-struct NeoBrutalismPreviewHelper: PreviewModifier {
-    private let theme: Theme = .default
+struct NBPreviewHelper: PreviewModifier {
+    private let theme: NBTheme = .default
 
     func body(content: Content, context _: Void) -> some View {
         VStack(spacing: 0.0) {
@@ -12,6 +12,6 @@ struct NeoBrutalismPreviewHelper: PreviewModifier {
                     .padding()
             }
         }
-        .environment(\.neoBrutalismTheme, theme)
+        .environment(\.nbTheme, theme)
     }
 }

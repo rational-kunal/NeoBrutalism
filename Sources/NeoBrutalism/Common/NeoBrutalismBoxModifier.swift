@@ -1,13 +1,13 @@
 import SwiftUI
 
-struct NeoBrutalismBoxModifier: ViewModifier {
-    @Environment(\.neoBrutalismTheme) var theme: Theme
+struct NBBoxModifier: ViewModifier {
+    @Environment(\.nbTheme) var theme: NBTheme
 
     public let elevated: Bool
 
     func body(content: Content) -> some View {
         content
-            .foregroundStyle(theme.text)
+//            .foregroundStyle(theme.text)
             .cornerRadius(theme.borderRadius)
             .shadow(
                 color: theme.border,
@@ -23,28 +23,28 @@ struct NeoBrutalismBoxModifier: ViewModifier {
 }
 
 public extension View {
-    func neoBrutalismBox(elevated: Bool = true) -> some View {
-        modifier(NeoBrutalismBoxModifier(elevated: elevated))
+    func nbBox(elevated: Bool = true) -> some View {
+        modifier(NBBoxModifier(elevated: elevated))
     }
 }
 
 @available(iOS 18.0, *)
-#Preview(traits: .modifier(NeoBrutalismPreviewHelper())) {
+#Preview(traits: .modifier(NBPreviewHelper())) {
     VStack(spacing: 12.0) {
         // Needs default background
         Text("Harry Potter")
             .padding(8.0)
-            .neoBrutalismBox()
+            .nbBox()
 
         Text("Harry Potter")
             .padding(8.0)
             .background { Color.orange }
-            .neoBrutalismBox()
+            .nbBox()
 
         Text("Harry Potter")
             .padding(8.0)
             .background { Color.orange }
-            .neoBrutalismBox(elevated: false)
+            .nbBox(elevated: false)
 
     }.padding()
 }

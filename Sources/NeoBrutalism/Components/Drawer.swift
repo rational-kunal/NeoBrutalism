@@ -1,17 +1,17 @@
 import SwiftUI
 
 public extension View {
-    func nb_drawer<Content>(
+    func nbDrawer<Content>(
         isPresented: Binding<Bool>,
         onDismiss: (() -> Void)? = nil,
         @ViewBuilder content: @escaping () -> Content
     ) -> some View where Content: View {
-        modifier(ShowDrawer(isPresented: isPresented, onDismiss: onDismiss, drawerContent: content))
+        modifier(NBShowDrawer(isPresented: isPresented, onDismiss: onDismiss, drawerContent: content))
     }
 }
 
-struct ShowDrawer<DrawerContent>: ViewModifier where DrawerContent: View {
-    @Environment(\.neoBrutalismTheme) private var theme: Theme
+struct NBShowDrawer<DrawerContent>: ViewModifier where DrawerContent: View {
+    @Environment(\.nbTheme) private var theme: NBTheme
 
     @Binding private var isPresented: Bool
     let onDismiss: (() -> Void)?
@@ -29,24 +29,11 @@ struct ShowDrawer<DrawerContent>: ViewModifier where DrawerContent: View {
     }
 
     func body(content: Content) -> some View {
-        let topBoder = Rectangle()
-            .fill(theme.border)
-            .frame(height: theme.borderWidth)
-            .edgesIgnoringSafeArea(.horizontal)
-
-        let dragIndicator = Rectangle()
-            .fill(theme.text)
-            .cornerRadius(2 * theme.borderRadius)
-            .frame(width: 100.0, height: theme.smspacing)
-            .padding(theme.smpadding)
-
         content
             .sheet(isPresented: $isPresented, onDismiss: onDismiss) {
                 VStack(spacing: 0.0) {
-                    topBoder
-
+                    topBorder
                     dragIndicator
-
                     drawerContent
                 }
                 .background(
@@ -67,17 +54,34 @@ struct ShowDrawer<DrawerContent>: ViewModifier where DrawerContent: View {
     }
 }
 
+extension NBShowDrawer {
+    private var topBorder: some View {
+        Rectangle()
+            .fill(theme.border)
+            .frame(height: theme.borderWidth)
+            .edgesIgnoringSafeArea(.horizontal)
+    }
+
+    private var dragIndicator: some View {
+        Rectangle()
+            .fill(theme.text)
+            .cornerRadius(2 * theme.borderRadius)
+            .frame(width: 100.0, height: theme.smspacing)
+            .padding(theme.smpadding)
+    }
+}
+
 @available(iOS 18.0, *)
-#Preview(traits: .modifier(NeoBrutalismPreviewHelper())) {
+#Preview(traits: .modifier(NBPreviewHelper())) {
     @Previewable @State var isShowingSheet = true
     VStack {
-        Button {
+        NBButton {
             Text("Open the Chamber of Secrets")
         } action: {
             isShowingSheet.toggle()
         }
     }
-    .nb_drawer(isPresented: $isShowingSheet) {
+    .nbDrawer(isPresented: $isShowingSheet) {
         VStack(spacing: 16) {
             Text("The Unbreakable Vow")
                 .font(.title)
@@ -85,7 +89,7 @@ struct ShowDrawer<DrawerContent>: ViewModifier where DrawerContent: View {
             Text("By tapping 'I Agree', you solemnly swear that you are up to no good.")
                 .padding(2.0)
 
-            Button {
+            NBButton {
                 Text("I Agree")
             } action: {
                 isShowingSheet.toggle()

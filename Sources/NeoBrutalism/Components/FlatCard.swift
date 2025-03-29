@@ -1,11 +1,11 @@
 import SwiftUI
 
-public struct FlatCard<Content>: View where Content: View {
+public struct NBFlatCard<Content>: View where Content: View {
     public enum FlatCardType {
         case `default`, neutral
     }
 
-    @Environment(\.neoBrutalismTheme) var theme: Theme
+    @Environment(\.nbTheme) var theme: NBTheme
 
     let type: FlatCardType
     let content: Content?
@@ -18,6 +18,17 @@ public struct FlatCard<Content>: View where Content: View {
         self.content = content()
     }
 
+    public var body: some View {
+        content
+            .foregroundStyle(textForegroundColor)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(theme.padding)
+            .background(backgroundColor)
+            .nbBox(elevated: false)
+    }
+}
+
+extension NBFlatCard {
     private var textForegroundColor: Color {
         switch type {
         case .default:
@@ -27,31 +38,24 @@ public struct FlatCard<Content>: View where Content: View {
         }
     }
 
-    public var body: some View {
-        content
-            .foregroundStyle(textForegroundColor)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(theme.padding)
-            .background(content: {
-                switch type {
-                case .default:
-                    theme.main
-                case .neutral:
-                    theme.bw
-                }
-            })
-            .neoBrutalismBox(elevated: false)
+    private var backgroundColor: Color {
+        switch type {
+        case .default:
+            theme.main
+        case .neutral:
+            theme.bw
+        }
     }
 }
 
 @available(iOS 18.0, *)
-#Preview(traits: .modifier(NeoBrutalismPreviewHelper())) {
+#Preview(traits: .modifier(NBPreviewHelper())) {
     VStack(spacing: 24.0) {
-        FlatCard {
+        NBFlatCard {
             Text("some text")
         }
 
-        FlatCard(type: .neutral) {
+        NBFlatCard(type: .neutral) {
             Text("Some other text")
         }
     }
