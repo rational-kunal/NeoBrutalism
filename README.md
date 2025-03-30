@@ -9,10 +9,8 @@ Feel free to contribute by reporting bugs or submitting fixes.
 <p float="left">
   <img src="https://github.com/user-attachments/assets/5a81e0a3-8006-4ad0-903a-318ae8809e30" width="180px" />
   <img src="https://github.com/user-attachments/assets/f1e745ce-765d-410f-9198-d4a3212c89f8" width="180px" />
-
   <img src="https://github.com/user-attachments/assets/38664eaf-6d2c-4093-b317-0f425298882f" width="180px" />
-
-  <img src="https://github.com/user-attachments/assets/61ae6457-3b60-4556-ae09-397f4d9c8997" width="180px" />
+  <img src="https://github.com/user-attachments/assets/d41027d7-d483-4b2d-9320-f34505ebc2c5" width="180px" />
 </p>
 
 ## Checkout the library in action
