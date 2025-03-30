@@ -342,6 +342,16 @@ struct ContentView: View {
         background: Color(light: .rgb(0.988, 0.843, 0.843), dark: .rgb(0.153, 0.161, 0.2))
     )
 
+//    var body: some View {
+//        ZStack {
+//            theme.background
+//                            .ignoresSafeArea()
+//            TodoAppView()
+//        }
+//        .nbTheme(NBTheme.sunnyPeach)
+//        .colorScheme(colorSceme)
+//    }
+
     var body: some View {
         let exampleViews: [AnyView] = [
             AnyView(AccordianExampleView()),
