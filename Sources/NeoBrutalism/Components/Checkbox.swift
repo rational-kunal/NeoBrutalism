@@ -13,57 +13,51 @@ private struct NBCheckboxShape: Shape {
     }
 }
 
-public struct NBCheckbox: View {
-    @Environment(\.isEnabled) private var isEnabled
+struct NBCheckboxToggleStyle: ToggleStyle {
     @Environment(\.nbTheme) var theme: NBTheme
 
-    @Binding private var isOn: Bool
-
-    public init(isOn: Binding<Bool>) {
-        _isOn = isOn
+    func makeBody(configuration: Configuration) -> some View {
+        HStack {
+            makeCheckbox(configuration: configuration)
+            configuration.label
+        }
     }
 
-    public var body: some View {
-        ZStack {
-            backgroundColor
+    func makeCheckbox(configuration: Configuration) -> some View {
+        Button {
+            configuration.isOn.toggle()
+        } label: {
+            ZStack {
+                if configuration.isOn {
+                    theme.main
+                } else {
+                    theme.clear
+                }
 
-            // Checkbox
-            if isOn {
-                checkboxShape
-            }
-        }
-        .contentShape(Rectangle())
-        .frame(width: theme.size, height: theme.size)
-        .overlay(
-            Rectangle()
-                .stroke(theme.border, lineWidth: theme.borderWidth)
-        )
-        .opacity(isEnabled ? 1 : 0.5)
-        .onTapGesture {
-            if isEnabled {
-                withAnimation(.interactiveSpring) {
-                    isOn.toggle()
+                // Checkbox
+                if configuration.isOn {
+                    checkboxShape
                 }
             }
+            .overlay(
+                Rectangle()
+                    .stroke(theme.border, lineWidth: theme.borderWidth)
+            )
         }
+        .buttonStyle(.plain)
+        .frame(width: theme.size, height: theme.size)
     }
 }
 
-extension NBCheckbox {
+extension NBCheckboxToggleStyle {
     private var checkboxShape: some View {
         NBCheckboxShape()
             .stroke(theme.border, style: StrokeStyle(lineWidth: theme.borderWidth, lineCap: .round, lineJoin: .round))
     }
+}
 
-    private var backgroundColor: Color {
-        if !isEnabled {
-            theme.main.opacity(0.5)
-        } else if isOn {
-            theme.main
-        } else {
-            theme.clear
-        }
-    }
+extension ToggleStyle where Self == NBCheckboxToggleStyle {
+    static var nbChecklist: NBCheckboxToggleStyle { .init() }
 }
 
 @available(iOS 18.0, *)
@@ -71,17 +65,19 @@ extension NBCheckbox {
     @Previewable @State var checkboxState1 = true
     @Previewable @State var checkboxState2 = false
 
-    HStack {
-        VStack {
-            HStack {
-                NBCheckbox(isOn: $checkboxState1)
+    VStack {
+        HStack {
+            Toggle(isOn: $checkboxState1) {
                 Text("Checkbox")
             }
-            NBCheckbox(isOn: $checkboxState1)
-                .disabled(true)
-            NBCheckbox(isOn: $checkboxState2)
-                .disabled(true)
-            NBCheckbox(isOn: $checkboxState2)
         }
-    }
+
+        Toggle(isOn: $checkboxState1) {}
+            .disabled(true)
+
+        Toggle(isOn: $checkboxState2) {}
+            .disabled(true)
+
+        Toggle(isOn: $checkboxState2) {}
+    }.toggleStyle(.nbChecklist)
 }
