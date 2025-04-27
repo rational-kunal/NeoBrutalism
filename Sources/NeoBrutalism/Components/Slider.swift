@@ -1,21 +1,27 @@
 import SwiftUI
 
-public struct NBSlider: View {
+public extension NB {
+    static func slider(value: Binding<CGFloat>) -> some View {
+        NBSlider(value: value)
+    }
+}
+
+struct NBSlider: View {
     @Environment(\.nbTheme) var theme: NBTheme
 
     /** Value from 0 to 1 */
     @Binding private var value: CGFloat
 
-    public init(value: Binding<CGFloat>) {
+    init(value: Binding<CGFloat>) {
         _value = value
     }
 
     public var body: some View {
         VStack {
             GeometryReader { geometry in
-                let sliderBarWidth = geometry.size.width - theme.size
+                let sliderBarWidth = geometry.size.width
                 let fillWidth = max(0, min(value, 1)) * sliderBarWidth
-                let thumbOffsetX = max(0, min(value, 1)) * (geometry.size.width - theme.size)
+                let thumbOffsetX = max(0, min(value, 1)) * sliderBarWidth
                 let thumbOffsetY = theme.size / 4
 
                 ZStack(alignment: .leading) {
@@ -31,7 +37,7 @@ public struct NBSlider: View {
                             .frame(height: theme.size)
                     }
                 }
-                .frame(width: geometry.size.width - theme.size, height: theme.smsize)
+                .frame(width: sliderBarWidth, height: theme.smsize)
                 .nbBox(elevated: false)
                 .overlay {
                     Circle()
@@ -46,9 +52,10 @@ public struct NBSlider: View {
                                 self.value = max(0, min(1, startLocation + translation))
                             })
                 }
-                .frame(width: geometry.size.width - theme.size, height: theme.size)
+                .frame(width: sliderBarWidth, height: theme.size)
             }
             .frame(height: theme.size)
+            .padding(theme.size / 2)
         }
     }
 }
@@ -63,11 +70,11 @@ public struct NBSlider: View {
                 Text("\(sliderValue, specifier: "%.2f")")
                     .padding(.horizontal)
                     .frame(width: 100.0)
-                NBSlider(value: $sliderValue)
+                NB.slider(value: $sliderValue)
             }
         }
-        NBSlider(value: .constant(0.52))
-        NBSlider(value: .constant(0.2))
-        NBSlider(value: .constant(1.0))
+        NB.slider(value: .constant(0.52))
+        NB.slider(value: .constant(0.2))
+        NB.slider(value: .constant(1.0))
     }
 }
