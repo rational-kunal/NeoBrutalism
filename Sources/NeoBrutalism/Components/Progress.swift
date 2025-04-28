@@ -1,35 +1,31 @@
 import SwiftUI
 
-public struct NBProgress: View {
+public extension ProgressViewStyle where Self == NBProgressViewStyle {
+    static var neoBrutalism: NBProgressViewStyle { .init() }
+}
+
+public struct NBProgressViewStyle: ProgressViewStyle {
     @Environment(\.nbTheme) var theme: NBTheme
 
-    /** Value from 0 to 1 */
-    @Binding private var value: CGFloat
-
-    public init(value: Binding<CGFloat>) {
-        _value = value
-    }
-
-    public var body: some View {
+    public func makeBody(configuration: Configuration) -> some View {
+        let value = configuration.fractionCompleted ?? 0.0
         GeometryReader { geometry in
-            ZStack(alignment: .leading) {
-                HStack(spacing: 0) {
-                    // Progress bar
-                    Rectangle()
-                        .fill(theme.main)
-                        .frame(width: max(0, min(value, 1)) * geometry.size.width, height: theme.size)
+            HStack(spacing: 0) {
+                // Progress bar
+                Rectangle()
+                    .fill(theme.main)
+                    .frame(width: value * geometry.size.width, height: theme.size)
 
-                    if value > 0.001 && value < 0.99 {
-                        Divider()
-                            .frame(width: theme.borderWidth, height: geometry.size.height)
-                            .background(Color.black)
-                    }
-
-                    // Background bar
-                    Rectangle()
-                        .fill(theme.bw)
-                        .frame(height: theme.size)
+                if value > 0.001 && value < 0.99 {
+                    Divider()
+                        .frame(width: theme.borderWidth, height: geometry.size.height)
+                        .background(Color.black)
                 }
+
+                // Background bar
+                Rectangle()
+                    .fill(theme.bw)
+                    .frame(height: theme.size)
             }
         }
         .frame(height: theme.size)
@@ -41,9 +37,16 @@ public struct NBProgress: View {
 @available(iOS 18.0, *)
 #Preview(traits: .modifier(NBPreviewHelper())) {
     VStack {
-        NBProgress(value: .constant(0.0))
-        NBProgress(value: .constant(0.52))
-        NBProgress(value: .constant(0.2))
-        NBProgress(value: .constant(1.0))
+        ProgressView(value: 0.0)
+            .progressViewStyle(.neoBrutalism)
+
+        ProgressView(value: 0.52)
+            .progressViewStyle(.neoBrutalism)
+
+        ProgressView(value: 0.2)
+            .progressViewStyle(.neoBrutalism)
+
+        ProgressView(value: 1.0)
+            .progressViewStyle(.neoBrutalism)
     }
 }
