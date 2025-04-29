@@ -1,20 +1,15 @@
 import SwiftUI
 
-public struct NBInput: View {
+public extension TextFieldStyle where Self == NBInputStyle {
+    static var neoBrutalism: NBInputStyle { .init() }
+}
+
+public struct NBInputStyle: @preconcurrency TextFieldStyle {
     @Environment(\.isEnabled) private var isEnabled
     @Environment(\.nbTheme) var theme: NBTheme
 
-    @Binding private var text: String
-    private let placeholder: String?
-
-    public init(text: Binding<String>, placeholder: String? = nil) {
-        _text = text
-        self.placeholder = placeholder
-    }
-
-    public var body: some View {
-        TextField(placeholder ?? "Input", text: $text)
-            .textFieldStyle(.plain)
+    @MainActor public func _body(configuration: TextField<Self._Label>) -> some View {
+        configuration
             .padding(theme.padding)
             .background(theme.bw)
             .nbBox(elevated: false)
@@ -25,11 +20,13 @@ public struct NBInput: View {
 @available(iOS 18.0, *)
 #Preview(traits: .modifier(NBPreviewHelper())) {
     @Previewable @State var inputValue = ""
-    @Previewable @State var switchState2 = false
 
     VStack {
-        NBInput(text: $inputValue)
-        NBInput(text: $inputValue)
+        TextField("Input", text: $inputValue)
+            .textFieldStyle(.neoBrutalism)
+
+        TextField("Input", text: $inputValue)
             .disabled(true)
+            .textFieldStyle(.neoBrutalism)
     }
 }
