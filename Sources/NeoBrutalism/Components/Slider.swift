@@ -1,18 +1,12 @@
 import SwiftUI
 
-public extension NB {
-    static func slider(value: Binding<CGFloat>) -> some View {
-        NBSlider(value: value)
-    }
-}
-
-struct NBSlider: View {
+public struct NBSlider: View {
     @Environment(\.nbTheme) var theme: NBTheme
 
     /** Value from 0 to 1 */
     @Binding private var value: CGFloat
 
-    init(value: Binding<CGFloat>) {
+    public init(value: Binding<CGFloat>) {
         _value = value
     }
 
@@ -70,11 +64,11 @@ struct NBSlider: View {
                 Text("\(sliderValue, specifier: "%.2f")")
                     .padding(.horizontal)
                     .frame(width: 100.0)
-                NB.slider(value: $sliderValue)
+                NBSlider(value: $sliderValue)
             }
         }
-        NB.slider(value: .constant(0.52))
-        NB.slider(value: .constant(0.2))
-        NB.slider(value: .constant(1.0))
+        NBSlider(value: .constant(0.52))
+        NBSlider(value: .constant(0.2))
+        NBSlider(value: .constant(1.0))
     }
 }

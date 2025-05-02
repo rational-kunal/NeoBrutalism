@@ -75,11 +75,10 @@ extension NBShowDrawer {
 #Preview(traits: .modifier(NBPreviewHelper())) {
     @Previewable @State var isShowingSheet = true
     VStack {
-        NBButton {
-            Text("Open the Chamber of Secrets")
-        } action: {
+        Button("Open the Chamber of Secrets") {
             isShowingSheet.toggle()
         }
+        .buttonStyle(.neoBrutalism())
     }
     .nbDrawer(isPresented: $isShowingSheet) {
         VStack(spacing: 16) {
@@ -89,11 +88,10 @@ extension NBShowDrawer {
             Text("By tapping 'I Agree', you solemnly swear that you are up to no good.")
                 .padding(2.0)
 
-            NBButton {
-                Text("I Agree")
-            } action: {
+            Button("I Agree") {
                 isShowingSheet.toggle()
             }
+            .buttonStyle(.neoBrutalism())
             .padding(.top)
         }
     }

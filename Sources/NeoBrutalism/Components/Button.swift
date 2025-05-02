@@ -1,6 +1,12 @@
 import SwiftUI
 
-public struct NBButton<Content>: View where Content: View {
+public extension ButtonStyle where Self == NBButtonStyle {
+    static func neoBrutalism(type: NBButtonStyle.ButtonType = .default, variant: NBButtonStyle.ShadowVariant = .default) -> NBButtonStyle {
+        return .init(type: type, variant: variant)
+    }
+}
+
+public struct NBButtonStyle: ButtonStyle {
     public enum ButtonType {
         case `default`, neutral
     }
@@ -9,101 +15,70 @@ public struct NBButton<Content>: View where Content: View {
         case `default`, noShadow, reverse
     }
 
-    @Environment(\.nbTheme) var theme: NBTheme
+    @Environment(\.nbTheme) private var theme
 
-    @State private var elevated: Bool
-
-    private let type: ButtonType
-    private let variant: ShadowVariant
-    private let content: Content
-    private let action: () -> Void
-
-    public init(
-        type: ButtonType = .default, variant: ShadowVariant = .default,
-        @ViewBuilder content: () -> Content, action: @escaping () -> Void
-    ) {
+    init(type: ButtonType = .default, variant: ShadowVariant = .default) {
         self.type = type
         self.variant = variant
-        self.content = content()
-        self.action = action
-        elevated = variant == .default
     }
 
-    public var body: some View {
-        ZStack {
-            content
-                .foregroundStyle(textForegroundColor)
-        }
-        .padding(theme.padding)
-        .contentShape(Rectangle())
-        .onLongPressGesture(
-            minimumDuration: 0.0,
-            perform: {},
-            onPressingChanged: { pressed in
-                withAnimation(.interactiveSpring) {
-                    updateElevention(isPressed: pressed)
-                }
-                if !pressed {
-                    action()
-                }
+    let type: ButtonType
+    let variant: ShadowVariant
+
+    public func makeBody(configuration: Configuration) -> some View {
+        let isPressed = configuration.isPressed
+
+        let elevated: Bool = {
+            switch variant {
+            case .default: return !isPressed
+            case .noShadow: return false
+            case .reverse: return isPressed
             }
-        )
-        .background(backgroundColor)
-        .nbBox(elevated: elevated)
+        }()
+
+        return configuration.label
+            .padding(theme.padding)
+            .foregroundStyle(textForegroundColor)
+            .background(backgroundColor)
+            .animation(.interactiveSpring(), value: isPressed)
+            .nbBox(elevated: elevated)
     }
 
-    private func updateElevention(isPressed: Bool) {
-        switch variant {
-        case .default:
-            elevated = isPressed ? false : true
-        case .noShadow:
-            elevated = false
-        case .reverse:
-            elevated = isPressed ? true : false
-        }
-        print(variant, elevated)
-    }
-}
-
-extension NBButton {
     private var textForegroundColor: Color {
         switch type {
-        case .default:
-            theme.mainText
-        case .neutral:
-            theme.text
+        case .default: return theme.mainText
+        case .neutral: return theme.text
         }
     }
 
     private var backgroundColor: Color {
         switch type {
-        case .default:
-            theme.main
-        case .neutral:
-            theme.bw
+        case .default: return theme.main
+        case .neutral: return theme.bw
         }
     }
 }
 
 @available(iOS 18.0, *)
 #Preview(traits: .modifier(NBPreviewHelper())) {
-    VStack(spacing: 18.0) {
-        NBButton {
-            Text("Accio")
-        } action: {
-            print("OPEN")
-        }
+    VStack(alignment: .leading, spacing: 20) {
+        Button("Basic Button") {}
+            .buttonStyle(.neoBrutalism())
 
-        NBButton(variant: .reverse) {
-            Text("Accio")
-        } action: {
-            print("OPEN")
+        Button {} label: {
+            Label("With Icon", systemImage: "star.fill")
         }
+        .buttonStyle(.neoBrutalism())
 
-        NBButton(type: .neutral, variant: .noShadow) {
-            Image(systemName: "plus")
-        } action: {
-            print("OPEN")
+        // Multiline Text
+        Button {} label: {
+            Text("This is a button\nwith multiple lines")
+                .multilineTextAlignment(.center)
         }
-    }.padding()
+        .buttonStyle(.neoBrutalism())
+
+        Button("Neutral Reverse") {}
+            .buttonStyle(.neoBrutalism(type: .neutral, variant: .reverse))
+    }
+    .padding()
 }

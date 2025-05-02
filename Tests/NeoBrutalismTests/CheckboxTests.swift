@@ -10,27 +10,27 @@ struct CheckboxTests {
     @SnapshotTest(.padding(4.0), .backgroundColor(NBTheme.default.background))
     func checbox_on() -> some View {
         Toggle(isOn: .constant(true)) {}
-            .toggleStyle(.nbChecklist)
+            .toggleStyle(.neoBrutalismChecklist)
     }
 
     @SnapshotTest(.padding(4.0), .backgroundColor(NBTheme.default.background))
     func checbox_on_disabled() -> some View {
         Toggle(isOn: .constant(true)) {}
             .disabled(true)
-            .toggleStyle(.nbChecklist)
+            .toggleStyle(.neoBrutalismChecklist)
     }
 
     @SnapshotTest(.padding(4.0), .backgroundColor(NBTheme.default.background))
     func checbox_off() -> some View {
         Toggle(isOn: .constant(false)) {}
-            .toggleStyle(.nbChecklist)
+            .toggleStyle(.neoBrutalismChecklist)
     }
 
     @SnapshotTest(.padding(4.0), .backgroundColor(NBTheme.default.background))
     func checbox_off_disabled() -> some View {
         Toggle(isOn: .constant(false)) {}
             .disabled(true)
-            .toggleStyle(.nbChecklist)
+            .toggleStyle(.neoBrutalismChecklist)
     }
 
     // MARK: - Checkbox with label
@@ -38,27 +38,27 @@ struct CheckboxTests {
     @SnapshotTest(.padding(4.0), .backgroundColor(NBTheme.default.background))
     func checboxWithLabel_on() -> some View {
         Toggle(isOn: .constant(true)) { Text("checkbox") }
-            .toggleStyle(.nbChecklist)
+            .toggleStyle(.neoBrutalismChecklist)
     }
 
     @SnapshotTest(.padding(4.0), .backgroundColor(NBTheme.default.background))
     func checboxWithLabel_on_disabled() -> some View {
         Toggle(isOn: .constant(true)) { Text("checkbox") }
             .disabled(true)
-            .toggleStyle(.nbChecklist)
+            .toggleStyle(.neoBrutalismChecklist)
     }
 
     @SnapshotTest(.padding(4.0), .backgroundColor(NBTheme.default.background))
     func checboxWithLabel_off() -> some View {
         Toggle(isOn: .constant(false)) { Text("checkbox") }
-            .toggleStyle(.nbChecklist)
+            .toggleStyle(.neoBrutalismChecklist)
     }
 
     @SnapshotTest(.padding(4.0), .backgroundColor(NBTheme.default.background))
     func checboxWithLabel_off_disabled() -> some View {
         Toggle(isOn: .constant(false)) { Text("checkbox") }
             .disabled(true)
-            .toggleStyle(.nbChecklist)
+            .toggleStyle(.neoBrutalismChecklist)
     }
 
     // MARK: - Checbox with large label
@@ -66,6 +66,6 @@ struct CheckboxTests {
     @SnapshotTest(.padding(4.0), .backgroundColor(NBTheme.default.background))
     func checboxWithLargeLabel() -> some View {
         Toggle(isOn: .constant(true)) { Text("checkbox").font(.largeTitle) }
-            .toggleStyle(.nbChecklist)
+            .toggleStyle(.neoBrutalismChecklist)
     }
 }
