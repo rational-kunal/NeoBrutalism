@@ -21,21 +21,20 @@ struct CheckboxExampleView: View {
     @State var checkboxState = true
 
     var body: some View {
-        HStack {
-            NBCheckbox(isOn: $checkboxState)
+        Toggle(isOn: $checkboxState) {
             Spacer()
             Text(checkboxState ? "(Alohomora!)" : "(Colloportus!)")
-                .italic()
         }
+        .toggleStyle(.neoBrutalismChecklist)
         HStack {
-            NBCheckbox(isOn: .constant(true))
+            Toggle(isOn: .constant(true)) {}
                 .disabled(true)
-            NBCheckbox(isOn: .constant(false))
+            Toggle(isOn: .constant(false)) {}
                 .disabled(true)
             Spacer()
             Text("Petrificus Totalus!")
                 .italic()
-        }
+        }.toggleStyle(.neoBrutalismChecklist)
     }
 }
 
@@ -44,18 +43,17 @@ struct SwitchExampleView: View {
 
     var body: some View {
         HStack {
-            NBSwitch(isOn: .constant(true))
-                .disabled(true)
-            NBSwitch(isOn: .constant(false))
-                .disabled(true)
+            Toggle(isOn: .constant(true)) {}
+            Toggle(isOn: .constant(false)) {}
 
             Divider().fixedSize()
 
-            NBSwitch(isOn: $switchState)
-            Spacer()
-            Text(switchState ? "(Lumos!)" : "(Nox!)")
-                .italic()
-        }
+            Toggle(isOn: $switchState) {
+                Spacer()
+                Text(switchState ? "(Lumos!)" : "(Nox!)")
+                    .italic()
+            }
+        }.toggleStyle(.neoBrutalismSwitch)
     }
 }
 
@@ -98,24 +96,24 @@ struct ButtonExampleView: View {
 
     var body: some View {
         HStack(spacing: 12.0) {
-            NBButton {
+            Button {
+                counter += 1
+            } label: {
                 Text("Accio")
-            } action: {
-                counter += 1
-            }
+            }.buttonStyle(.neoBrutalism())
 
-            NBButton(variant: .reverse) {
+            Button {
+                counter += 1
+            } label: {
                 Text("Expelliarmus")
-            } action: {
-                counter += 1
-            }
+            }.buttonStyle(.neoBrutalism(variant: .reverse))
 
-            NBButton(type: .neutral, variant: .noShadow) {
+            Button {
+                counter += 1
+            } label: {
                 Image(systemName: "wand.and.sparkles.inverse")
                     .bold()
-            } action: {
-                counter += 1
-            }
+            }.buttonStyle(.neoBrutalism(type: .neutral, variant: .reverse))
         }
         Text("(Spells Cast: \(counter))")
             .italic()
@@ -130,10 +128,11 @@ struct CardExampleView: View {
             } main: {
                 Text("You have been accepted to Hogwarts School of Witchcraft and Wizardry!")
             } footer: {
-                NBButton {
-                    Text("Open Letter")
-                        .frame(maxWidth: .infinity)
-                } action: {}
+                Button {
+                    // No-op
+                } label: {
+                    Text("Open Letter").frame(maxWidth: .infinity)
+                }.buttonStyle(.neoBrutalism())
             }
 
             NBCard(type: .neutral) {
@@ -142,13 +141,19 @@ struct CardExampleView: View {
                 Text("Get your broomstick, Quidditch robes, and golden snitch!")
             } footer: {
                 HStack(spacing: 12.0) {
-                    NBButton(type: .neutral) {
-                        Text("Firebolt")
-                    } action: {}
+                    Button {
+                        // No-op
+                    } label: {
+                        Text("Open Firebolt")
+                    }.buttonStyle(.neoBrutalism(type: .neutral))
+
                     Spacer()
-                    NBButton {
+
+                    Button {
+                        // No-op
+                    } label: {
                         Text("Snitch")
-                    } action: {}
+                    }.buttonStyle(.neoBrutalism())
                 }
             }
         }
@@ -160,10 +165,13 @@ struct InputExampleView: View {
 
     var body: some View {
         VStack {
-            NBInput(text: .constant("Wingardium Leviosa"))
+            TextField("Input", text: .constant("Wingardium Leviosa"))
                 .disabled(true)
+                .textFieldStyle(.neoBrutalism)
 
-            NBInput(text: $text, placeholder: "Enter your spell")
+            TextField("Enter your spell", text: $text)
+                .textFieldStyle(.neoBrutalism)
+
             Text("(You just cast: \(text))")
                 .italic()
         }
@@ -172,7 +180,8 @@ struct InputExampleView: View {
 
 struct ProgressExampleView: View {
     var body: some View {
-        NBProgress(value: .constant(0.7))
+        ProgressView(value: 0.7)
+            .progressViewStyle(.neoBrutalism)
     }
 }
 
@@ -296,11 +305,11 @@ struct DrawerExampleView: View {
 
     var body: some View {
         VStack(spacing: 16.0) {
-            NBButton {
-                Text("Open the Chamber")
-            } action: {
+            Button {
                 isDrawerOpen.toggle()
-            }
+            } label: {
+                Text("Open the Chamber")
+            }.buttonStyle(.neoBrutalism())
         }
         .nbDrawer(isPresented: $isDrawerOpen) {
             VStack(spacing: 16) {
@@ -310,11 +319,11 @@ struct DrawerExampleView: View {
                 Text("Only those who can speak to snakes may proceed.")
                     .padding(.horizontal, 4.0)
 
-                NBButton {
-                    Text("I Understand")
-                } action: {
+                Button {
                     isDrawerOpen.toggle()
-                }
+                } label: {
+                    Text("I Understand")
+                }.buttonStyle(.neoBrutalism())
             }
         }
     }
@@ -382,13 +391,13 @@ struct ContentView: View {
                         Text("Neo Brutalism")
                             .font(.largeTitle)
                         Spacer()
-                        NBButton(type: .neutral) {
-                            Image(systemName: colorSceme == .light ? "moon" : "sun.max")
-                        } action: {
+                        Button {
                             withAnimation(.interactiveSpring) {
                                 colorSceme = colorSceme == .light ? .dark : .light
                             }
-                        }
+                        } label: {
+                            Image(systemName: colorSceme == .light ? "moon" : "sun.max")
+                        }.buttonStyle(.neoBrutalism(type: .neutral))
                     }
 
                     ForEach(0 ..< exampleViews.count, id: \.self) { index in

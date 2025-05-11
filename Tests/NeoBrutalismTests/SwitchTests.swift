@@ -12,27 +12,27 @@ struct SwitchTests {
     @SnapshotTest(.padding(4.0), .backgroundColor(NBTheme.default.background))
     func switch_on() -> some View {
         Toggle(isOn: .constant(true)) {}
-            .toggleStyle(.nbSwitch)
+            .toggleStyle(.neoBrutalismSwitch)
     }
 
     @SnapshotTest(.padding(4.0), .backgroundColor(NBTheme.default.background))
     func switch_on_disabled() -> some View {
         Toggle(isOn: .constant(true)) {}
             .disabled(true)
-            .toggleStyle(.nbSwitch)
+            .toggleStyle(.neoBrutalismSwitch)
     }
 
     @SnapshotTest(.padding(4.0), .backgroundColor(NBTheme.default.background))
     func switch_off() -> some View {
         Toggle(isOn: .constant(false)) {}
-            .toggleStyle(.nbSwitch)
+            .toggleStyle(.neoBrutalismSwitch)
     }
 
     @SnapshotTest(.padding(4.0), .backgroundColor(NBTheme.default.background))
     func switch_off_disabled() -> some View {
         Toggle(isOn: .constant(false)) {}
             .disabled(true)
-            .toggleStyle(.nbSwitch)
+            .toggleStyle(.neoBrutalismSwitch)
     }
 
     // MARK: - Switch with label
@@ -40,7 +40,7 @@ struct SwitchTests {
     @SnapshotTest(.padding(4.0), .backgroundColor(NBTheme.default.background))
     func switchWithLabel_on() -> some View {
         Toggle(isOn: .constant(true)) { Text("Switch") }
-            .toggleStyle(.nbSwitch)
+            .toggleStyle(.neoBrutalismSwitch)
     }
 
     @SnapshotTest(.padding(4.0), .backgroundColor(NBTheme.default.background))

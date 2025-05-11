@@ -19,15 +19,18 @@ struct TodoAppView: View {
 
             // Add Todo Input
             HStack {
-                NBInput(text: $newTodoText, placeholder: "Enter a task...")
-                NBButton {
-                    Image(systemName: "plus")
-                        .frame(maxHeight: .infinity)
-                } action: {
+                TextField("Enter a task...", text: $newTodoText)
+                    .textFieldStyle(.neoBrutalism)
+
+                Button {
                     guard !newTodoText.isEmpty else { return }
                     todos.append(Todo(title: newTodoText, isCompleted: false))
                     newTodoText = ""
+                } label: {
+                    Image(systemName: "plus")
+                        .frame(maxHeight: .infinity)
                 }
+                .buttonStyle(.neoBrutalism())
             }
             .fixedSize(horizontal: false, vertical: true)
             .padding(.horizontal)
@@ -59,11 +62,11 @@ struct TodoRow: View {
 
     var body: some View {
         NBFlatCard {
-            HStack {
-                NBCheckbox(isOn: $isChecked)
+            Toggle(isOn: $isChecked) {
                 Text(todo.title)
                     .strikethrough(isChecked)
             }
+            .toggleStyle(.neoBrutalismChecklist)
         }
     }
 }

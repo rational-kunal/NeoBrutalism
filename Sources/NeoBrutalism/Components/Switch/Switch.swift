@@ -1,7 +1,7 @@
 import SwiftUI
 
 public extension ToggleStyle where Self == NBSwitchToggleStyle {
-    static var nbSwitch: NBSwitchToggleStyle { .init() }
+    static var neoBrutalismSwitch: NBSwitchToggleStyle { .init() }
 }
 
 public struct NBSwitchToggleStyle: ToggleStyle {
@@ -74,5 +74,5 @@ extension NBSwitchToggleStyle {
 
         Toggle(isOn: $switchState2) {}
 
-    }.toggleStyle(.nbSwitch)
+    }.toggleStyle(.neoBrutalismSwitch)
 }

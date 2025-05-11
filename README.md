@@ -1,4 +1,6 @@
-# NeoBrutalism UI components
+![nb](https://github.com/user-attachments/assets/a88dabb4-f970-4592-bb94-878d7c5e0d07)
+
+# NeoBrutalism
 
 A set of SwiftUI components inspired by the [NeoBrutalism design trend](https://author.envato.com/hub/trend-deep-dive-neo-brutalism).
 
@@ -37,10 +39,8 @@ struct ContentView: View {
         ZStack {
             NBTheme.default.background
                 .ignoresSafeArea()
-            HStack {
-                NBCheckbox(isOn: .constant(true))
-                Text("Are you a wizard?")
-            }
+            Toggle(isOn: .constant(true)) { Text("Are you a wizard?") }
+                .toggleStyle(.neoBrutalismChecklist)
         }
     }
 }
@@ -58,10 +58,8 @@ struct ContentView: View {
         ZStack {
             theme.background
                 .ignoresSafeArea()
-            HStack {
-                NBCheckbox(isOn: .constant(true))
-                Text("Are you a wizard?")
-            }
+            Toggle(isOn: .constant(true)) { Text("Are you a wizard?") }
+                .toggleStyle(.neoBrutalismChecklist)
         }.nbTheme(theme)
     }
 }
@@ -79,27 +77,8 @@ NeoBrutalism includes commonly used UI components, with plans to expand as neede
 <p>
 
 ```swift
-struct CheckboxExampleView: View {
-    @State var checkboxState = true
-
-    var body: some View {
-        HStack {
-            NBCheckbox(isOn: $checkboxState)
-            Spacer()
-            Text(checkboxState ? "(Alohomora!)" : "(Colloportus!)")
-                .italic()
-        }
-        HStack {
-            NBCheckbox(isOn: .constant(true))
-                .disabled(true)
-            NBCheckbox(isOn: .constant(false))
-                .disabled(true)
-            Spacer()
-            Text("Petrificus Totalus!")
-                .italic()
-        }
-    }
-}
+Toggle(isOn: $checkboxState) { Text(checkboxState ? "(Alohomora!)" : "(Colloportus!)") }
+    .toggleStyle(.neoBrutalismChecklist)
 ```
 
 ### Switch
@@ -110,26 +89,8 @@ struct CheckboxExampleView: View {
 </p>
 
 ```swift
-struct SwitchExampleView: View {
-    @State var switchState = true
-
-    var body: some View {
-        HStack {
-            NBSwitch(isOn: .constant(true))
-                .disabled(true)
-            NBSwitch(isOn: .constant(false))
-                .disabled(true)
-
-            Divider().fixedSize()
-
-            NBSwitch(isOn: $switchState)
-            Spacer()
-            Text(switchState ? "(Lumos!)" : "(Nox!)")
-                .italic()
-        }
-    }
-}
-
+Toggle(isOn: $switchState) { Text(switchState ? "(Lumos!)" : "(Nox!)") }
+    .toggleStyle(.neoBrutalismSwitch)
 ```
 ### Accordion
 <p float="left">
@@ -154,24 +115,18 @@ NBAccordion {
 </p>
 
 ```swift
-NBButton {
+Button {
+    counter += 1
+} label: {
     Text("Accio")
-} action: {
-    counter += 1
-}
+}.buttonStyle(.neoBrutalism())
 
-NBButton(variant: .reverse) {
-    Text("Expelliarmus")
-} action: {
+Button {
     counter += 1
-}
-
-NBButton(type: .neutral, variant: .noShadow) {
+} label: {
     Image(systemName: "wand.and.sparkles.inverse")
         .bold()
-} action: {
-    counter += 1
-}
+}.buttonStyle(.neoBrutalism(type: .neutral, variant: .reverse))
 ```
 
 ### Card
@@ -218,21 +173,8 @@ NBCard(type: .neutral) {
 </p>
 
 ```swift
-struct InputExampleView: View {
-    @State var text: String = ""
-
-    var body: some View {
-        VStack {
-            NBInput(text: .constant("Wingardium Leviosa"))
-                .disabled(true)
-
-            NBInput(text: $text, placeholder: "Enter your spell")
-            Text("(You just cast: \(text))")
-                .italic()
-        }
-
-    }
-}
+TextField("Enter your spell", text: $text)
+    .textFieldStyle(.neoBrutalism)
 ```
 
 ### Progress
@@ -244,7 +186,8 @@ struct InputExampleView: View {
 </p>
 
 ```
-NBProgress(value: .constant(0.7))
+ProgressView(value: 0.7)
+    .progressViewStyle(.neoBrutalism)
 ```
 
 ### Slider
