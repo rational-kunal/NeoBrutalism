@@ -1,7 +1,7 @@
 import SwiftUI
 
 extension EnvironmentValues {
-    @Entry var nbCollapsableDidToggle: NBCollapsable.CollapsableDidToggle = {}
+    @Entry var nbCollapsableDidToggle: NBCollapsableDidToggle = {}
     @Entry var nbCollapsableIsExpanded: Bool = false
 }
 
@@ -39,6 +39,7 @@ public struct NBCollapsibleTrigger<Trigger>: View where Trigger: View {
     }
 }
 
+typealias NBCollapsableDidToggle = () -> Void
 public struct NBCollapsable<Content>: View where Content: View {
     @Environment(\.nbTheme) var theme: NBTheme
 
