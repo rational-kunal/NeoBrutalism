@@ -37,7 +37,7 @@ jobs:
           #   name: "macOS 14, SPM 6.0.2 Test"
           #   outputFilter: xcbeautify --renderer github-actions
           - xcode: "Xcode_16.0"
-            runsOn: firebreak
+            runsOn: macOS-14
             name: "macOS 14, SPM 6.0 Test"
             outputFilter: xcbeautify --renderer github-actions
           # - xcode: "Xcode_15.4"
