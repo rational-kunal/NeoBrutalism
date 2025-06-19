@@ -25,7 +25,7 @@ public struct NBRadioIndicator: View {
 public struct NBRadioItem<Label>: View where Label: View {
     @Environment(\.nbTheme) var theme: NBTheme
     @Environment(\.nbSelectedRadioItemValue) var selectedRadioItemValue: AnyEquatable?
-    @Environment(\.nbRadioItemDidSelect) var radioItemDidSelect: NBRadioGroup.RadioItemDidSelect
+    @Environment(\.nbRadioItemDidSelect) var radioItemDidSelect: NBRadioItemDidSelect
 
     var value: AnyEquatable
     var selected: Bool {
