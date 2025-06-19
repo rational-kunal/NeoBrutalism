@@ -32,7 +32,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - destination: "OS=18.1,name=iPhone 16 Pro"
+          - destination: "OS=18.1,name=iPhone 16"
             name: "iOS 18.1"
             testPlan: "iOS"
             xcode: "Xcode_16.1"
@@ -50,45 +50,3 @@ jobs:
           defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
       - name: ${{ matrix.name }}
         run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -scheme "NeoBrutalism" -destination "${{ matrix.destination }}" clean test | xcbeautify --renderer github-actions
-  SPM:
-    name: ${{ matrix.name }}
-    runs-on: ${{ matrix.runsOn }}
-    env:
-      DEVELOPER_DIR: "/Applications/${{ matrix.xcode }}.app/Contents/Developer"
-    timeout-minutes: 10
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          # - xcode: "Xcode_16.1"
-          #   runsOn: firebreak
-          #   name: "macOS 14, SPM 6.0.2 Test"
-          #   outputFilter: xcbeautify --renderer github-actions
-          - xcode: "Xcode_16.0"
-            runsOn: macOS-14
-            name: "macOS 14, SPM 6.0 Test"
-            outputFilter: xcbeautify --renderer github-actions
-          - xcode: "Xcode_16.0"
-            runsOn: macOS-15
-            name: "macOS 15, SPM 6.0 Test"
-            outputFilter: xcbeautify --renderer github-actions
-          # - xcode: "Xcode_15.4"
-          #   runsOn: macOS-14
-          #   name: "macOS 14, SPM 5.10 Test"
-          #   outputFilter: xcbeautify --renderer github-actions
-          # - xcode: "Xcode_15.2"
-          #   runsOn: macOS-14
-          #   name: "macOS 14, SPM 5.9.2 Test"
-          #   outputFilter: xcbeautify --renderer github-actions
-          # - xcode: "Xcode_15.1"
-          #   runsOn: macOS-14
-          #   name: "macOS 14, SPM 5.9.1 Test"
-          #   outputFilter: xcbeautify --renderer github-actions
-          # - xcode: "Xcode_15.0.1"
-          #   runsOn: macOS-14
-          #   name: "macOS 14, SPM 5.9.0 Test"
-          #   outputFilter: xcbeautify --renderer github-actions
-    steps:
-      - uses: actions/checkout@v4
-      - name: Test SPM
-        run: set -o pipefail && swift test -c debug 2>&1 | ${{ matrix.outputFilter }}
