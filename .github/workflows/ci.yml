@@ -40,6 +40,10 @@ jobs:
             runsOn: macOS-14
             name: "macOS 14, SPM 6.0 Test"
             outputFilter: xcbeautify --renderer github-actions
+          - xcode: "Xcode_16.0"
+            runsOn: macOS-15
+            name: "macOS 15, SPM 6.0 Test"
+            outputFilter: xcbeautify --renderer github-actions
           # - xcode: "Xcode_15.4"
           #   runsOn: macOS-14
           #   name: "macOS 14, SPM 5.10 Test"
@@ -58,7 +62,5 @@ jobs:
           #   outputFilter: xcbeautify --renderer github-actions
     steps:
       - uses: actions/checkout@v4
-      - name: Install Firewalk
-        run: brew install alamofire/alamofire/firewalk || brew upgrade alamofire/alamofire/firewalk xcbeautify && firewalk &
       - name: Test SPM
         run: set -o pipefail && swift test -c debug 2>&1 | ${{ matrix.outputFilter }}
