@@ -22,6 +22,30 @@ concurrency:
 
 # Refer https://github.com/Alamofire/Alamofire/blob/master/.github/workflows/ci.yml
 jobs:
+  iOS:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.runsOn }}
+    env:
+      DEVELOPER_DIR: "/Applications/${{ matrix.xcode }}.app/Contents/Developer"
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - destination: "OS=18.1,name=iPhone 16 Pro"
+            name: "iOS 18.1"
+            testPlan: "iOS"
+            xcode: "Xcode_16.1"
+            runsOn: macOS-15
+          - destination: "OS=18.0,name=iPhone 16 Pro"
+            name: "iOS 18.0"
+            testPlan: "iOS"
+            xcode: "Xcode_16.0"
+            runsOn: macOS-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: ${{ matrix.name }}
+        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -scheme "NeoBrutalism" -destination "${{ matrix.destination }}"  clean test 2>&1 | xcbeautify --renderer github-actions
   SPM:
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.runsOn }}
