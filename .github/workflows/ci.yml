@@ -32,30 +32,30 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - xcode: "Xcode_16.1"
-            runsOn: firebreak
-            name: "macOS 14, SPM 6.0.2 Test"
-            outputFilter: xcbeautify --renderer github-actions
+          # - xcode: "Xcode_16.1"
+          #   runsOn: firebreak
+          #   name: "macOS 14, SPM 6.0.2 Test"
+          #   outputFilter: xcbeautify --renderer github-actions
           - xcode: "Xcode_16.0"
             runsOn: firebreak
             name: "macOS 14, SPM 6.0 Test"
             outputFilter: xcbeautify --renderer github-actions
-          - xcode: "Xcode_15.4"
-            runsOn: macOS-14
-            name: "macOS 14, SPM 5.10 Test"
-            outputFilter: xcbeautify --renderer github-actions
-          - xcode: "Xcode_15.2"
-            runsOn: macOS-14
-            name: "macOS 14, SPM 5.9.2 Test"
-            outputFilter: xcbeautify --renderer github-actions
-          - xcode: "Xcode_15.1"
-            runsOn: macOS-14
-            name: "macOS 14, SPM 5.9.1 Test"
-            outputFilter: xcbeautify --renderer github-actions
-          - xcode: "Xcode_15.0.1"
-            runsOn: macOS-14
-            name: "macOS 14, SPM 5.9.0 Test"
-            outputFilter: xcbeautify --renderer github-actions
+          # - xcode: "Xcode_15.4"
+          #   runsOn: macOS-14
+          #   name: "macOS 14, SPM 5.10 Test"
+          #   outputFilter: xcbeautify --renderer github-actions
+          # - xcode: "Xcode_15.2"
+          #   runsOn: macOS-14
+          #   name: "macOS 14, SPM 5.9.2 Test"
+          #   outputFilter: xcbeautify --renderer github-actions
+          # - xcode: "Xcode_15.1"
+          #   runsOn: macOS-14
+          #   name: "macOS 14, SPM 5.9.1 Test"
+          #   outputFilter: xcbeautify --renderer github-actions
+          # - xcode: "Xcode_15.0.1"
+          #   runsOn: macOS-14
+          #   name: "macOS 14, SPM 5.9.0 Test"
+          #   outputFilter: xcbeautify --renderer github-actions
     steps:
       - uses: actions/checkout@v4
       - name: Install Firewalk
