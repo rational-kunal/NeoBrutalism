@@ -20,8 +20,7 @@ concurrency:
   group: ${{ github.ref_name }}
   cancel-in-progress: true
 
-# Keep this up to date with https://github.com/NeoBrutalism/NeoBrutalism/blob/main/.github/workflows/ci.yml
-# And also https://github.com/Alamofire/Alamofire/blob/master/.github/workflows/ci.yml
+# Refer https://github.com/Alamofire/Alamofire/blob/master/.github/workflows/ci.yml
 jobs:
   SPM:
     name: ${{ matrix.name }}
@@ -33,13 +32,21 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - xcode: "Xcode_15.4"
+          - xcode: "Xcode_16.1"
             runsOn: firebreak
+            name: "macOS 14, SPM 6.0.2 Test"
+            outputFilter: xcbeautify --renderer github-actions
+          - xcode: "Xcode_16.0"
+            runsOn: firebreak
+            name: "macOS 14, SPM 6.0 Test"
+            outputFilter: xcbeautify --renderer github-actions
+          - xcode: "Xcode_15.4"
+            runsOn: macOS-14
             name: "macOS 14, SPM 5.10 Test"
             outputFilter: xcbeautify --renderer github-actions
           - xcode: "Xcode_15.2"
-            runsOn: firebreak
-            name: "macOS 13, SPM 5.9.2 Test"
+            runsOn: macOS-14
+            name: "macOS 14, SPM 5.9.2 Test"
             outputFilter: xcbeautify --renderer github-actions
           - xcode: "Xcode_15.1"
             runsOn: macOS-14
@@ -49,40 +56,9 @@ jobs:
             runsOn: macOS-14
             name: "macOS 14, SPM 5.9.0 Test"
             outputFilter: xcbeautify --renderer github-actions
-          - xcode: "Xcode_14.3.1"
-            runsOn: macOS-13
-            name: "macOS 13, SPM 5.8.0 Test"
-            outputFilter: xcbeautify --renderer github-actions
-          - xcode: "Xcode_14.2"
-            runsOn: macOS-12
-            name: "macOS 12, SPM 5.7.2 Test"
-            outputFilter: xcpretty
-          - xcode: "Xcode_14.1"
-            runsOn: macOS-12
-            name: "macOS 12, SPM 5.7.1 Test"
-            outputFilter: xcpretty
     steps:
       - uses: actions/checkout@v4
       - name: Install Firewalk
         run: brew install alamofire/alamofire/firewalk || brew upgrade alamofire/alamofire/firewalk xcbeautify && firewalk &
       - name: Test SPM
         run: swift test -c debug | ${{ matrix.outputFilter }}
-  CodeQL:
-    name: Analyze with CodeQL
-    runs-on: macOS-13
-    env:
-      DEVELOPER_DIR: "/Applications/Xcode_14.3.1.app/Contents/Developer"
-    timeout-minutes: 10
-    steps:
-      - name: Clone
-        uses: actions/checkout@v4
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
-        with:
-          languages: swift
-      - name: Build macOS
-        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project "Alamofire.xcodeproj" -scheme "Alamofire macOS" -destination "platform=macOS" clean build | xcpretty
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
-        with:
-          category: "/language:swift"
