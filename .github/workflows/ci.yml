@@ -61,4 +61,4 @@ jobs:
       - name: Install Firewalk
         run: brew install alamofire/alamofire/firewalk || brew upgrade alamofire/alamofire/firewalk xcbeautify && firewalk &
       - name: Test SPM
-        run: swift test -c debug | ${{ matrix.outputFilter }}
+        run: set -o pipefail && swift test -c debug 2>&1 | ${{ matrix.outputFilter }}
