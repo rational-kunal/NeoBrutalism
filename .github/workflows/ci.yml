@@ -61,19 +61,13 @@ jobs:
             -parallel-testing-enabled YES \
             clean test > build.log
       
-      - name: Find and upload snapshot images
+      - name: Upload failed snapshots
         if: always()
-        run: |
-          mkdir -p snapshot_artifacts
-          find /Users/runner/Library/Developer/XCTestDevices -type f -name "*.png" -exec cp {} snapshot_artifacts/ \;
-        shell: bash
-
-      - name: Upload snapshot artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: snapshot-images-${{ matrix.name }}
-          path: snapshot_artifacts
-
+          name: snapshot-failures-${{ matrix.name }}
+          path: |
+            /Users/runner/Library/Developer/XCTestDevices/**/data/tmp/**/*.png
 
       - name: Upload xcresult bundle
         uses: actions/upload-artifact@v4
@@ -86,7 +80,6 @@ jobs:
         with:
           name: ${{ matrix.name }}-build-log
           path: build.log
-
 
       - name: Archive Logs on Failure
         if: failure()
