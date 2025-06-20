@@ -59,15 +59,7 @@ jobs:
             -resultBundlePath "test_output/${{ matrix.name }}.xcresult" \
             -enableCodeCoverage YES \
             -parallel-testing-enabled YES \
-            clean test > build.log
-      
-      - name: Upload failed snapshots
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: snapshot-failures-${{ matrix.name }}
-          path: |
-            /Users/runner/Library/Developer/XCTestDevices/**/data/tmp/**/*.png
+            clean test > build.log || true
 
       - name: Upload xcresult bundle
         uses: actions/upload-artifact@v4
@@ -80,6 +72,14 @@ jobs:
         with:
           name: ${{ matrix.name }}-build-log
           path: build.log
+
+      - name: Upload failed snapshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: snapshot-failures-${{ matrix.name }}
+          path: |
+            /Users/runner/Library/Developer/XCTestDevices/**/data/tmp/**/*.png
 
       - name: Archive Logs on Failure
         if: failure()
