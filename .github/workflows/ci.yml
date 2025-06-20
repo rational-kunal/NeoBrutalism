@@ -76,6 +76,7 @@ jobs:
       - name: Find and upload snapshot images
         run: |
           mkdir -p snapshot_artifacts
+          ls /Users/runner/Library/Developer/XCTestDevices
           find /Users/runner/Library/Developer/XCTestDevices -type f -name "*.png" -exec cp {} snapshot_artifacts/ \;
         shell: bash
 
