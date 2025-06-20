@@ -73,13 +73,17 @@ jobs:
           name: ${{ matrix.name }}-build-log
           path: build.log
 
-      - name: Upload failed snapshots
-        if: always()
+      - name: Find and upload snapshot images
+        run: |
+          mkdir -p snapshot_artifacts
+          find /Users/runner/Library/Developer/XCTestDevices -type f -name "*.png" -exec cp {} snapshot_artifacts/ \;
+        shell: bash
+
+      - name: Upload snapshot artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: snapshot-failures-${{ matrix.name }}
-          path: |
-            /Users/runner/Library/Developer/XCTestDevices/**/data/tmp/**/*.png
+          name: snapshot-images-${{ matrix.name }}
+          path: snapshot_artifacts
 
       - name: Archive Logs on Failure
         if: failure()
