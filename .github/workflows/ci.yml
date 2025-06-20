@@ -49,18 +49,8 @@ jobs:
           defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidatation -bool YES
           defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
       - name: ${{ matrix.name }}
-        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -scheme "NeoBrutalism" -destination "${{ matrix.destination }}" test 2>&1 | xcbeautify --renderer github-actions
-    
-      - name: Save xcodebuild output
-        run: |
-          set -o pipefail && env NSUnbufferedIO=YES xcodebuild -scheme "NeoBrutalism" \
-          -destination "${{ matrix.destination }}" test > build.log
+        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -scheme "NeoBrutalism" -destination "${{ matrix.destination }}" test > build.log | xcbeautify --renderer github-actions
 
-      - name: Upload build.log
-        uses: actions/upload-artifact@v4
-        with:
-          name: xcodebuild-log
-          path: build.log
 
       - name: Archive Logs on Failure
         if: failure()
