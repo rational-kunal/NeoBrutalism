@@ -37,7 +37,7 @@ jobs:
           #   testPlan: "iOS"
           #   xcode: "Xcode_16.1"
           #   runsOn: macOS-15
-          - destination: "OS=18.0,name=iPhone 16 Pro"
+          - destination: "OS=18.0,name=iPhone 16"
             name: "iOS 18.0"
             testPlan: "iOS"
             xcode: "Xcode_16.0"
@@ -87,7 +87,6 @@ jobs:
           path: snapshot_artifacts
 
       - name: Archive Logs on Failure
-        if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: xcodebuild-logs
