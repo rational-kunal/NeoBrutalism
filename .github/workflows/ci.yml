@@ -85,7 +85,7 @@ jobs:
         run: |
           mkdir -p snapshot_artifacts
           ls ~/work/NeoBrutalism/NeoBrutalism/Tests/NeoBrutalismTests/__Snapshots__
-          find /work/NeoBrutalism/NeoBrutalism/Tests/NeoBrutalismTests/__Snapshots__ -type f -name "*.png" -exec cp {} snapshot_artifacts/ \;
+          find ~/work/NeoBrutalism/NeoBrutalism/Tests/NeoBrutalismTests/__Snapshots__ -type f -name "*.png" -exec cp {} snapshot_artifacts/ \;
         shell: bash
 
       - name: Upload snapshot artifacts
