@@ -37,7 +37,7 @@ jobs:
           #   testPlan: "iOS"
           #   xcode: "Xcode_16.1"
           #   runsOn: macOS-15
-          - destination: "OS=18.5,name=iPhone 16"
+          - destination: "OS=18.5,name=iPhone 16 Pro"
             name: "iOS 18.5"
             testPlan: "iOS"
             xcode: "Xcode_16.0"
