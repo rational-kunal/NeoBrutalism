@@ -51,7 +51,7 @@ jobs:
           xcrun simctl boot "iPhone 16"
           xcrun simctl list
       
-          - name: Disable macro validation
+      - name: Disable macro validation
         run: |
           defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidatation -bool YES
           defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
