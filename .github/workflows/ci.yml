@@ -66,6 +66,7 @@ jobs:
             -resultBundlePath "test_output/${{ matrix.name }}.xcresult" \
             -enableCodeCoverage YES \
             -parallel-testing-enabled YES \
+            CODE_SIGNING_ALLOWED=NO \
             clean test > build.log || true
 
       - name: Upload xcresult bundle
