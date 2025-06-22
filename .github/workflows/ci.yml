@@ -37,7 +37,7 @@ jobs:
           #   testPlan: "iOS"
           #   xcode: "Xcode_16.1"
           #   runsOn: macOS-15
-          - destination: "OS=18.5,name=iPhone 16 Pro"
+          - destination: "OS=18.5,name=iPhone 16"
             name: "iOS 18.5"
             testPlan: "iOS"
             xcode: "Xcode_16.0"
@@ -84,10 +84,8 @@ jobs:
       - name: Find and upload snapshot images
         run: |
           mkdir -p snapshot_artifacts
-          ls ~/Library
-          ls ~/Library/Developer
-          ls ~/Library/Developer/XCTestDevices
-          find ~/Library/Developer/XCTestDevices -type f -name "*.png" -exec cp {} snapshot_artifacts/ \;
+          ls ~/work/NeoBrutalism/NeoBrutalism/Tests/NeoBrutalismTests/__Snapshots__
+          find /work/NeoBrutalism/NeoBrutalism/Tests/NeoBrutalismTests/__Snapshots__ -type f -name "*.png" -exec cp {} snapshot_artifacts/ \;
         shell: bash
 
       - name: Upload snapshot artifacts

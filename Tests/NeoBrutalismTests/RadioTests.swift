@@ -3,7 +3,7 @@ import SnapshotTestingMacros
 import SwiftUI
 import Testing
 
-@Suite @SnapshotSuite @MainActor
+@Suite @SnapshotSuite(.record) @MainActor
 struct RadioTests {
     // MARK: - Radio Group
 
