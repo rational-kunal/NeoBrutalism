@@ -16,7 +16,7 @@ struct RadioTests {
             NBRadioItem(value: 1) {
                 Text("Second")
             }
-        }
+        }.fixedSize()
     }
 
     @SnapshotTest(.padding(4.0), .backgroundColor(NBTheme.default.background))
@@ -28,7 +28,7 @@ struct RadioTests {
             NBRadioItem(value: 1) {
                 Text("Second")
             }
-        }
+        }.fixedSize()
     }
 
     // MARK: - Radio Group with Label
@@ -47,7 +47,7 @@ struct RadioTests {
             NBRadioItem(value: 2) {
                 Text("Option C")
             }
-        }
+        }.fixedSize()
     }
 
     // MARK: - Radio Item Standalone
@@ -57,6 +57,7 @@ struct RadioTests {
         NBRadioItem(value: 0) {
             Text("Standalone")
         }
+        .fixedSize()
         .environment(\.nbSelectedRadioItemValue, 0)
     }
 
@@ -65,6 +66,7 @@ struct RadioTests {
         NBRadioItem(value: 1) {
             Text("Standalone")
         }
+        .fixedSize()
         .environment(\.nbSelectedRadioItemValue, 0)
     }
 }
