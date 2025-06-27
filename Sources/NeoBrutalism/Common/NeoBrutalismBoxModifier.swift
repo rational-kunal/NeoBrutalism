@@ -17,7 +17,7 @@ struct NBBoxModifier: ViewModifier {
             )
             .overlay(
                 RoundedRectangle(cornerRadius: theme.borderRadius)
-                    .stroke(Color.black, lineWidth: theme.borderWidth)
+                    .stroke(theme.border, lineWidth: theme.borderWidth)
             )
     }
 }
