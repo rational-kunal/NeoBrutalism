@@ -72,8 +72,8 @@ NeoBrutalism includes commonly used UI components, with plans to expand as neede
 
 ### Checkbox
 <p float="left">
-    <img width="350" alt="Screenshot 2025-03-29 at 10 48 59 PM" src="https://github.com/user-attachments/assets/0239f56e-c375-4e3b-9c04-05788350e266" />
-<img width="350" alt="image" src="https://github.com/user-attachments/assets/62019831-1f62-464e-abb0-5d505080c8c3" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/0239f56e-c375-4e3b-9c04-05788350e266" loading="lazy" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/62019831-1f62-464e-abb0-5d505080c8c3" loading="lazy" />
 <p>
 
 ```swift
@@ -83,9 +83,9 @@ Toggle(isOn: $checkboxState) { Text(checkboxState ? "(Alohomora!)" : "(Colloport
 
 ### Switch
 <p float="left">
-<img width="350" alt="image" src="https://github.com/user-attachments/assets/8eae5d33-bb2d-4d63-aace-478e64b40d30" />
-  <br />
-<img width="350" alt="image" src="https://github.com/user-attachments/assets/2b16dd43-ab86-42a2-b943-917c59598819" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/8eae5d33-bb2d-4d63-aace-478e64b40d30" loading="lazy" />
+    <br />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/2b16dd43-ab86-42a2-b943-917c59598819" loading="lazy" />
 </p>
 
 ```swift
@@ -94,22 +94,20 @@ Toggle(isOn: $switchState) { Text(switchState ? "(Lumos!)" : "(Nox!)") }
 ```
 ### Accordion
 <p float="left">
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/c714c277-734f-4195-90f1-9eff86aa767a" />
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/fc1fd621-2764-4a6a-a0fb-b9034e0197d3" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/c714c277-734f-4195-90f1-9eff86aa767a" loading="lazy" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/fc1fd621-2764-4a6a-a0fb-b9034e0197d3" loading="lazy" />
 <p>
 
 ```swift
-NBAccordion {
-    Text("Piertotum Locomotor")
-} content: {
-    Text("Pratimo Jeevit Bhavh - प्रतिमा जीवित भाव")
-}
+DisclosureGroup("Expecto Patronum") {
+    Text("Pitradev Sanrakshanam - पितृदेव संरक्षणम्")
+}.disclosureGroupStyle(.neoBrutalismAccordion)
 ```
 
 ### Button
 <p>
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/9852326a-cb3c-439b-8a2d-dd05398c38e6" />
-    <img width="350" alt="Screenshot 2025-03-29 at 11 11 08 PM" src="https://github.com/user-attachments/assets/85079e19-e62d-42e2-82de-b38ce2647327" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/9852326a-cb3c-439b-8a2d-dd05398c38e6" loading="lazy" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/85079e19-e62d-42e2-82de-b38ce2647327" loading="lazy" />
 <br />
 
 </p>
@@ -132,8 +130,8 @@ Button {
 ### Card
 
 <p>
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/d5c57136-fc6e-4494-bb61-2e25838ec8e3" />
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/63137542-48aa-4903-8c5c-6fb1112c10e7" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/d5c57136-fc6e-4494-bb61-2e25838ec8e3" loading="lazy" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/63137542-48aa-4903-8c5c-6fb1112c10e7" loading="lazy" />
 <br />
 
 ```swift
@@ -142,10 +140,11 @@ NBCard {
 } main: {
     Text("You have been accepted to Hogwarts School of Witchcraft and Wizardry!")
 } footer: {
-    NBButton {
-        Text("Open Letter")
-            .frame(maxWidth: .infinity)
-    } action: {}
+    Button {
+        // No-op
+    } label: {
+        Text("Open Letter").frame(maxWidth: .infinity)
+    }.buttonStyle(.neoBrutalism())
 }
 
 NBCard(type: .neutral) {
@@ -154,13 +153,19 @@ NBCard(type: .neutral) {
     Text("Get your broomstick, Quidditch robes, and golden snitch!")
 } footer: {
     HStack(spacing: 12.0) {
-        NBButton(type: .neutral) {
-            Text("Firebolt")
-        } action: {}
+        Button {
+            // No-op
+        } label: {
+            Text("Open Firebolt")
+        }.buttonStyle(.neoBrutalism(type: .neutral))
+
         Spacer()
-        NBButton {
+
+        Button {
+            // No-op
+        } label: {
             Text("Snitch")
-        } action: {}
+        }.buttonStyle(.neoBrutalism())
     }
 }
 ```
@@ -168,8 +173,8 @@ NBCard(type: .neutral) {
 ### Input
 
 <p>
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/db0039d9-f5bd-4963-9054-e9ac18e8698b" />
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/f2379fae-d46b-42b7-89b2-ceb670c63c35" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/db0039d9-f5bd-4963-9054-e9ac18e8698b" loading="lazy" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/f2379fae-d46b-42b7-89b2-ceb670c63c35" loading="lazy" />
 </p>
 
 ```swift
@@ -180,9 +185,9 @@ TextField("Enter your spell", text: $text)
 ### Progress
 
 <p>
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/6f6c3ba2-4afc-450b-8b18-a7cb4d278394" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/6f6c3ba2-4afc-450b-8b18-a7cb4d278394" loading="lazy" />
     <br />
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/ddcdcc4c-2df3-411f-981c-45b81dbfd864" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/ddcdcc4c-2df3-411f-981c-45b81dbfd864" loading="lazy" />
 </p>
 
 ```
@@ -193,9 +198,9 @@ ProgressView(value: 0.7)
 ### Slider
 
 <p>
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/cd674947-b9ce-482f-ac4f-1dcfa7ba2279" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/cd674947-b9ce-482f-ac4f-1dcfa7ba2279" loading="lazy" />
     <br />
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/51924255-eaec-4de2-98b3-f78e52b0d2cb" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/51924255-eaec-4de2-98b3-f78e52b0d2cb" loading="lazy" />
 </p>
 
 ```swift
@@ -215,8 +220,8 @@ struct SliderExampleView: View {
 ### Radio
 
 <p>
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/5c87337e-c49a-4d80-8718-f5a702d28f82" />
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/9d9ea612-3f25-465d-a14f-39bdc2359881" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/5c87337e-c49a-4d80-8718-f5a702d28f82" loading="lazy" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/9d9ea612-3f25-465d-a14f-39bdc2359881" loading="lazy" />
 </p>
 
 ```swift
@@ -248,8 +253,8 @@ struct RadioGroupExampleView: View {
 
 ### Tabs
 <p>
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/fab71387-fa01-4db4-af93-c78d55fb3432" />
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/e2cb642a-dde3-4ca8-a268-1b2375a6200c" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/fab71387-fa01-4db4-af93-c78d55fb3432" loading="lazy" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/e2cb642a-dde3-4ca8-a268-1b2375a6200c" loading="lazy" />
 </p>
 
 ```swift
@@ -286,8 +291,8 @@ struct TabsExampleView: View {
 ### Collapsable
 
 <p>
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/3227440a-06bc-4631-a6fc-bbdc223d9739" />
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/bc0b5c7f-ce19-499a-aaac-78505bf67166" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/3227440a-06bc-4631-a6fc-bbdc223d9739" loading="lazy" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/bc0b5c7f-ce19-499a-aaac-78505bf67166" loading="lazy" />
 </p>
 
 ```swift
@@ -312,8 +317,8 @@ NBCollapsable(isExpanded: $isExpanded) {
 ### Drawer
 
 <p>
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/ff97b5c8-e6d7-417b-b2ba-f2f547244906" />
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/81f65e76-9eab-4680-bc68-d045044fc2e9" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/ff97b5c8-e6d7-417b-b2ba-f2f547244906" loading="lazy" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/81f65e76-9eab-4680-bc68-d045044fc2e9" loading="lazy" />
 </p>
 
 ```swift
@@ -350,8 +355,8 @@ struct DrawerExampleView: View {
 ### Flat Card
 
 <p>
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/d9a8e2b5-2522-47b5-885f-00d57504e4fa" />
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/1103942e-519c-4813-8a01-60f1a653ce18" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/d9a8e2b5-2522-47b5-885f-00d57504e4fa" loading="lazy" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/1103942e-519c-4813-8a01-60f1a653ce18" loading="lazy" />
 </p>
 
 ```swift
@@ -366,8 +371,8 @@ NBFlatCard(type: .neutral) {
 
 ### Alert
 <p float="left">
-<img width="350" alt="image" src="https://github.com/user-attachments/assets/99f5328a-205c-4a25-b2b1-be3a1dbc5830" />
-<img width="350" alt="image" src="https://github.com/user-attachments/assets/6d630714-e48d-4f3d-af1a-366e8defc2a4" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/99f5328a-205c-4a25-b2b1-be3a1dbc5830" loading="lazy" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/6d630714-e48d-4f3d-af1a-366e8defc2a4" loading="lazy" />
 <p />
 
 ```swift
@@ -389,9 +394,9 @@ NBAlert(type: .neutral) {
 ### Badge
 
 <p>
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/6367d01d-c33f-40bb-961e-6beefd496efe" />
-<br />
-<img width="350" alt="image" src="https://github.com/user-attachments/assets/03d84111-83c1-4167-be1b-2bc7a5056a77" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/6367d01d-c33f-40bb-961e-6beefd496efe" loading="lazy" />
+    <br />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/03d84111-83c1-4167-be1b-2bc7a5056a77" loading="lazy" />
 </p>
 
 ```swift
@@ -407,9 +412,9 @@ NBBadge(type: .neutral) {
 ### Round Skeleton
 
 <p>
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/3b031329-fcff-4da5-9755-2d3c59e7d6aa" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/3b031329-fcff-4da5-9755-2d3c59e7d6aa" loading="lazy" />
     <br />
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/c7a41ae0-9d0b-4737-8e79-513edea7df3d" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/c7a41ae0-9d0b-4737-8e79-513edea7df3d" loading="lazy" />
 </p>
 
 ```swift
@@ -421,8 +426,8 @@ NBFlatCard {
 
 ### Text Skeleton
 <p>
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/0235262d-5f2c-4611-bce4-a7b73709b104" />
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/43d32664-4d57-45a3-8de2-05f8885c7613" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/0235262d-5f2c-4611-bce4-a7b73709b104" loading="lazy" />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/43d32664-4d57-45a3-8de2-05f8885c7613" loading="lazy" />
 </p>
 
 ```swift
