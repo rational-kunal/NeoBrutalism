@@ -1,27 +1,5 @@
 import SwiftUI
 
-public struct NBRadioIndicator: View {
-    @Environment(\.nbTheme) var theme: NBTheme
-
-    let selected: Bool
-
-    public var body: some View {
-        ZStack {
-            Circle()
-                .stroke(theme.border, lineWidth: theme.borderWidth)
-                .frame(width: theme.size, height: theme.size)
-
-            if selected {
-                let innerCircleSize = theme.size - 4 * theme.borderWidth
-
-                Circle()
-                    .fill(theme.text)
-                    .frame(width: innerCircleSize, height: innerCircleSize)
-            }
-        }
-    }
-}
-
 public struct NBRadioItem<Label>: View where Label: View {
     @Environment(\.nbTheme) var theme: NBTheme
     @Environment(\.nbSelectedRadioItemValue) var selectedRadioItemValue: AnyEquatable?
@@ -66,5 +44,13 @@ public struct NBRadioItem<Label>: View where Label: View {
         NBRadioItem(value: 0) {
             Text("Radio Item")
         }
+
+        Toggle(isOn: .constant(false)) {
+            Text("Radio Item")
+        }.toggleStyle(.neoBrutalismRadio)
+
+        Toggle(isOn: .constant(true)) {
+            Text("Radio Item")
+        }.toggleStyle(.neoBrutalismRadio)
     }
 }
