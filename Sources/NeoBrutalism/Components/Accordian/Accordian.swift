@@ -1,5 +1,6 @@
 import SwiftUI
 
+@available(*, deprecated, message: "Use DisclosureGroup with DisclosureGroupStyle.neoBrutalismAccordion instead")
 public struct NBAccordion<Trigger, Content>: View where Trigger: View, Content: View {
     @Environment(\.nbTheme) var theme: NBTheme
 
@@ -78,6 +79,10 @@ extension NBAccordion {
         } content: {
             Text("Pitradev Sanrakshanam - पितृदेव संरक्षणम्")
         }
+
+        DisclosureGroup("Expecto Patronum") {
+            Text("Pitradev Sanrakshanam - पितृदेव संरक्षणम्")
+        }.disclosureGroupStyle(.neoBrutalismAccordion)
 
     }.padding()
 }
