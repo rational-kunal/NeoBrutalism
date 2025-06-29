@@ -77,4 +77,24 @@ struct RadioTests {
         .environment(\.nbSelectedRadioItemValue, 0)
         .background(Color.orange)
     }
+
+    @SnapshotTest(.padding(4.0), .sizes(.minimum), .backgroundColor(NBTheme.default.background))
+    func radioItem_text_4() -> some View {
+        Text("4.0")
+    }
+
+    @SnapshotTest(.padding(8.0), .sizes(.minimum), .backgroundColor(NBTheme.default.background))
+    func radioItem_text_8() -> some View {
+        Text("8.0")
+    }
+
+    @SnapshotTest(.padding(2.0), .sizes(.minimum), .backgroundColor(NBTheme.default.background))
+    func radioItem_text_2() -> some View {
+        Text("2.0")
+    }
+
+    @SnapshotTest(.sizes(.minimum), .backgroundColor(NBTheme.default.background))
+    func radioItem_text_no() -> some View {
+        Text("bo")
+    }
 }
