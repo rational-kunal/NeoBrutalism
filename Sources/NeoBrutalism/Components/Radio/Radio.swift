@@ -7,7 +7,6 @@ extension EnvironmentValues {
 
 typealias NBRadioItemDidSelect = (AnyEquatable) -> Void
 public struct NBRadioGroup<Content, ValueType>: View where Content: View, ValueType: Equatable {
-
     @Environment(\.nbTheme) var theme: NBTheme
 
     @Binding var value: AnyEquatable
@@ -33,6 +32,7 @@ public struct NBRadioGroup<Content, ValueType>: View where Content: View, ValueT
         VStack(alignment: .leading, spacing: theme.smspacing) {
             content
         }
+        .padding(0)
         .environment(\.nbSelectedRadioItemValue, value)
         .environment(\.nbRadioItemDidSelect) { value in
             self.value = value
