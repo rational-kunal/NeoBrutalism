@@ -3,7 +3,7 @@ import SwiftUI
 public struct NBRadioItem<Label>: View where Label: View {
     @Environment(\.nbTheme) var theme: NBTheme
     @Environment(\.nbSelectedRadioItemValue) var selectedRadioItemValue: AnyEquatable?
-    @Environment(\.nbRadioItemDidSelect) var radioItemDidSelect: NBRadioGroup.RadioItemDidSelect
+    @Environment(\.nbRadioItemDidSelect) var radioItemDidSelect: NBRadioItemDidSelect
 
     var value: AnyEquatable
     var selected: Bool {
@@ -27,6 +27,7 @@ public struct NBRadioItem<Label>: View where Label: View {
         HStack(spacing: theme.smspacing) {
             NBRadioIndicator(selected: selected)
             label
+                .background(Color.yellow)
         }
         .contentShape(Rectangle())
         .onTapGesture {
@@ -34,6 +35,7 @@ public struct NBRadioItem<Label>: View where Label: View {
                 radioItemDidSelect(value)
             }
         }
+        .background(Color.blue)
     }
 }
 

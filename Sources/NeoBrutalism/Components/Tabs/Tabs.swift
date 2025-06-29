@@ -1,12 +1,12 @@
 import SwiftUI
 
 extension EnvironmentValues {
-    @Entry var nbTabItemDidSelect: NBTabs.TabItemDidSelect = { _ in }
+    @Entry var nbTabItemDidSelect: NBTabItemDidSelect = { _ in }
     @Entry var nbSelectedTabItem: AnyEquatable? = nil
 }
 
+typealias NBTabItemDidSelect = (AnyEquatable) -> Void
 public struct NBTabs<Content: View, ValueType: Equatable>: View {
-    typealias TabItemDidSelect = (AnyEquatable) -> Void
 
     @Environment(\.nbTheme) private var theme: NBTheme
     @Binding private var selectedTabItem: AnyEquatable
