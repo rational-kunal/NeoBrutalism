@@ -27,6 +27,7 @@ public struct NBRadioItem<Label>: View where Label: View {
         HStack(spacing: theme.smspacing) {
             NBRadioIndicator(selected: selected)
             label
+                .background(Color.yellow)
         }
         .contentShape(Rectangle())
         .onTapGesture {
@@ -34,6 +35,7 @@ public struct NBRadioItem<Label>: View where Label: View {
                 radioItemDidSelect(value)
             }
         }
+        .background(Color.blue)
     }
 }
 
