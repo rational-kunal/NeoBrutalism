@@ -31,14 +31,11 @@ public struct NBRadioGroup<Content, ValueType>: View where Content: View, ValueT
     public var body: some View {
         VStack(alignment: .leading, spacing: theme.smspacing) {
             content
-                .background(Color.yellow)
         }
-        .padding(0)
         .environment(\.nbSelectedRadioItemValue, value)
         .environment(\.nbRadioItemDidSelect) { value in
             self.value = value
         }
-        .background(Color.blue)
     }
 }
 

@@ -15,7 +15,7 @@ struct NBButtonStyleTests {
 
     @SnapshotTest(.padding(16.0), .backgroundColor(NBTheme.default.background))
     func button_default_pressed_reverse() -> some View {
-        Button("Default") {} // TODO: This should fail
+        Button("Default Reverse") {}
             .buttonStyle(.neoBrutalism(variant: .reverse))
     }
 
