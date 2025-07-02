@@ -78,3 +78,29 @@ struct RadioTests {
         .background(Color.orange)
     }
 }
+
+let adaptiveColor: Color = {
+    if #available(iOS 15.0, *) {
+        return Color(UIColor(dynamicProvider: { collection in
+            if collection.userInterfaceStyle == .dark { .darkGray }
+            else { .cyan }
+        }))
+    }
+    return Color.secondary
+}()
+
+enum SnapshotTest {
+    @Suite
+    @SnapshotSuite(.record)
+    struct SwiftUI {
+        @SnapshotTest()
+        func swiftUiView() -> some View {
+            Text("Some SwiftUI text")
+        }
+
+        @SnapshotTest(.backgroundColor(adaptiveColor))
+        func swiftUiView_background() -> some View {
+            Text("Some SwiftUI text")
+        }
+    }
+}

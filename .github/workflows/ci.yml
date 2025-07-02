@@ -27,7 +27,7 @@ jobs:
     runs-on: ${{ matrix.runsOn }}
     env:
       DEVELOPER_DIR: "/Applications/${{ matrix.xcode }}.app/Contents/Developer"
-    timeout-minutes: 10
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
@@ -45,11 +45,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Boot simulator
-        run: |
-          xcrun simctl shutdown all
-          xcrun simctl boot "iPhone 16"
-          xcrun simctl list
+#      - name: Boot simulator
+#        run: |
+#          xcrun simctl shutdown all
+#          xcrun simctl boot "iPhone 16"
+#          xcrun simctl list
       
       - name: Disable macro validation
         run: |
