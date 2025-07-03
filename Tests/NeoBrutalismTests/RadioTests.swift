@@ -17,6 +17,8 @@ struct RadioTests {
                 Text("Second")
             }
         }
+        .fixedSize()
+        .background(Color.orange)
     }
 
     @SnapshotTest(.padding(4.0), .backgroundColor(NBTheme.default.background))
@@ -29,6 +31,8 @@ struct RadioTests {
                 Text("Second")
             }
         }
+        .fixedSize()
+        .background(Color.orange)
     }
 
     // MARK: - Radio Group with Label
@@ -48,6 +52,8 @@ struct RadioTests {
                 Text("Option C")
             }
         }
+        .fixedSize()
+        .background(Color.orange)
     }
 
     // MARK: - Radio Item Standalone
@@ -57,7 +63,9 @@ struct RadioTests {
         NBRadioItem(value: 0) {
             Text("Standalone")
         }
+        .fixedSize()
         .environment(\.nbSelectedRadioItemValue, 0)
+        .background(Color.orange)
     }
 
     @SnapshotTest(.padding(4.0), .backgroundColor(NBTheme.default.background))
@@ -65,6 +73,34 @@ struct RadioTests {
         NBRadioItem(value: 1) {
             Text("Standalone")
         }
+        .fixedSize()
         .environment(\.nbSelectedRadioItemValue, 0)
+        .background(Color.orange)
+    }
+}
+
+let adaptiveColor: Color = {
+    if #available(iOS 15.0, *) {
+        return Color(UIColor(dynamicProvider: { collection in
+            if collection.userInterfaceStyle == .dark { .darkGray }
+            else { .cyan }
+        }))
+    }
+    return Color.secondary
+}()
+
+enum SnapshotTest {
+    @Suite
+    @SnapshotSuite(.record)
+    struct SwiftUI {
+        @SnapshotTest()
+        func swiftUiView() -> some View {
+            Text("Some SwiftUI text")
+        }
+
+        @SnapshotTest(.backgroundColor(adaptiveColor))
+        func swiftUiView_background() -> some View {
+            Text("Some SwiftUI text")
+        }
     }
 }

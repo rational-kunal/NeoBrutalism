@@ -47,20 +47,20 @@ struct SwitchTests {
     func switchWithLabel_on_disabled() -> some View {
         Toggle(isOn: .constant(true)) { Text("Switch") }
             .disabled(true)
-            .toggleStyle(.nbSwitch)
+            .toggleStyle(.neoBrutalismSwitch)
     }
 
     @SnapshotTest(.padding(4.0), .backgroundColor(NBTheme.default.background))
     func switchWithLabel_off() -> some View {
         Toggle(isOn: .constant(false)) { Text("Switch") }
-            .toggleStyle(.nbSwitch)
+            .toggleStyle(.neoBrutalismSwitch)
     }
 
     @SnapshotTest(.padding(4.0), .backgroundColor(NBTheme.default.background))
     func switchWithLabel_off_disabled() -> some View {
         Toggle(isOn: .constant(false)) { Text("Switch") }
             .disabled(true)
-            .toggleStyle(.nbSwitch)
+            .toggleStyle(.neoBrutalismSwitch)
     }
 
     // MARK: - Switch with large label
@@ -68,6 +68,6 @@ struct SwitchTests {
     @SnapshotTest(.padding(4.0), .backgroundColor(NBTheme.default.background))
     func switchWithLargeLabel() -> some View {
         Toggle(isOn: .constant(true)) { Text("Switch").font(.largeTitle) }
-            .toggleStyle(.nbSwitch)
+            .toggleStyle(.neoBrutalismSwitch)
     }
 }

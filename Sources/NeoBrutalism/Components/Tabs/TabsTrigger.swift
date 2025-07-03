@@ -3,7 +3,7 @@ import SwiftUI
 public struct NBTabsTrigger<Label: View>: View {
     @Environment(\.nbTheme) private var theme: NBTheme
     @Environment(\.nbSelectedTabItem) private var selectedTabItem: AnyEquatable?
-    @Environment(\.nbTabItemDidSelect) private var tabsItemDidSelect: NBTabs.TabItemDidSelect
+    @Environment(\.nbTabItemDidSelect) private var tabsItemDidSelect: NBTabItemDidSelect
 
     let tabItem: AnyEquatable
     let label: Label
