@@ -5,7 +5,7 @@ import Testing
 
 @Suite @SnapshotSuite @MainActor
 struct CardTests {
-    @SnapshotTest(.padding(16.0), .backgroundColor(NBTheme.default.background), .sizes(width: .fixed(300.0)))
+    @SnapshotTest(.sizes(width: .fixed(300.0)))
     func card_default_full() -> some View {
         NBCard {
             Text("Default Header")
@@ -14,9 +14,10 @@ struct CardTests {
         } footer: {
             Text("Footer information.")
         }
+        .prettifyForTest()
     }
 
-    @SnapshotTest(.padding(16.0), .backgroundColor(NBTheme.default.background), .sizes(width: .fixed(300.0)))
+    @SnapshotTest(.sizes(width: .fixed(300.0)))
     func card_neutral_full() -> some View {
         NBCard(type: .neutral) {
             Text("Neutral Header")
@@ -25,16 +26,18 @@ struct CardTests {
         } footer: {
             Text("Footer")
         }
+        .prettifyForTest()
     }
 
-    @SnapshotTest(.padding(16.0), .backgroundColor(NBTheme.default.background), .sizes(width: .fixed(300.0)))
+    @SnapshotTest(.sizes(width: .fixed(300.0)))
     func card_only_main() -> some View {
         NBCard {
             Text("Card with only main content")
         }
+        .prettifyForTest()
     }
 
-    @SnapshotTest(.padding(16.0), .backgroundColor(NBTheme.default.background), .sizes(width: .fixed(300.0)))
+    @SnapshotTest(.sizes(width: .fixed(300.0)))
     func card_with_long_content() -> some View {
         NBCard {
             Text("Header")
@@ -43,9 +46,10 @@ struct CardTests {
         } footer: {
             Text("Footer")
         }
+        .prettifyForTest()
     }
 
-    @SnapshotTest(.padding(16.0), .backgroundColor(NBTheme.default.background), .sizes(width: .fixed(300.0)))
+    @SnapshotTest(.sizes(width: .fixed(300.0)))
     func card_with_icon_in_header() -> some View {
         NBCard {
             HStack {
@@ -57,14 +61,16 @@ struct CardTests {
         } footer: {
             Text("Last updated: just now")
         }
+        .prettifyForTest()
     }
 
-    @SnapshotTest(.padding(16.0), .backgroundColor(NBTheme.default.background), .sizes(width: .fixed(300.0)))
+    @SnapshotTest(.sizes(width: .fixed(300.0)))
     func card_header_and_main_only() -> some View {
         NBCard {
             Text("Header only")
         } main: {
             Text("Body content with no footer")
         }
+        .prettifyForTest()
     }
 }

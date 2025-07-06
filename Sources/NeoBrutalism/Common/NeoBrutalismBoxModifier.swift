@@ -16,7 +16,7 @@ struct NBBoxModifier: ViewModifier {
                 y: elevated ? theme.boxShadowY : 0.0
             )
             .overlay(
-                RoundedRectangle(cornerRadius: theme.borderRadius)
+                RoundedRectangle(cornerRadius: theme.borderRadius, style: .circular)
                     .stroke(theme.border, lineWidth: theme.borderWidth)
             )
     }

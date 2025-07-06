@@ -7,9 +7,8 @@ import Testing
 struct RadioTests {
     // MARK: - Radio Group
 
-    @SnapshotTest(.padding(4.0), .backgroundColor(NBTheme.default.background))
-    func radio_singleSelection_firstSelected() -> some View {
-        return NBRadioGroup(value: .constant(0)) {
+    @SnapshotTest func radio_singleSelection_firstSelected() -> some View {
+        NBRadioGroup(value: .constant(0)) {
             NBRadioItem(value: 0) {
                 Text("First")
             }
@@ -17,13 +16,11 @@ struct RadioTests {
                 Text("Second")
             }
         }
-        .fixedSize()
-        .background(Color.orange)
+        .prettifyForTest()
     }
 
-    @SnapshotTest(.padding(4.0), .backgroundColor(NBTheme.default.background))
-    func radio_singleSelection_secondSelected() -> some View {
-        return NBRadioGroup(value: .constant(1)) {
+    @SnapshotTest func radio_singleSelection_secondSelected() -> some View {
+        NBRadioGroup(value: .constant(1)) {
             NBRadioItem(value: 0) {
                 Text("First")
             }
@@ -31,15 +28,13 @@ struct RadioTests {
                 Text("Second")
             }
         }
-        .fixedSize()
-        .background(Color.orange)
+        .prettifyForTest()
     }
 
     // MARK: - Radio Group with Label
 
-    @SnapshotTest(.padding(4.0), .backgroundColor(NBTheme.default.background))
-    func radio_withLabel() -> some View {
-        return NBRadioGroup(value: .constant(2)) {
+    @SnapshotTest func radio_withLabel() -> some View {
+        NBRadioGroup(value: .constant(2)) {
             Text("Choose an option")
                 .font(.title2)
             NBRadioItem(value: 0) {
@@ -52,55 +47,24 @@ struct RadioTests {
                 Text("Option C")
             }
         }
-        .fixedSize()
-        .background(Color.orange)
+        .prettifyForTest()
     }
 
     // MARK: - Radio Item Standalone
 
-    @SnapshotTest(.padding(4.0), .backgroundColor(NBTheme.default.background))
-    func radioItem_selected() -> some View {
+    @SnapshotTest func radioItem_selected() -> some View {
         NBRadioItem(value: 0) {
             Text("Standalone")
         }
-        .fixedSize()
         .environment(\.nbSelectedRadioItemValue, 0)
-        .background(Color.orange)
+        .prettifyForTest()
     }
 
-    @SnapshotTest(.padding(4.0), .backgroundColor(NBTheme.default.background))
-    func radioItem_unselected() -> some View {
+    @SnapshotTest func radioItem_unselected() -> some View {
         NBRadioItem(value: 1) {
             Text("Standalone")
         }
-        .fixedSize()
         .environment(\.nbSelectedRadioItemValue, 0)
-        .background(Color.orange)
-    }
-}
-
-let adaptiveColor: Color = {
-    if #available(iOS 15.0, *) {
-        return Color(UIColor(dynamicProvider: { collection in
-            if collection.userInterfaceStyle == .dark { .darkGray }
-            else { .cyan }
-        }))
-    }
-    return Color.secondary
-}()
-
-enum SnapshotTest {
-    @Suite
-    @SnapshotSuite(.record)
-    struct SwiftUI {
-        @SnapshotTest()
-        func swiftUiView() -> some View {
-            Text("Some SwiftUI text")
-        }
-
-        @SnapshotTest(.backgroundColor(adaptiveColor))
-        func swiftUiView_background() -> some View {
-            Text("Some SwiftUI text")
-        }
+        .prettifyForTest()
     }
 }
