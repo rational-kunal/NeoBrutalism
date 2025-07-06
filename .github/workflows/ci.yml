@@ -32,24 +32,13 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # - destination: "OS=18.1,name=iPhone 16"
-          #   name: "iOS 18.1"
-          #   testPlan: "iOS"
-          #   xcode: "Xcode_16.1"
-          #   runsOn: macOS-15
-          - destination: "OS=16.0,name=iPhone 16"
-            name: "iOS 16.0"
+          - destination: "OS=18.0,name=iPhone 16"
+            name: "iOS 18.0"
             testPlan: "iOS"
             xcode: "Xcode_16.0"
             runsOn: macOS-15
     steps:
       - uses: actions/checkout@v4
-      
-#      - name: Boot simulator
-#        run: |
-#          xcrun simctl shutdown all
-#          xcrun simctl boot "iPhone 16"
-#          xcrun simctl list
       
       - name: Disable macro validation
         run: |
@@ -67,37 +56,4 @@ jobs:
             -enableCodeCoverage YES \
             -parallel-testing-enabled YES \
             CODE_SIGNING_ALLOWED=NO \
-            clean test > build.log || true
-
-      - name: Upload xcresult bundle
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.name }}-xcresult
-          path: test_output/${{ matrix.name }}.xcresult
-
-      - name: Upload raw build log
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.name }}-build-log
-          path: build.log
-
-      - name: Find and upload snapshot images
-        run: |
-          mkdir -p snapshot_artifacts
-          ls ~/work/NeoBrutalism/NeoBrutalism/Tests/NeoBrutalismTests/__Snapshots__
-          find ~/work/NeoBrutalism/NeoBrutalism/Tests/NeoBrutalismTests/__Snapshots__ -type f -name "*.png" -exec cp {} snapshot_artifacts/ \;
-        shell: bash
-
-      - name: Upload snapshot artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: snapshot-images-${{ matrix.name }}
-          path: snapshot_artifacts
-
-      - name: Archive Logs on Failure
-        uses: actions/upload-artifact@v4
-        with:
-          name: xcodebuild-logs
-          path: |
-            ~/Library/Logs/DiagnosticReports
-            build.log
+            clean test 2>&1 | xcbeautify --renderer github-actions
