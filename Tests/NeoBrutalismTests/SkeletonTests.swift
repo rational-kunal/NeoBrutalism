@@ -7,27 +7,31 @@ import Testing
 struct SkeletonTests {
     // MARK: - Round Skeleton
 
-    @SnapshotTest(.padding(16.0), .backgroundColor(NBTheme.default.background), .sizes(width: .fixed(300.0)))
+    @SnapshotTest(.sizes(width: .fixed(300.0)))
     func roundSkeleton_default() -> some View {
         NBRoundSkeleton()
+            .prettifyForTest()
     }
 
-    @SnapshotTest(.padding(16.0), .backgroundColor(NBTheme.default.background), .sizes(width: .fixed(300.0)))
+    @SnapshotTest(.sizes(width: .fixed(300.0)))
     func roundSkeleton_customSize() -> some View {
         NBRoundSkeleton()
             .frame(width: 120, height: 120)
+            .prettifyForTest()
     }
 
     // MARK: - Text Skeleton
 
-    @SnapshotTest(.padding(16.0), .backgroundColor(NBTheme.default.background), .sizes(width: .fixed(300.0)))
+    @SnapshotTest(.sizes(width: .fixed(300.0)))
     func textSkeleton_default() -> some View {
         NBTextSkeleton()
+            .prettifyForTest()
     }
 
-    @SnapshotTest(.padding(16.0), .backgroundColor(NBTheme.default.background), .sizes(width: .fixed(300.0)))
+    @SnapshotTest(.sizes(width: .fixed(300.0)))
     func textSkeleton_customSize() -> some View {
         NBTextSkeleton()
             .frame(width: 120, height: 20.0)
+            .prettifyForTest()
     }
 }

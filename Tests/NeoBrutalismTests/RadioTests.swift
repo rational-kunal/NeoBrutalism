@@ -7,9 +7,8 @@ import Testing
 struct RadioTests {
     // MARK: - Radio Group
 
-    @SnapshotTest(.padding(4.0), .backgroundColor(NBTheme.default.background))
-    func radio_singleSelection_firstSelected() -> some View {
-        return NBRadioGroup(value: .constant(0)) {
+    @SnapshotTest func radio_singleSelection_firstSelected() -> some View {
+        NBRadioGroup(value: .constant(0)) {
             NBRadioItem(value: 0) {
                 Text("First")
             }
@@ -17,11 +16,11 @@ struct RadioTests {
                 Text("Second")
             }
         }
+        .prettifyForTest()
     }
 
-    @SnapshotTest(.padding(4.0), .backgroundColor(NBTheme.default.background))
-    func radio_singleSelection_secondSelected() -> some View {
-        return NBRadioGroup(value: .constant(1)) {
+    @SnapshotTest func radio_singleSelection_secondSelected() -> some View {
+        NBRadioGroup(value: .constant(1)) {
             NBRadioItem(value: 0) {
                 Text("First")
             }
@@ -29,13 +28,13 @@ struct RadioTests {
                 Text("Second")
             }
         }
+        .prettifyForTest()
     }
 
     // MARK: - Radio Group with Label
 
-    @SnapshotTest(.padding(4.0), .backgroundColor(NBTheme.default.background))
-    func radio_withLabel() -> some View {
-        return NBRadioGroup(value: .constant(2)) {
+    @SnapshotTest func radio_withLabel() -> some View {
+        NBRadioGroup(value: .constant(2)) {
             Text("Choose an option")
                 .font(.title2)
             NBRadioItem(value: 0) {
@@ -48,23 +47,24 @@ struct RadioTests {
                 Text("Option C")
             }
         }
+        .prettifyForTest()
     }
 
     // MARK: - Radio Item Standalone
 
-    @SnapshotTest(.padding(4.0), .backgroundColor(NBTheme.default.background))
-    func radioItem_selected() -> some View {
+    @SnapshotTest func radioItem_selected() -> some View {
         NBRadioItem(value: 0) {
             Text("Standalone")
         }
         .environment(\.nbSelectedRadioItemValue, 0)
+        .prettifyForTest()
     }
 
-    @SnapshotTest(.padding(4.0), .backgroundColor(NBTheme.default.background))
-    func radioItem_unselected() -> some View {
+    @SnapshotTest func radioItem_unselected() -> some View {
         NBRadioItem(value: 1) {
             Text("Standalone")
         }
         .environment(\.nbSelectedRadioItemValue, 0)
+        .prettifyForTest()
     }
 }

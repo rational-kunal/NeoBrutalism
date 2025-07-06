@@ -29,7 +29,7 @@ extension NBSwitchToggleStyle {
                 .fill(configuration.isOn ? theme.main : theme.clear)
                 .padding(theme.borderWidth / 2)
                 .overlay(
-                    RoundedRectangle(cornerRadius: theme.size)
+                    RoundedRectangle(cornerRadius: theme.size, style: .circular)
                         .stroke(.black, lineWidth: theme.borderWidth)
                 )
 

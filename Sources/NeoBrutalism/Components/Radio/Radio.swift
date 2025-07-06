@@ -1,13 +1,12 @@
 import SwiftUI
 
 extension EnvironmentValues {
-    @Entry var nbRadioItemDidSelect: NBRadioGroup.RadioItemDidSelect = { _ in }
+    @Entry var nbRadioItemDidSelect: NBRadioItemDidSelect = { _ in }
     @Entry var nbSelectedRadioItemValue: AnyEquatable? = nil
 }
 
+typealias NBRadioItemDidSelect = (AnyEquatable) -> Void
 public struct NBRadioGroup<Content, ValueType>: View where Content: View, ValueType: Equatable {
-    typealias RadioItemDidSelect = (AnyEquatable) -> Void
-
     @Environment(\.nbTheme) var theme: NBTheme
 
     @Binding var value: AnyEquatable
