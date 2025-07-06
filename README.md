@@ -1,5 +1,8 @@
 ![nb](https://github.com/user-attachments/assets/a88dabb4-f970-4592-bb94-878d7c5e0d07)
 
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/rational-kunal/NeoBrutalism/ci.yml?style=flat-square) ![GitHub Tag](https://img.shields.io/github/v/tag/rational-kunal/NeoBrutalism?sort=semver&style=flat-square&label=version) ![GitHub commits since latest release](https://img.shields.io/github/commits-since/rational-kunal/NeoBrutalism/latest?style=flat-square)
+
+
 # NeoBrutalism
 
 A set of SwiftUI components inspired by the [NeoBrutalism design trend](https://author.envato.com/hub/trend-deep-dive-neo-brutalism).
