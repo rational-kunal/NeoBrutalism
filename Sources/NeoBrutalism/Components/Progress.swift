@@ -9,7 +9,7 @@ public struct NBProgressViewStyle: ProgressViewStyle {
 
     public func makeBody(configuration: Configuration) -> some View {
         let value = configuration.fractionCompleted ?? 0.0
-        HStack {
+        HStack(spacing: 0) {
             Text(value, format: .percent.precision(.fractionLength(0)))
                 .padding(.horizontal)
                 .frame(width: 100)
