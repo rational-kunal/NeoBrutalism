@@ -9,28 +9,33 @@ public struct NBProgressViewStyle: ProgressViewStyle {
 
     public func makeBody(configuration: Configuration) -> some View {
         let value = configuration.fractionCompleted ?? 0.0
-        GeometryReader { geometry in
-            HStack(spacing: 0) {
-                // Progress bar
-                Rectangle()
-                    .fill(theme.main)
-                    .frame(width: value * geometry.size.width, height: theme.size)
-
-                if value > 0.001 && value < 0.99 {
-                    Divider()
-                        .frame(width: theme.borderWidth, height: geometry.size.height)
-                        .background(Color.black)
+        HStack {
+            Text(value, format: .percent.precision(.fractionLength(0)))
+                .padding(.horizontal)
+                .frame(width: 100)
+            GeometryReader { geometry in
+                HStack(spacing: 0) {
+                    // Progress bar
+                    Rectangle()
+                        .fill(theme.main)
+                        .frame(width: value * geometry.size.width, height: theme.size)
+                    
+                    if value > 0.001 && value < 0.99 {
+                        Divider()
+                            .frame(width: theme.borderWidth, height: geometry.size.height)
+                            .background(Color.black)
+                    }
+                    
+                    // Background bar
+                    Rectangle()
+                        .fill(theme.bw)
+                        .frame(height: theme.size)
                 }
-
-                // Background bar
-                Rectangle()
-                    .fill(theme.bw)
-                    .frame(height: theme.size)
             }
+            .frame(height: theme.size)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .nbBox(elevated: false)
         }
-        .frame(height: theme.size)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .nbBox(elevated: false)
     }
 }
 
