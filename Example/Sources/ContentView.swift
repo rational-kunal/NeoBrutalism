@@ -345,12 +345,8 @@ struct FlatCardExampleView: View {
 
 struct ContentView: View {
     @State var colorSceme: ColorScheme = .light
-    @State var theme = NBTheme.default.updateBy(
-        main: Color(light: .rgb(1.0, 0.42, 0.42), dark: .rgb(1.0, 0.42, 0.42)),
-        bw: Color(light: .rgb(1.0, 1.0, 1.0), dark: .rgb(0.129, 0.129, 0.129)),
-        background: Color(light: .rgb(0.988, 0.843, 0.843), dark: .rgb(0.153, 0.161, 0.2))
-    )
-
+    @State var theme = NBTheme.default
+    
 //    var body: some View {
 //        ZStack {
 //            theme.background
