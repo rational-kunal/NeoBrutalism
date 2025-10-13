@@ -345,7 +345,37 @@ struct FlatCardExampleView: View {
 
 struct ContentView: View {
     @State var colorSceme: ColorScheme = .light
-    @State var theme = NBTheme.default
+    @State var selectedTheme: ThemeOption = .default
+
+    enum ThemeOption: String, CaseIterable, Identifiable {
+        case `default` = "Default"
+        case sunnyPeach = "Sunny Peach"
+        case rosyPink = "Rosy Pink"
+        case espresso = "Espresso"
+        case limelight = "Limelight"
+        case lavenderDream = "Lavender Dream"
+        case twilightMist = "Twilight Mist"
+        case mintForest = "Mint Forest"
+        case earthyNeutral = "Earthy Neutral"
+        case thistleGlow = "Thistle Glow"
+
+        var id: String { rawValue }
+
+        var theme: NBTheme {
+            switch self {
+            case .default: return .default
+            case .sunnyPeach: return .sunnyPeach
+            case .rosyPink: return .rosyPink
+            case .espresso: return .espresso
+            case .limelight: return .limelight
+            case .lavenderDream: return .lavenderDream
+            case .twilightMist: return .twilightMist
+            case .mintForest: return .mintForest
+            case .earthyNeutral: return .earthyNeutral
+            case .thistleGlow: return .thistleGlow
+            }
+        }
+    }
     
 //    var body: some View {
 //        ZStack {
@@ -379,14 +409,36 @@ struct ContentView: View {
         ]
 
         ZStack {
-            theme.background
+            selectedTheme.theme.background
                 .ignoresSafeArea()
             ScrollView {
-                VStack(spacing: theme.xlspacing) {
+                VStack(spacing: selectedTheme.theme.xlspacing) {
                     HStack {
                         Text("Neo Brutalism")
                             .font(.largeTitle)
                         Spacer()
+
+                        Menu {
+                            ForEach(ThemeOption.allCases) { themeOption in
+                                Button {
+                                    withAnimation(.easeInOut(duration: 0.3)) {
+                                        selectedTheme = themeOption
+                                    }
+                                } label: {
+                                    HStack {
+                                        Text(themeOption.rawValue)
+                                        if selectedTheme == themeOption {
+                                            Spacer()
+                                            Image(systemName: "checkmark")
+                                        }
+                                    }
+                                }
+                            }
+                        } label: {
+                            Image(systemName: "paintpalette")
+                        }
+                        .buttonStyle(.neoBrutalism(type: .neutral))
+
                         Button {
                             withAnimation(.interactiveSpring) {
                                 colorSceme = colorSceme == .light ? .dark : .light
@@ -401,10 +453,10 @@ struct ContentView: View {
                             exampleViews[index]
                         }
                     }
-                }.padding(theme.padding)
+                }.padding(selectedTheme.theme.padding)
             }
         }
-        .nbTheme(theme)
+        .nbTheme(selectedTheme.theme)
         .colorScheme(colorSceme)
     }
 }
