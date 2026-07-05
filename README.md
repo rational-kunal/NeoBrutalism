@@ -68,6 +68,54 @@ struct ContentView: View {
 }
 ```
 
+## Architecture
+
+```
+NeoBrutalism (Swift Package, iOS 17+)
+│
+├── Sources/NeoBrutalism/
+│   ├── NeoBrutalism.swift          # Module entry point & NB namespace
+│   │
+│   ├── Common/
+│   │   ├── Theme.swift             # NBTheme — colors, spacing, shadow tokens
+│   │   ├── NeoBrutalismBoxModifier # Shared border + drop-shadow ViewModifier
+│   │   └── Equatable+             # Equatable helpers
+│   │
+│   ├── Internal/
+│   │   └── NeoBrutalismPreviewHelper  # Canvas preview utilities
+│   │
+│   └── Components/
+│       ├── Button.swift            # ButtonStyle (.neoBrutalism)
+│       ├── Card.swift              # NBCard — header / main / footer slots
+│       ├── FlatCard.swift          # NBFlatCard — single-slot container
+│       ├── Badge.swift             # NBBadge — inline label
+│       ├── Alert.swift             # NBAlert — icon + head + body
+│       ├── Input.swift             # TextFieldStyle (.neoBrutalism)
+│       ├── Progress.swift          # ProgressViewStyle (.neoBrutalism)
+│       ├── Slider.swift            # NBSlider — CGFloat drag slider
+│       ├── Drawer.swift            # .nbDrawer() — bottom sheet
+│       ├── Collapsable.swift       # NBCollapsable + Trigger + Content
+│       ├── Accordian/              # DisclosureGroupStyle (.neoBrutalismAccordion)
+│       ├── Radio/                  # NBRadioGroup + NBRadioItem + Indicator
+│       ├── Tabs/                   # NBTabs + NBTabsList + Trigger + Content
+│       └── Skeleton/               # NBRoundSkeleton + NBTextSkeleton
+│
+├── Tests/NeoBrutalismTests/        # 13 snapshot test suites (light + dark)
+│   └── __Snapshots__/
+│
+└── Example/                        # Standalone iOS Xcode demo app
+    └── Sources/
+        ├── ContentView.swift       # Full component showcase
+        ├── TodoView.swift          # Real-world usage example
+        └── Theme+.swift            # Custom theme example
+```
+
+**Key design decisions:**
+- `NBTheme` is injected via SwiftUI `@Environment` — components read it automatically, consumers override it with `.nbTheme()`
+- All visual styling funnels through `NeoBrutalismBoxModifier` for consistent border + shadow
+- Toggle-based components (Checkbox, Switch) use native `ToggleStyle`; tab/disclosure use native `DisclosureGroupStyle` — no custom gesture reimplementations
+- Snapshot tests run in both light and dark mode against stored reference images
+
 ## Components
 
 NeoBrutalism includes commonly used UI components, with plans to expand as needed. Feel free to contribute!
