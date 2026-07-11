@@ -25,8 +25,6 @@ public struct NBButtonStyle: ButtonStyle {
     let type: ButtonType
     let variant: ShadowVariant
 
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
-
     public func makeBody(configuration: Configuration) -> some View {
         let isPressed = configuration.isPressed
 
@@ -42,8 +40,7 @@ public struct NBButtonStyle: ButtonStyle {
             .padding(theme.padding)
             .foregroundStyle(textForegroundColor)
             .background(backgroundColor)
-            .nbBox(elevated: elevated)
-            .animation(reduceMotion ? .none : .interactiveSpring(), value: isPressed)
+            .nbPressEffect(elevated: elevated, isPressed: isPressed)
             .nbDisabledEffect()
     }
 

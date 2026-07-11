@@ -6,20 +6,27 @@ import SwiftUI
 struct NBPressEffectModifier: ViewModifier {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
+    let elevated: Bool
     let isPressed: Bool
+    let roundedCorners: NBCornerSet
 
     func body(content: Content) -> some View {
         content
-            .nbBox(elevated: !isPressed)
+            .nbBox(elevated: elevated, roundedCorners: roundedCorners)
             .animation(reduceMotion ? .none : .interactiveSpring(), value: isPressed)
     }
 }
 
 public extension View {
-    /// Applies the NeoBrutalism press effect: shadow collapses when pressed,
-    /// with a spring animation (or instant if reduce-motion is enabled).
-    func nbPressEffect(isPressed: Bool) -> some View {
-        modifier(NBPressEffectModifier(isPressed: isPressed))
+    /// Standard press effect: elevated at rest, shadow collapses while pressed.
+    func nbPressEffect(isPressed: Bool, roundedCorners: NBCornerSet = .all) -> some View {
+        modifier(NBPressEffectModifier(elevated: !isPressed, isPressed: isPressed, roundedCorners: roundedCorners))
+    }
+
+    /// Press effect with caller-resolved elevation, for styles whose variants invert
+    /// or suppress the shadow (e.g. `NBButtonStyle.ShadowVariant.reverse`).
+    func nbPressEffect(elevated: Bool, isPressed: Bool, roundedCorners: NBCornerSet = .all) -> some View {
+        modifier(NBPressEffectModifier(elevated: elevated, isPressed: isPressed, roundedCorners: roundedCorners))
     }
 }
 
