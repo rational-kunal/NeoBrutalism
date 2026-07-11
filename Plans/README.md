@@ -89,7 +89,7 @@ Diagnosis + strategy: [TESTING.md](TESTING.md))
 | [T01](T01-theme-token-color-sweep.md) | Replace hardcoded blacks with theme tokens | XS | ✅ Done |
 | [T02](T02-reduce-motion-sweep.md) | Respect Reduce Motion everywhere | XS | ✅ Done |
 | [T03](T03-disabled-states.md) | Disabled-state rendering for all controls | S | ✅ Done |
-| [T04](T04-bar-meter-dedupe-indeterminate.md) | Shared bar meter for Progress+Gauge; indeterminate progress | S | |
+| [T04](T04-bar-meter-dedupe-indeterminate.md) | Shared bar meter for Progress+Gauge; indeterminate progress | S | ✅ Done |
 | [T05](T05-radio-structure-a11y.md) | Radio: remove nested button, add accessibility | S | |
 | [T06](T06-press-effect-unification.md) | One shared press effect everywhere | S | |
 | [T07](T07-snapshot-coverage-gaps.md) | Snapshot tests for Accordion/Alert/Badge/Collapsable | S | |

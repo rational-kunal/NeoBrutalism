@@ -188,8 +188,13 @@ struct InputExampleView: View {
 
 struct ProgressExampleView: View {
     var body: some View {
-        ProgressView(value: 0.7)
-            .progressViewStyle(.neoBrutalism)
+        VStack(spacing: 12) {
+            ProgressView(value: 0.7)
+                .progressViewStyle(.neoBrutalism)
+
+            ProgressView { Text("Loading...") }
+                .progressViewStyle(.neoBrutalism)
+        }
     }
 }
 

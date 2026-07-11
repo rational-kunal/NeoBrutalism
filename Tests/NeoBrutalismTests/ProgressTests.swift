@@ -25,4 +25,11 @@ struct ProgressTests {
                 .progressViewStyle(.neoBrutalism)
         )
     }
+
+    @Test func progress_indeterminate() {
+        assertNBSnapshot(
+            of: ProgressView { Text("Loading...") }
+                .progressViewStyle(.neoBrutalism)
+        )
+    }
 }

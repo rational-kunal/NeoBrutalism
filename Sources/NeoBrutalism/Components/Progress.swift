@@ -6,35 +6,55 @@ public extension ProgressViewStyle where Self == NBProgressViewStyle {
 
 public struct NBProgressViewStyle: ProgressViewStyle {
     @Environment(\.nbTheme) var theme: NBTheme
+    @Environment(\.accessibilityReduceMotion) var reduceMotion
+    @State private var indeterminatePhase = false
 
     public func makeBody(configuration: Configuration) -> some View {
+        let isIndeterminate = configuration.fractionCompleted == nil
         let value = configuration.fractionCompleted ?? 0.0
+
         HStack(spacing: theme.spacing) {
             if let label = configuration.label {
                 label
             }
-            GeometryReader { geometry in
-                HStack(spacing: 0) {
-                    // Progress bar
-                    Rectangle()
-                        .fill(theme.main)
-                        .frame(width: value * geometry.size.width, height: theme.size)
 
-                    if value > 0.001 && value < 0.99 {
-                        Divider()
-                            .frame(width: theme.borderWidth, height: geometry.size.height)
-                            .background(theme.border)
-                    }
-
-                    // Background bar
-                    Rectangle()
-                        .fill(theme.bw)
-                        .frame(height: theme.size)
-                }
+            if isIndeterminate {
+                IndeterminateProgressBar()
+                    .frame(height: theme.size)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .nbBox(elevated: false)
+            } else {
+                NBBarMeter(fraction: value)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .nbBox(elevated: false)
             }
-            .frame(height: theme.size)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .nbBox(elevated: false)
+        }
+    }
+
+    @ViewBuilder
+    private func IndeterminateProgressBar() -> some View {
+        GeometryReader { geometry in
+            let segmentWidth = geometry.size.width * 0.3
+            let maxOffset = geometry.size.width - segmentWidth
+
+            ZStack(alignment: .leading) {
+                Rectangle()
+                    .fill(theme.bw)
+
+                Rectangle()
+                    .fill(theme.main)
+                    .frame(width: segmentWidth)
+                    .offset(x: reduceMotion ? maxOffset / 2 : (indeterminatePhase ? maxOffset : 0))
+                    .animation(
+                        reduceMotion ? nil : .easeInOut(duration: 1).repeatForever(autoreverses: true),
+                        value: indeterminatePhase
+                    )
+            }
+        }
+        .onAppear {
+            if !reduceMotion {
+                indeterminatePhase = true
+            }
         }
     }
 }
@@ -52,6 +72,9 @@ public struct NBProgressViewStyle: ProgressViewStyle {
             .progressViewStyle(.neoBrutalism)
 
         ProgressView(value: 1.0)
+            .progressViewStyle(.neoBrutalism)
+
+        ProgressView { Text("Loading...") }
             .progressViewStyle(.neoBrutalism)
     }
 }
