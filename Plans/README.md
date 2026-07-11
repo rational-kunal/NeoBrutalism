@@ -84,16 +84,16 @@ Diagnosis + strategy: [TESTING.md](TESTING.md))
 
 **Phase 1 — Correctness & consistency** (small mechanical fixes)
 
-| Task | Title | Size |
-|---|---|---|
-| [T01](T01-theme-token-color-sweep.md) | Replace hardcoded blacks with theme tokens | XS |
-| [T02](T02-reduce-motion-sweep.md) | Respect Reduce Motion everywhere | XS |
-| [T03](T03-disabled-states.md) | Disabled-state rendering for all controls | S |
-| [T04](T04-bar-meter-dedupe-indeterminate.md) | Shared bar meter for Progress+Gauge; indeterminate progress | S |
-| [T05](T05-radio-structure-a11y.md) | Radio: remove nested button, add accessibility | S |
-| [T06](T06-press-effect-unification.md) | One shared press effect everywhere | S |
-| [T07](T07-snapshot-coverage-gaps.md) | Snapshot tests for Accordion/Alert/Badge/Collapsable | S |
-| [T08](T08-dead-code-and-typos.md) | Dead code, folder typos, namespace cleanup | XS |
+| Task | Title | Size | Status |
+|---|---|---|---|
+| [T01](T01-theme-token-color-sweep.md) | Replace hardcoded blacks with theme tokens | XS | ✅ Done |
+| [T02](T02-reduce-motion-sweep.md) | Respect Reduce Motion everywhere | XS | ✅ Done |
+| [T03](T03-disabled-states.md) | Disabled-state rendering for all controls | S | |
+| [T04](T04-bar-meter-dedupe-indeterminate.md) | Shared bar meter for Progress+Gauge; indeterminate progress | S | |
+| [T05](T05-radio-structure-a11y.md) | Radio: remove nested button, add accessibility | S | |
+| [T06](T06-press-effect-unification.md) | One shared press effect everywhere | S | |
+| [T07](T07-snapshot-coverage-gaps.md) | Snapshot tests for Accordion/Alert/Badge/Collapsable | S | |
+| [T08](T08-dead-code-and-typos.md) | Dead code, folder typos, namespace cleanup | XS | |
 
 **Phase 2 — The one-modifier headline**
 
@@ -189,3 +189,18 @@ Record-via-CI: push a PR with visual changes, then run the "Re-record snapshots"
 pushes the updated PNGs straight to the branch for review in the PR diff. Local
 `Scripts/record.sh` stays fine for fast iteration, but CI's recording is canonical whenever the
 two disagree.
+
+**Known gap — local ≠ CI even on the pin (as of 2026-07-11):** a clean `Scripts/test.sh` run,
+with zero source changes, still fails ~116 assertions across unrelated suites (Button, GroupBox,
+TabView, Menu, Input, LabeledContent, …) with a consistent **+4pt frame-height** delta between
+the freshly-rendered image and the committed reference. This reproduces on an unmodified
+checkout, so it is not caused by whatever task you're working on. Suspected cause: the local
+simulator *runtime* can patch-update independently of the Xcode/OS version string the pin
+targets (`Scripts/snapshot-env.sh` says iOS 26.2, but the exact runtime build — `23C54` at time
+of writing — isn't pinned), shifting text/line-height metrics slightly from whatever build the
+references were recorded on. **If you're an agent working a task from this folder: a local
+snapshot failure is not evidence your change is wrong.** Before concluding a regression: (1)
+confirm the same test fails on an unmodified checkout (`git stash` and rerun) — if it does, it's
+this gap, not you; (2) prefer CI's result (push a PR, or the "Re-record snapshots" workflow) as
+the actual verdict. Only treat a local diff as real if it appears *exclusively* on your changed
+files/views and disappears on the unmodified tree.

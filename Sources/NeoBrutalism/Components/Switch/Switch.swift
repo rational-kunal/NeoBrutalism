@@ -31,7 +31,7 @@ extension NBSwitchToggleStyle {
                 .padding(theme.borderWidth / 2)
                 .overlay(
                     RoundedRectangle(cornerRadius: theme.size, style: .circular)
-                        .stroke(.black, lineWidth: theme.borderWidth)
+                        .stroke(theme.border, lineWidth: theme.borderWidth)
                 )
 
             makeSwitchShape(configuration: configuration)
@@ -47,7 +47,7 @@ extension NBSwitchToggleStyle {
                 .padding(-1 * theme.borderWidth / 2)
                 .overlay(
                     Circle()
-                        .stroke(.black, lineWidth: theme.borderWidth)
+                        .stroke(theme.border, lineWidth: theme.borderWidth)
                 )
                 .padding(theme.borderWidth * 2)
                 .frame(maxWidth: .infinity, alignment: configuration.isOn ? .trailing : .leading)

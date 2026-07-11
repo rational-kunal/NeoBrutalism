@@ -10,7 +10,7 @@ public struct NBRoundSkeleton: View {
             .fill(theme.clear)
             .overlay(
                 Circle()
-                    .stroke(Color.black, lineWidth: theme.borderWidth)
+                    .stroke(theme.border, lineWidth: theme.borderWidth)
             )
             .padding(theme.smpadding)
             .frame(maxWidth: .infinity, maxHeight: .infinity)

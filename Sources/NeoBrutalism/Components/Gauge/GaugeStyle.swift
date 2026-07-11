@@ -32,7 +32,7 @@ public struct NBGaugeStyle: GaugeStyle {
                     if value > 0.001 && value < 0.99 {
                         Divider()
                             .frame(width: theme.borderWidth, height: geometry.size.height)
-                            .background(Color.black)
+                            .background(theme.border)
                     }
 
                     // Background portion

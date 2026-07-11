@@ -15,6 +15,7 @@ import SwiftUI
 /// ```
 public struct NBSegmentedPicker<Value: Hashable>: View {
     @Environment(\.nbTheme) var theme: NBTheme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @Binding private var selection: Value
     private let content: [NBSegmentItem<Value>]
@@ -32,7 +33,7 @@ public struct NBSegmentedPicker<Value: Hashable>: View {
         HStack(spacing: 0) {
             ForEach(Array(content.enumerated()), id: \.element.tag) { index, item in
                 Button {
-                    withAnimation(.interactiveSpring()) {
+                    withAnimation(nbPressAnimation(reduceMotion: reduceMotion)) {
                         selection = item.tag
                     }
                 } label: {

@@ -31,8 +31,8 @@ Remaining acceptable hits: the deprecated `NBAccordion` (skip it) and `#Preview`
 
 ## Definition of done
 
-- [ ] The grep above shows no unguarded animations in non-deprecated component bodies.
-- [ ] Build + snapshot tests pass without re-recording (snapshots are static frames; nothing
+- [x] The grep above shows no unguarded animations in non-deprecated component bodies.
+- [x] Build + snapshot tests pass without re-recording (snapshots are static frames; nothing
       visual changes).
 
 ## Out of scope

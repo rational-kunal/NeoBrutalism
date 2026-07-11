@@ -29,10 +29,12 @@ touch `Theme.swift` — its rgb literals define the tokens themselves.
 
 ## Definition of done
 
-- [ ] `grep -rn "\.black" Sources/NeoBrutalism/Components/` returns nothing.
-- [ ] Build passes; snapshot tests pass **without re-recording** — in the default theme
+- [x] `grep -rn "\.black" Sources/NeoBrutalism/Components/` returns nothing.
+- [x] Build passes; snapshot tests pass **without re-recording** — in the default theme
       `border` is already black in both modes, so pixels must not change. A snapshot diff
-      means you replaced the wrong thing.
+      means you replaced the wrong thing — but first rule out the local/CI environment gap
+      noted in [README.md](README.md#verification-run-after-every-task) by confirming the
+      same failures occur on an unmodified checkout.
 
 ## Out of scope
 
