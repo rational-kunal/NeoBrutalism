@@ -32,6 +32,7 @@ public struct NBRadioGroup<Content, ValueType>: View where Content: View, ValueT
         VStack(alignment: .leading, spacing: theme.smspacing) {
             content
         }
+        .accessibilityElement(children: .contain)
         .environment(\.nbSelectedRadioItemValue, value)
         .environment(\.nbRadioItemDidSelect) { value in
             self.value = value

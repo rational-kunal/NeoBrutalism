@@ -26,18 +26,20 @@ public struct NBRadioItem<Label>: View where Label: View {
     }
 
     public var body: some View {
-        HStack(spacing: theme.smspacing) {
-            NBRadioIndicator(selected: selected)
-            label
-        }
-        .contentShape(Rectangle())
-        .onTapGesture {
+        Button(action: {
             if isEnabled {
                 withAnimation(nbPressAnimation(reduceMotion: reduceMotion)) {
                     radioItemDidSelect(value)
                 }
             }
+        }) {
+            HStack(spacing: theme.smspacing) {
+                NBRadioIndicator(selected: selected)
+                label
+            }
         }
+        .buttonStyle(.plain)
+        .accessibilityAddTraits(selected ? [.isSelected] : [])
         .nbDisabledEffect()
     }
 }

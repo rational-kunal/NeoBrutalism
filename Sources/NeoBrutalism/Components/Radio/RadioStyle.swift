@@ -4,7 +4,6 @@ public extension ToggleStyle where Self == NBRadioStyle {
     static var neoBrutalismRadio: NBRadioStyle { .init() }
 }
 
-// TODO: https://github.com/rational-kunal/NeoBrutalism/issues/9
 public struct NBRadioStyle: ToggleStyle {
     @Environment(\.nbTheme) var theme: NBTheme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -21,21 +20,14 @@ public struct NBRadioStyle: ToggleStyle {
             }
         }
         .buttonStyle(.plain)
+        .accessibilityAddTraits(configuration.isOn ? [.isSelected] : [])
         .nbDisabledEffect()
     }
 }
 
 extension NBRadioStyle {
     private func makeRadio(configuration: Configuration) -> some View {
-        Button {
-            withAnimation(nbPressAnimation(reduceMotion: reduceMotion)) {
-                configuration.isOn.toggle()
-            }
-        } label: {
-            HStack(spacing: theme.smspacing) {
-                NBRadioIndicator(selected: configuration.isOn)
-            }
-        }
+        NBRadioIndicator(selected: configuration.isOn)
     }
 }
 
