@@ -36,8 +36,13 @@ if [[ "$STATE" != "Booted" ]]; then
   xcrun simctl bootstatus "$DEVICE_ID" -b
 fi
 
+
+# Parallel testing makes xcodebuild clone the simulator ("Clone 1 of iPhone 16", ...) and boot
+# those clones itself, bypassing the warm-up above and reintroducing the same cold-boot drift
+# on whichever clone runs — this is forced off (last flag wins) regardless of what "$@" passes.
 xcodebuild \
   -scheme NeoBrutalism \
   -destination "platform=iOS Simulator,name=$NB_SNAPSHOT_DEVICE,OS=$NB_SNAPSHOT_OS" \
   "$@" \
+  -parallel-testing-enabled NO \
   test

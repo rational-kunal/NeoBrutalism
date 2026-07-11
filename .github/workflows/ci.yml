@@ -42,5 +42,4 @@ jobs:
             clean \
             -resultBundlePath "test_output/iOS-${{ github.run_id }}.xcresult" \
             -enableCodeCoverage YES \
-            -parallel-testing-enabled YES \
             CODE_SIGNING_ALLOWED=NO 2>&1 | xcbeautify --renderer github-actions
