@@ -5,11 +5,11 @@ import UIKit
 
 public extension View {
     func prettifyForTest() -> some View {
-        modifier(PrettifyForTestViewModifer())
+        modifier(PrettifyForTestViewModifier())
     }
 }
 
-struct PrettifyForTestViewModifer: ViewModifier {
+struct PrettifyForTestViewModifier: ViewModifier {
     @Environment(\.nbTheme) private var theme
 
     func body(content: Content) -> some View {
