@@ -1,70 +1,75 @@
 @testable import NeoBrutalism
-import SnapshotTestingMacros
+import SnapshotTesting
 import SwiftUI
 import Testing
 
-@Suite @SnapshotSuite @MainActor
+@Suite(.snapshots) @MainActor
 struct RadioTests {
     // MARK: - Radio Group
 
-    @SnapshotTest func radio_singleSelection_firstSelected() -> some View {
-        NBRadioGroup(value: .constant(0)) {
-            NBRadioItem(value: 0) {
-                Text("First")
+    @Test func radio_singleSelection_firstSelected() {
+        assertNBSnapshot(
+            of: NBRadioGroup(value: .constant(0)) {
+                NBRadioItem(value: 0) {
+                    Text("First")
+                }
+                NBRadioItem(value: 1) {
+                    Text("Second")
+                }
             }
-            NBRadioItem(value: 1) {
-                Text("Second")
-            }
-        }
-        .prettifyForTest()
+        )
     }
 
-    @SnapshotTest func radio_singleSelection_secondSelected() -> some View {
-        NBRadioGroup(value: .constant(1)) {
-            NBRadioItem(value: 0) {
-                Text("First")
+    @Test func radio_singleSelection_secondSelected() {
+        assertNBSnapshot(
+            of: NBRadioGroup(value: .constant(1)) {
+                NBRadioItem(value: 0) {
+                    Text("First")
+                }
+                NBRadioItem(value: 1) {
+                    Text("Second")
+                }
             }
-            NBRadioItem(value: 1) {
-                Text("Second")
-            }
-        }
-        .prettifyForTest()
+        )
     }
 
     // MARK: - Radio Group with Label
 
-    @SnapshotTest func radio_withLabel() -> some View {
-        NBRadioGroup(value: .constant(2)) {
-            Text("Choose an option")
-                .font(.title2)
-            NBRadioItem(value: 0) {
-                Text("Option A")
+    @Test func radio_withLabel() {
+        assertNBSnapshot(
+            of: NBRadioGroup(value: .constant(2)) {
+                Text("Choose an option")
+                    .font(.title2)
+                NBRadioItem(value: 0) {
+                    Text("Option A")
+                }
+                NBRadioItem(value: 1) {
+                    Text("Option B")
+                }
+                NBRadioItem(value: 2) {
+                    Text("Option C")
+                }
             }
-            NBRadioItem(value: 1) {
-                Text("Option B")
-            }
-            NBRadioItem(value: 2) {
-                Text("Option C")
-            }
-        }
-        .prettifyForTest()
+        )
     }
 
     // MARK: - Radio Item Standalone
 
-    @SnapshotTest func radioItem_selected() -> some View {
-        NBRadioItem(value: 0) {
-            Text("Standalone")
-        }
-        .environment(\.nbSelectedRadioItemValue, 0)
-        .prettifyForTest()
+    @Test func radioItem_selected() {
+        assertNBSnapshot(
+            of: NBRadioItem(value: 0) {
+                Text("Standalone")
+            }
+            .environment(\.nbSelectedRadioItemValue, 0)
+        )
     }
 
-    @SnapshotTest func radioItem_unselected() -> some View {
-        NBRadioItem(value: 1) {
-            Text("Standalone")
-        }
-        .environment(\.nbSelectedRadioItemValue, 0)
-        .prettifyForTest()
+    @Test func radioItem_unselected() {
+        assertNBSnapshot(
+            of: NBRadioItem(value: 1) {
+                Text("Standalone")
+            }
+            .environment(\.nbSelectedRadioItemValue, 0)
+        )
     }
 }

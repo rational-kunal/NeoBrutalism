@@ -1,28 +1,28 @@
 import NeoBrutalism
-import SnapshotTestingMacros
+import SnapshotTesting
 import SwiftUI
 import Testing
 
-@Suite @SnapshotSuite @MainActor
+@Suite(.snapshots) @MainActor
 struct LabeledContentTests {
-    @SnapshotTest(.sizes(width: .fixed(300.0)))
-    func labeledContent_basic() -> some View {
-        LabeledContent("Username", value: "johndoe")
-            .labeledContentStyle(.neoBrutalism)
-            .prettifyForTest()
+    @Test func labeledContent_basic() {
+        assertNBSnapshot(
+            of: LabeledContent("Username", value: "johndoe")
+                .labeledContentStyle(.neoBrutalism)
+        )
     }
 
-    @SnapshotTest(.sizes(width: .fixed(300.0)))
-    func labeledContent_longValue() -> some View {
-        LabeledContent("Email", value: "user@example.com")
-            .labeledContentStyle(.neoBrutalism)
-            .prettifyForTest()
+    @Test func labeledContent_longValue() {
+        assertNBSnapshot(
+            of: LabeledContent("Email", value: "user@example.com")
+                .labeledContentStyle(.neoBrutalism)
+        )
     }
 
-    @SnapshotTest(.sizes(width: .fixed(300.0)))
-    func labeledContent_short() -> some View {
-        LabeledContent("Plan", value: "Pro")
-            .labeledContentStyle(.neoBrutalism)
-            .prettifyForTest()
+    @Test func labeledContent_short() {
+        assertNBSnapshot(
+            of: LabeledContent("Plan", value: "Pro")
+                .labeledContentStyle(.neoBrutalism)
+        )
     }
 }

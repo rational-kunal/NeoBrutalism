@@ -16,7 +16,7 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/adammcarter/swift-snapshot-testing-macros.git", .upToNextMajor(from: "0.1.6")),
+        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.18.4"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -25,7 +25,7 @@ let package = Package(
             name: "NeoBrutalism"),
         .testTarget(
             name: "NeoBrutalismTests",
-            dependencies: ["NeoBrutalism", .product(name: "SnapshotTestingMacros", package: "swift-snapshot-testing-macros")]
+            dependencies: ["NeoBrutalism", .product(name: "SnapshotTesting", package: "swift-snapshot-testing")]
         ),
     ]
 )

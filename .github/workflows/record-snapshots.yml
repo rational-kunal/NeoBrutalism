@@ -1,0 +1,34 @@
+name: "Re-record snapshots"
+
+on:
+  workflow_dispatch: # run from the Actions tab against any branch
+
+permissions:
+  contents: write
+
+jobs:
+  record:
+    runs-on: macOS-15
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Load pinned snapshot environment
+        run: |
+          source Scripts/snapshot-env.sh
+          echo "DEVELOPER_DIR=/Applications/$NB_CI_XCODE.app/Contents/Developer" >> "$GITHUB_ENV"
+
+      - name: Record
+        run: Scripts/record.sh
+
+      - name: Commit updated references
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Tests/NeoBrutalismTests/__Snapshots__
+          if git diff --cached --quiet; then
+            echo "No snapshot changes"
+            exit 0
+          fi
+          git commit -m "Re-record snapshots on pinned CI environment"
+          git push

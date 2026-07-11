@@ -1,71 +1,80 @@
 import NeoBrutalism
-import SnapshotTestingMacros
+import SnapshotTesting
 import SwiftUI
 import Testing
 
-@Suite @SnapshotSuite @MainActor
+@Suite(.snapshots) @MainActor
 struct CheckboxTests {
     // MARK: - Checkbox
 
-    @SnapshotTest func checbox_on() -> some View {
-        Toggle(isOn: .constant(true)) {}
-            .toggleStyle(.neoBrutalismChecklist)
-            .prettifyForTest()
+    @Test func checbox_on() {
+        assertNBSnapshot(
+            of: Toggle(isOn: .constant(true)) {}
+                .toggleStyle(.neoBrutalismChecklist)
+        )
     }
 
-    @SnapshotTest func checbox_on_disabled() -> some View {
-        Toggle(isOn: .constant(true)) {}
-            .disabled(true)
-            .toggleStyle(.neoBrutalismChecklist)
-            .prettifyForTest()
+    @Test func checbox_on_disabled() {
+        assertNBSnapshot(
+            of: Toggle(isOn: .constant(true)) {}
+                .disabled(true)
+                .toggleStyle(.neoBrutalismChecklist)
+        )
     }
 
-    @SnapshotTest func checbox_off() -> some View {
-        Toggle(isOn: .constant(false)) {}
-            .toggleStyle(.neoBrutalismChecklist)
-            .prettifyForTest()
+    @Test func checbox_off() {
+        assertNBSnapshot(
+            of: Toggle(isOn: .constant(false)) {}
+                .toggleStyle(.neoBrutalismChecklist)
+        )
     }
 
-    @SnapshotTest func checbox_off_disabled() -> some View {
-        Toggle(isOn: .constant(false)) {}
-            .disabled(true)
-            .toggleStyle(.neoBrutalismChecklist)
-            .prettifyForTest()
+    @Test func checbox_off_disabled() {
+        assertNBSnapshot(
+            of: Toggle(isOn: .constant(false)) {}
+                .disabled(true)
+                .toggleStyle(.neoBrutalismChecklist)
+        )
     }
 
     // MARK: - Checkbox with label
 
-    @SnapshotTest func checboxWithLabel_on() -> some View {
-        Toggle(isOn: .constant(true)) { Text("checkbox") }
-            .toggleStyle(.neoBrutalismChecklist)
-            .prettifyForTest()
+    @Test func checboxWithLabel_on() {
+        assertNBSnapshot(
+            of: Toggle(isOn: .constant(true)) { Text("checkbox") }
+                .toggleStyle(.neoBrutalismChecklist)
+        )
     }
 
-    @SnapshotTest func checboxWithLabel_on_disabled() -> some View {
-        Toggle(isOn: .constant(true)) { Text("checkbox") }
-            .disabled(true)
-            .toggleStyle(.neoBrutalismChecklist)
-            .prettifyForTest()
+    @Test func checboxWithLabel_on_disabled() {
+        assertNBSnapshot(
+            of: Toggle(isOn: .constant(true)) { Text("checkbox") }
+                .disabled(true)
+                .toggleStyle(.neoBrutalismChecklist)
+        )
     }
 
-    @SnapshotTest func checboxWithLabel_off() -> some View {
-        Toggle(isOn: .constant(false)) { Text("checkbox") }
-            .toggleStyle(.neoBrutalismChecklist)
-            .prettifyForTest()
+    @Test func checboxWithLabel_off() {
+        assertNBSnapshot(
+            of: Toggle(isOn: .constant(false)) { Text("checkbox") }
+                .toggleStyle(.neoBrutalismChecklist)
+        )
     }
 
-    @SnapshotTest func checboxWithLabel_off_disabled() -> some View {
-        Toggle(isOn: .constant(false)) { Text("checkbox") }
-            .disabled(true)
-            .toggleStyle(.neoBrutalismChecklist)
-            .prettifyForTest()
+    @Test func checboxWithLabel_off_disabled() {
+        assertNBSnapshot(
+            of: Toggle(isOn: .constant(false)) { Text("checkbox") }
+                .disabled(true)
+                .toggleStyle(.neoBrutalismChecklist)
+        )
     }
 
     // MARK: - Checbox with large label
 
-    @SnapshotTest func checboxWithLargeLabel() -> some View {
-        Toggle(isOn: .constant(true)) { Text("checkbox").font(.largeTitle) }
-            .toggleStyle(.neoBrutalismChecklist)
-            .prettifyForTest()
+    @Test func checboxWithLargeLabel() {
+        assertNBSnapshot(
+            of: Toggle(isOn: .constant(true)) { Text("checkbox").font(.largeTitle) }
+                .toggleStyle(.neoBrutalismChecklist)
+        )
     }
 }
