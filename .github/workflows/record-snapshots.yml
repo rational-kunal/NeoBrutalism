@@ -2,11 +2,6 @@ name: "Re-record snapshots"
 
 on:
   workflow_dispatch: # run from the Actions tab against any branch
-  push: # TEMPORARY: workflow_dispatch only fires for workflows already on the default
-    branches: # branch, and main is locked right now. Remove this block once this file
-      - feature/fix-snapshot-testing # has landed on main and workflow_dispatch works normally.
-    paths-ignore:
-      - 'Tests/**/__Snapshots__/**' # don't retrigger on the bot's own recording commit
 
 permissions:
   contents: write
