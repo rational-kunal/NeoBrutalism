@@ -77,10 +77,10 @@ skeletons.
 "snapshots must not change" as their safety net, which requires snapshots you can trust.
 Diagnosis + strategy: [TESTING.md](TESTING.md))
 
-| Task | Title | Size |
-|---|---|---|
-| [T29](T29-snapshot-migration-and-pinning.md) | Snapshot stack migration + environment pinning (iPhone 16 · iOS 18.5) | M |
-| [T30](T30-ci-record-workflow-and-unit-layer.md) | CI re-record workflow + unit-test layer | S |
+| Task | Title | Size | Status |
+|---|---|---|---|
+| [T29](T29-snapshot-migration-and-pinning.md) | Snapshot stack migration + environment pinning (iPhone 16 · iOS 18.5) | M | ✅ Done |
+| [T30](T30-ci-record-workflow-and-unit-layer.md) | CI re-record workflow + unit-test layer | S | ✅ Done |
 
 **Phase 1 — Correctness & consistency** (small mechanical fixes)
 
@@ -166,13 +166,26 @@ Diagnosis + strategy: [TESTING.md](TESTING.md))
 xcodebuild -scheme NeoBrutalism -destination "generic/platform=iOS Simulator" build
 
 # Snapshot tests — MUST run on the pinned reference environment (see TESTING.md):
-Scripts/test.sh          # pins iPhone 16 · iOS 18.5, boots/creates the sim if needed
+Scripts/test.sh          # pins iPhone 16 · iOS 26.2, boots/creates the sim if needed
 Scripts/record.sh        # re-record intentional visual changes on the same pin
 ```
 
 Reference images live in `Tests/NeoBrutalismTests/__Snapshots__/<Suite>/<test>.{light|dark}.png`.
 New test → `Scripts/record.sh` once, then `Scripts/test.sh` twice to confirm it's stable.
 Intentional visual change → re-record only the affected suites, eyeball every changed PNG (and
-the Example app) before committing; the canonical recorder is the CI workflow from T30. Never
+the Example app) before committing; the canonical recorder is the
+[Re-record snapshots](../.github/workflows/record-snapshots.yml) CI workflow. Never
 blanket-delete `__Snapshots__` (T29's one-time exception aside — see
 [T29](T29-snapshot-migration-and-pinning.md)).
+
+**2026-07 repin:** the reference environment moved from iPhone 16 · iOS 18.5 to iPhone 16 ·
+iOS 26.2 (`Scripts/snapshot-env.sh`) — Xcode 16.4/iOS 18.5 is no longer installable on the dev
+fleet, and GitHub's `macos-15` runner ships Xcode 26.2 (build 17C52) by default, so CI needed no
+extra runtime download. All 160 references were re-recorded on the new pin; only 8 (font-metric
+drift of a few px, no visual regression) actually changed.
+
+Record-via-CI: push a PR with visual changes, then run the "Re-record snapshots" workflow
+(Actions tab → Run workflow) against that branch — it records on the pinned environment and
+pushes the updated PNGs straight to the branch for review in the PR diff. Local
+`Scripts/record.sh` stays fine for fast iteration, but CI's recording is canonical whenever the
+two disagree.

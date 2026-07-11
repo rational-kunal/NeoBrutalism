@@ -47,7 +47,10 @@ public struct NBControlGroupStyle: ControlGroupStyle {
 
     /// Only the outer ends of the bar round: first → `.left`, last → `.right`, a lone
     /// section → `.all`, everything in between square.
-    private func corners(_ index: Int, of count: Int) -> NBCornerSet {
+    ///
+    /// Internal (not `private`) so `Tests/NeoBrutalismTests/Unit/CornerSetTests.swift` can
+    /// exercise it via `@testable import`.
+    func corners(_ index: Int, of count: Int) -> NBCornerSet {
         guard count > 1 else { return .all }
         if index == 0 { return .left }
         if index == count - 1 { return .right }
