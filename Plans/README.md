@@ -166,14 +166,13 @@ Diagnosis + strategy: [TESTING.md](TESTING.md))
 xcodebuild -scheme NeoBrutalism -destination "generic/platform=iOS Simulator" build
 
 # Snapshot tests — MUST run on the pinned reference environment (see TESTING.md):
-Scripts/test.sh          # after T29; pins iPhone 16 · iOS 18.5
+Scripts/test.sh          # pins iPhone 16 · iOS 18.5, boots/creates the sim if needed
 Scripts/record.sh        # re-record intentional visual changes on the same pin
 ```
 
-Until T29 lands, treat local snapshot results as advisory only — references were recorded on
-unpinned environments and the comparison is exact-match, so local failures don't necessarily
-mean your change is wrong (see [TESTING.md](TESTING.md) for why). After T29: reference images
-live in `Tests/NeoBrutalismTests/__Snapshots__/<Suite>/`, one light + one dark per test. New
-test → record once, verify twice. Intentional visual change → re-record only the affected
-suites, eyeball every changed PNG (and the Example app) before committing; the canonical
-recorder is the CI workflow from T30. Never blanket-delete `__Snapshots__`.
+Reference images live in `Tests/NeoBrutalismTests/__Snapshots__/<Suite>/<test>.{light|dark}.png`.
+New test → `Scripts/record.sh` once, then `Scripts/test.sh` twice to confirm it's stable.
+Intentional visual change → re-record only the affected suites, eyeball every changed PNG (and
+the Example app) before committing; the canonical recorder is the CI workflow from T30. Never
+blanket-delete `__Snapshots__` (T29's one-time exception aside — see
+[T29](T29-snapshot-migration-and-pinning.md)).

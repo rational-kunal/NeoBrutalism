@@ -1,33 +1,27 @@
 import NeoBrutalism
-import SnapshotTestingMacros
+import SnapshotTesting
 import SwiftUI
 import Testing
 
-@Suite @SnapshotSuite @MainActor
+@Suite(.snapshots) @MainActor
 struct StepperTests {
-    @SnapshotTest(.sizes(width: .fixed(300.0)))
-    func stepper_default() -> some View {
-        NBStepper("Quantity", value: .constant(3), in: 0...10)
-            .prettifyForTest()
+    @Test func stepper_default() {
+        assertNBSnapshot(of: NBStepper("Quantity", value: .constant(3), in: 0...10))
     }
 
-    @SnapshotTest(.sizes(width: .fixed(300.0)))
-    func stepper_atMinimum() -> some View {
-        NBStepper("Count", value: .constant(0), in: 0...5)
-            .prettifyForTest()
+    @Test func stepper_atMinimum() {
+        assertNBSnapshot(of: NBStepper("Count", value: .constant(0), in: 0...5))
     }
 
-    @SnapshotTest(.sizes(width: .fixed(300.0)))
-    func stepper_atMaximum() -> some View {
-        NBStepper("Count", value: .constant(5), in: 0...5)
-            .prettifyForTest()
+    @Test func stepper_atMaximum() {
+        assertNBSnapshot(of: NBStepper("Count", value: .constant(5), in: 0...5))
     }
 
-    @SnapshotTest(.sizes(width: .fixed(300.0)))
-    func stepper_customLabel() -> some View {
-        NBStepper(value: .constant(2), in: 0...10) {
-            Label("Items", systemImage: "cart")
-        }
-        .prettifyForTest()
+    @Test func stepper_customLabel() {
+        assertNBSnapshot(
+            of: NBStepper(value: .constant(2), in: 0...10) {
+                Label("Items", systemImage: "cart")
+            }
+        )
     }
 }

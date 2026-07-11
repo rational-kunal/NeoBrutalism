@@ -23,37 +23,24 @@ concurrency:
 # Refer https://github.com/Alamofire/Alamofire/blob/master/.github/workflows/ci.yml
 jobs:
   iOS:
-    name: ${{ matrix.name }}
-    runs-on: ${{ matrix.runsOn }}
-    env:
-      DEVELOPER_DIR: "/Applications/${{ matrix.xcode }}.app/Contents/Developer"
+    name: "iOS (pinned)"
+    runs-on: macOS-15
     timeout-minutes: 15
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - destination: "OS=18.0,name=iPhone 16"
-            name: "iOS 18.0"
-            testPlan: "iOS"
-            xcode: "Xcode_16.0"
-            runsOn: macOS-15
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Disable macro validation
+
+      - name: Load pinned snapshot environment
         run: |
-          defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidatation -bool YES
-          defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
-      
+          source Scripts/snapshot-env.sh
+          echo "DEVELOPER_DIR=/Applications/$NB_CI_XCODE.app/Contents/Developer" >> "$GITHUB_ENV"
+
       - name: Run tests and save result bundle
         run: |
           mkdir -p test_output
           set -o pipefail
-          env NSUnbufferedIO=YES xcodebuild \
-            -scheme "NeoBrutalism" \
-            -destination "${{ matrix.destination }}" \
-            -resultBundlePath "test_output/${{ matrix.name }}.xcresult" \
+          env NSUnbufferedIO=YES Scripts/test.sh \
+            clean \
+            -resultBundlePath "test_output/iOS-${{ github.run_id }}.xcresult" \
             -enableCodeCoverage YES \
             -parallel-testing-enabled YES \
-            CODE_SIGNING_ALLOWED=NO \
-            clean test 2>&1 | xcbeautify --renderer github-actions
+            CODE_SIGNING_ALLOWED=NO 2>&1 | xcbeautify --renderer github-actions

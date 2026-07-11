@@ -1,33 +1,35 @@
 import NeoBrutalism
-import SnapshotTestingMacros
+import SnapshotTesting
 import SwiftUI
 import Testing
 
-@MainActor @Suite @SnapshotSuite
+@Suite(.snapshots) @MainActor
 struct ControlGroupStyleTests {
-    @SnapshotTest func controlGroup_default() -> some View {
-        ControlGroup {
-            Button("Bold") {}
-            Button("Italic") {}
-            Button("Underline") {}
-        }
-        .controlGroupStyle(.neoBrutalism)
-        .prettifyForTest()
+    @Test func controlGroup_default() {
+        assertNBSnapshot(
+            of: ControlGroup {
+                Button("Bold") {}
+                Button("Italic") {}
+                Button("Underline") {}
+            }
+            .controlGroupStyle(.neoBrutalism)
+        )
     }
 
-    @SnapshotTest func controlGroup_with_icons() -> some View {
-        ControlGroup {
-            Button {} label: {
-                Label("Cut", systemImage: "scissors")
+    @Test func controlGroup_with_icons() {
+        assertNBSnapshot(
+            of: ControlGroup {
+                Button {} label: {
+                    Label("Cut", systemImage: "scissors")
+                }
+                Button {} label: {
+                    Label("Copy", systemImage: "doc.on.doc")
+                }
+                Button {} label: {
+                    Label("Paste", systemImage: "doc.on.clipboard")
+                }
             }
-            Button {} label: {
-                Label("Copy", systemImage: "doc.on.doc")
-            }
-            Button {} label: {
-                Label("Paste", systemImage: "doc.on.clipboard")
-            }
-        }
-        .controlGroupStyle(.neoBrutalism)
-        .prettifyForTest()
+            .controlGroupStyle(.neoBrutalism)
+        )
     }
 }

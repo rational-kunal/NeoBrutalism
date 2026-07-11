@@ -1,37 +1,40 @@
 import NeoBrutalism
-import SnapshotTestingMacros
+import SnapshotTesting
 import SwiftUI
 import Testing
 
-@MainActor @Suite @SnapshotSuite
+@Suite(.snapshots) @MainActor
 struct MenuStyleTests {
-    @SnapshotTest func menu_default() -> some View {
-        Menu("Options") {
-            Button("Edit", action: {})
-            Button("Delete", action: {})
-        }
-        .menuStyle(.neoBrutalism)
-        .prettifyForTest()
+    @Test func menu_default() {
+        assertNBSnapshot(
+            of: Menu("Options") {
+                Button("Edit", action: {})
+                Button("Delete", action: {})
+            }
+            .menuStyle(.neoBrutalism)
+        )
     }
 
-    @SnapshotTest func menu_with_icon() -> some View {
-        Menu {
-            Button("Cut", action: {})
-            Button("Copy", action: {})
-        } label: {
-            Label("Actions", systemImage: "ellipsis.circle")
-        }
-        .menuStyle(.neoBrutalism)
-        .prettifyForTest()
+    @Test func menu_with_icon() {
+        assertNBSnapshot(
+            of: Menu {
+                Button("Cut", action: {})
+                Button("Copy", action: {})
+            } label: {
+                Label("Actions", systemImage: "ellipsis.circle")
+            }
+            .menuStyle(.neoBrutalism)
+        )
     }
 
-    @SnapshotTest func nbMenu_trigger() -> some View {
-        NBMenu {
-            NBMenuItem("Edit", systemImage: "pencil") {}
-            NBMenuItem("Delete", systemImage: "trash", role: .destructive) {}
-        } label: {
-            Text("Options")
-        }
-        .prettifyForTest()
+    @Test func nbMenu_trigger() {
+        assertNBSnapshot(
+            of: NBMenu {
+                NBMenuItem("Edit", systemImage: "pencil") {}
+                NBMenuItem("Delete", systemImage: "trash", role: .destructive) {}
+            } label: {
+                Text("Options")
+            }
+        )
     }
 }

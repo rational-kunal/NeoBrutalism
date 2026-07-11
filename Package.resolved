@@ -1,5 +1,5 @@
 {
-  "originHash" : "81f75e73cdba21f916c1dc8eeed04a3291524fb27e2d3e4830699c25264e1295",
+  "originHash" : "97c49768034336b6b61bc275ddabf6a60f4e17d2b2373359dd56c3bdc44b77de",
   "pins" : [
     {
       "identity" : "swift-custom-dump",
@@ -17,15 +17,6 @@
       "state" : {
         "revision" : "37230a37e83f1b7023be08e1b1a2603fcb1567fb",
         "version" : "1.18.4"
-      }
-    },
-    {
-      "identity" : "swift-snapshot-testing-macros",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/adammcarter/swift-snapshot-testing-macros.git",
-      "state" : {
-        "revision" : "d5e6eff58cb04d9d3c0bac154b50083336ed8994",
-        "version" : "0.1.6"
       }
     },
     {
