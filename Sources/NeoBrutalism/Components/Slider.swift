@@ -2,6 +2,7 @@ import SwiftUI
 
 public struct NBSlider: View {
     @Environment(\.nbTheme) var theme: NBTheme
+    @Environment(\.isEnabled) private var isEnabled
 
     /** Value from 0 to 1 */
     @Binding private var value: CGFloat
@@ -41,9 +42,11 @@ public struct NBSlider: View {
                         .position(.init(x: thumbOffsetX, y: thumbOffsetY))
                         .gesture(
                             DragGesture().onChanged { value in
-                                let startLocation = value.startLocation.x / geometry.size.width
-                                let translation = value.translation.width / geometry.size.width
-                                self.value = max(0, min(1, startLocation + translation))
+                                if isEnabled {
+                                    let startLocation = value.startLocation.x / geometry.size.width
+                                    let translation = value.translation.width / geometry.size.width
+                                    self.value = max(0, min(1, startLocation + translation))
+                                }
                             })
                 }
                 .frame(width: sliderBarWidth, height: theme.size)
@@ -51,6 +54,7 @@ public struct NBSlider: View {
             .frame(height: theme.size)
             .padding(theme.size / 2)
         }
+        .nbDisabledEffect()
     }
 }
 

@@ -5,7 +5,6 @@ public extension TextFieldStyle where Self == NBInputStyle {
 }
 
 public struct NBInputStyle: @preconcurrency TextFieldStyle {
-    @Environment(\.isEnabled) private var isEnabled
     @Environment(\.nbTheme) var theme: NBTheme
 
     @MainActor public func _body(configuration: TextField<Self._Label>) -> some View {
@@ -13,7 +12,7 @@ public struct NBInputStyle: @preconcurrency TextFieldStyle {
             .padding(theme.padding)
             .background(theme.bw)
             .nbBox(elevated: false)
-            .opacity(isEnabled ? 1.0 : 0.5)
+            .nbDisabledEffect()
     }
 }
 

@@ -24,4 +24,11 @@ struct StepperTests {
             }
         )
     }
+
+    @Test func stepper_disabled() {
+        assertNBSnapshot(
+            of: NBStepper("Quantity", value: .constant(3), in: 0...10)
+                .disabled(true)
+        )
+    }
 }

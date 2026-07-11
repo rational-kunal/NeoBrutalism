@@ -21,6 +21,7 @@ public struct NBRadioStyle: ToggleStyle {
             }
         }
         .buttonStyle(.plain)
+        .nbDisabledEffect()
     }
 }
 

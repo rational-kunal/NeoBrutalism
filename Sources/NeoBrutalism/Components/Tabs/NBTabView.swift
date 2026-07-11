@@ -59,6 +59,7 @@ public struct NBTabView<Value: Hashable>: View {
         .padding(theme.smpadding)
         .background(theme.main)
         .nbBox(elevated: false)
+        .nbDisabledEffect()
     }
 
     @ViewBuilder

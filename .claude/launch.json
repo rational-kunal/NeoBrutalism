@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Example",
+      "runtimeExecutable": "xcodebuild",
+      "runtimeArgs": ["-scheme", "Example", "-destination", "generic/platform=iOS Simulator", "-configuration", "Debug", "ONLY_ACTIVE_ARCH=NO"],
+      "port": 8080
+    }
+  ]
+}

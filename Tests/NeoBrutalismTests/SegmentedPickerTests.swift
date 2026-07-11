@@ -44,4 +44,15 @@ struct SegmentedPickerTests {
             }
         )
     }
+
+    @Test func segmentedPicker_disabled() {
+        assertNBSnapshot(
+            of: NBSegmentedPicker(selection: .constant("One")) {
+                Text("One").nbSegment("One")
+                Text("Two").nbSegment("Two")
+                Text("Three").nbSegment("Three")
+            }
+            .disabled(true)
+        )
+    }
 }

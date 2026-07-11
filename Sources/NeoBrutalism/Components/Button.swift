@@ -44,6 +44,7 @@ public struct NBButtonStyle: ButtonStyle {
             .background(backgroundColor)
             .nbBox(elevated: elevated)
             .animation(reduceMotion ? .none : .interactiveSpring(), value: isPressed)
+            .nbDisabledEffect()
     }
 
     private var textForegroundColor: Color {
@@ -65,6 +66,10 @@ public struct NBButtonStyle: ButtonStyle {
 #Preview(traits: .modifier(NBPreviewHelper())) {
     VStack(alignment: .leading, spacing: 20) {
         Button("Basic Button") {}
+            .buttonStyle(.neoBrutalism())
+        
+        Button("Disabled Button") {}
+            .disabled(true)
             .buttonStyle(.neoBrutalism())
 
         Button {} label: {
