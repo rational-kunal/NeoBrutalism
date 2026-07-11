@@ -22,28 +22,9 @@ public struct NBGaugeStyle: GaugeStyle {
         let value = configuration.value
         HStack(spacing: theme.spacing) {
             configuration.label
-            GeometryReader { geometry in
-                HStack(spacing: 0) {
-                    // Filled portion
-                    Rectangle()
-                        .fill(theme.main)
-                        .frame(width: value * geometry.size.width, height: theme.size)
-
-                    if value > 0.001 && value < 0.99 {
-                        Divider()
-                            .frame(width: theme.borderWidth, height: geometry.size.height)
-                            .background(theme.border)
-                    }
-
-                    // Background portion
-                    Rectangle()
-                        .fill(theme.bw)
-                        .frame(height: theme.size)
-                }
-            }
-            .frame(height: theme.size)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .nbBox(elevated: false)
+            NBBarMeter(fraction: value)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .nbBox(elevated: false)
         }
     }
 }
