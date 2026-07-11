@@ -6,11 +6,12 @@ public extension DisclosureGroupStyle where Self == NBAccordionDisclosureGroupSt
 
 public struct NBAccordionDisclosureGroupStyle: DisclosureGroupStyle {
     @Environment(\.nbTheme) var theme: NBTheme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     public func makeBody(configuration: Configuration) -> some View {
         VStack {
             Button {
-                withAnimation(.interactiveSpring) {
+                withAnimation(nbPressAnimation(reduceMotion: reduceMotion)) {
                     configuration.isExpanded.toggle()
                 }
             } label: {
@@ -47,7 +48,7 @@ public struct NBAccordionDisclosureGroupStyle: DisclosureGroupStyle {
 
                 Image(systemName: "chevron.down")
                     .rotationEffect(.degrees(configuration.isExpanded ? 180 : 0))
-                    .animation(.interactiveSpring, value: configuration.isExpanded)
+                    .animation(reduceMotion ? .none : .interactiveSpring(), value: configuration.isExpanded)
                     .padding(.trailing, theme.padding)
             }
         }
@@ -63,21 +64,8 @@ public struct NBAccordionDisclosureGroupStyle: DisclosureGroupStyle {
 @available(iOS 18.0, *)
 #Preview(traits: .modifier(NBPreviewHelper())) {
     VStack(spacing: 18.0) {
-        NBAccordion {
-            Text("Piertotum Locomotor")
-        } content: {
-            Text("Pratimo Jeevit Bhavh - प्रतिमा जीवित भाव")
-        }
-
-        NBAccordion {
-            Text("Expecto Patronum")
-        } content: {
-            Text("Pitradev Sanrakshanam - पितृदेव संरक्षणम्")
-        }
-
         DisclosureGroup("Expecto Patronum") {
             Text("Pitradev Sanrakshanam - पितृदेव संरक्षणम्")
         }.disclosureGroupStyle(.neoBrutalismAccordion)
-
     }.padding()
 }

@@ -86,8 +86,7 @@ NeoBrutalism (Swift Package, iOS 17+)
 │   │
 │   └── Components/
 │       ├── Button.swift            # ButtonStyle (.neoBrutalism)
-│       ├── Card.swift              # NBCard — header / main / footer slots
-│       ├── FlatCard.swift          # NBFlatCard — single-slot container
+│       ├── GroupBox/               # GroupBoxStyle (.neoBrutalism) — card look for native GroupBox
 │       ├── Badge.swift             # NBBadge — inline label
 │       ├── Alert.swift             # NBAlert — icon + head + body
 │       ├── Input.swift             # TextFieldStyle (.neoBrutalism)
@@ -97,7 +96,7 @@ NeoBrutalism (Swift Package, iOS 17+)
 │       ├── Collapsable.swift       # NBCollapsable + Trigger + Content
 │       ├── Accordian/              # DisclosureGroupStyle (.neoBrutalismAccordion)
 │       ├── Radio/                  # NBRadioGroup + NBRadioItem + Indicator
-│       ├── Tabs/                   # NBTabs + NBTabsList + Trigger + Content
+│       ├── Tabs/                   # NBTabView + NBTab — inline tab view
 │       └── Skeleton/               # NBRoundSkeleton + NBTextSkeleton
 │
 ├── Tests/NeoBrutalismTests/        # 13 snapshot test suites (light + dark)
@@ -178,7 +177,10 @@ Button {
 }.buttonStyle(.neoBrutalism(type: .neutral, variant: .reverse))
 ```
 
-### Card
+### Card (Group Box)
+
+The native `GroupBox` gets the card look with a single style — its label becomes the
+card header. It is also applied automatically by the `.neoBrutalism()` root modifier.
 
 <p>
     <img width="350" alt="image" src="https://github.com/user-attachments/assets/d5c57136-fc6e-4494-bb61-2e25838ec8e3" loading="lazy" />
@@ -186,39 +188,22 @@ Button {
 <br />
 
 ```swift
-NBCard {
-    Text("Hogwarts Letter")
-} main: {
+GroupBox("Hogwarts Letter") {
     Text("You have been accepted to Hogwarts School of Witchcraft and Wizardry!")
-} footer: {
+
     Button {
         // No-op
     } label: {
         Text("Open Letter").frame(maxWidth: .infinity)
     }.buttonStyle(.neoBrutalism())
 }
+.groupBoxStyle(.neoBrutalism())
 
-NBCard(type: .neutral) {
-    Text("Quidditch Gear")
-} main: {
-    Text("Get your broomstick, Quidditch robes, and golden snitch!")
-} footer: {
-    HStack(spacing: 12.0) {
-        Button {
-            // No-op
-        } label: {
-            Text("Open Firebolt")
-        }.buttonStyle(.neoBrutalism(type: .neutral))
-
-        Spacer()
-
-        Button {
-            // No-op
-        } label: {
-            Text("Snitch")
-        }.buttonStyle(.neoBrutalism())
-    }
+// Neutral surface, and/or flat (no drop shadow, tighter padding):
+GroupBox("Marauder's Map") {
+    Text("I solemnly swear that I am up to no good.")
 }
+.groupBoxStyle(.neoBrutalism(type: .neutral, elevated: false))
 ```
 
 ### Input
@@ -313,28 +298,24 @@ struct TabsExampleView: View {
     @State private var selectedTab: Int = 0
 
     var body: some View {
-        VStack(spacing: 8.0) {
-            Text("House Selection: \(selectedTab)")
-                .font(.title3)
-
-            NBTabs(selectedTabItem: $selectedTab) {
-                NBTabsList {
-                    NBTabsTrigger(tabItem: 0) { Image(systemName: "flame.fill") }
-                    NBTabsTrigger(tabItem: 1) { Image(systemName: "lanyardcard.fill") }
-                    NBTabsTrigger(tabItem: 2) { Image(systemName: "book.fill") }
-                    NBTabsTrigger(tabItem: 3) { Image(systemName: "leaf.fill") }
-                }
-                NBFlatCard {
-                    ZStack {
-                        NBTabsContent(tabItem: 0) { Text("Bravery and Daring!") }
-                        NBTabsContent(tabItem: 1) { Text("Cunning and Ambition!") }
-                        NBTabsContent(tabItem: 2) { Text("Wisdom and Learning!") }
-                        NBTabsContent(tabItem: 3) { Text("Loyalty and Hard Work!") }
-                    }
-                }
+        NBTabView(selection: $selectedTab) {
+            NBTab(value: 0) {
+                GroupBox { Text("Bravery and Daring!") }
+            } label: {
+                Image(systemName: "flame.fill")
+            }
+            NBTab(value: 1) {
+                GroupBox { Text("Cunning and Ambition!") }
+            } label: {
+                Image(systemName: "lanyardcard.fill")
+            }
+            NBTab(value: 2) {
+                GroupBox { Text("Wisdom and Learning!") }
+            } label: {
+                Image(systemName: "book.fill")
             }
         }
-        .padding()
+        .groupBoxStyle(.neoBrutalism(elevated: false))
     }
 }
 ```
@@ -348,7 +329,7 @@ struct TabsExampleView: View {
 
 ```swift
 NBCollapsable(isExpanded: $isExpanded) {
-    NBFlatCard {
+    GroupBox {
         HStack {
             Text("Need something?")
             Spacer()
@@ -357,10 +338,12 @@ NBCollapsable(isExpanded: $isExpanded) {
             }
         }
     }
+    .groupBoxStyle(.neoBrutalism(elevated: false))
     NBCollapsableContent {
-        NBFlatCard(type: .neutral) {
+        GroupBox {
             Text("Here’s what you need!")
         }
+        .groupBoxStyle(.neoBrutalism(type: .neutral, elevated: false))
     }
 }
 ```
@@ -400,23 +383,6 @@ struct DrawerExampleView: View {
             }
         }
     }
-}
-```
-
-### Flat Card
-
-<p>
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/d9a8e2b5-2522-47b5-885f-00d57504e4fa" loading="lazy" />
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/1103942e-519c-4813-8a01-60f1a653ce18" loading="lazy" />
-</p>
-
-```swift
-NBFlatCard {
-    Text("Quidditch Tryouts - This Saturday!")
-}
-
-NBFlatCard(type: .neutral) {
-    Text("O.W.L. Exams Approaching - Study Hard!")
 }
 ```
 
@@ -469,9 +435,10 @@ NBBadge(type: .neutral) {
 </p>
 
 ```swift
-NBFlatCard {
+GroupBox {
     NBRoundSkeleton()
 }
+.groupBoxStyle(.neoBrutalism(elevated: false))
 .frame(width: 120, height: 120)
 ```
 

@@ -1,0 +1,179 @@
+# NeoBrutalism — Execution Plans
+
+This folder turns [ROADMAP.md](../ROADMAP.md) into implementation-ready tasks. Each `Txx-*.md`
+file is scoped to **one focused coding session** (small diff, one concern, verifiable), so it can
+be handed to a coding agent as-is.
+
+## How to run a task
+
+Prompt template for a coding session:
+
+> Read `Plans/README.md` (conventions + verification), then implement `Plans/Txx-<name>.md`
+> exactly as specified. Stay inside the task's "Out of scope" boundary. When done, run the
+> verification steps and report results.
+
+Recommended order is the numeric order. Dependencies are noted per task; anything without a
+dependency note can run in any order within its phase.
+
+## Phase 0 — before any task runs (maintainer, by hand)
+
+- [ ] Commit the current working tree (it builds: `BUILD SUCCEEDED` on 2026-07-11). It contains
+      the new Gauge/Label/LabeledContent/ControlGroup/Menu/SegmentedPicker/Stepper/TabView work,
+      the `.neoBrutalism()` root modifier, and the Tabs/Card/FlatCard deletions.
+- [ ] Prune stale agent worktrees: `git worktree list` shows ~10 under `.claude/worktrees/`;
+      remove with `git worktree remove <path>` + delete their branches once confirmed merged/abandoned.
+- [ ] Run the full snapshot suite once locally so every task starts from green.
+
+## The target (recap)
+
+One modifier at the root restyles a plain SwiftUI app:
+
+```swift
+WindowGroup {
+    ContentView()          // plain SwiftUI: Button, Toggle, TextField, List, GroupBox…
+        .neoBrutalism()    // ← the whole app takes the neobrutalism look
+}
+```
+
+SwiftUI makes this possible because style modifiers (`buttonStyle`, `toggleStyle`, …) propagate
+through the environment to every descendant. The root modifier exists
+([NeoBrutalismModifier.swift](../Sources/NeoBrutalism/Common/NeoBrutalismModifier.swift)); the
+work is finishing coverage, fixing consistency, and covering the views SwiftUI does **not** let
+us style (List, navigation, dialogs) with helpers or drop-in `NB*` views.
+
+## SwiftUI coverage map
+
+| Native view | Style protocol? | Our answer | Status |
+|---|---|---|---|
+| Button | `ButtonStyle` | `.neoBrutalism(type:variant:)` | ✅ needs disabled state (T03) |
+| Toggle | `ToggleStyle` | checkbox / switch / radio styles | ✅ needs disabled + naming (T03, T10) |
+| TextField / SecureField | `TextFieldStyle` | `.neoBrutalism` | ✅ verify SecureField (T14) |
+| TextEditor | none usable | `nbTextEditor()` helper | 🔲 T14 |
+| ProgressView | `ProgressViewStyle` | `.neoBrutalism` | ✅ indeterminate missing (T04) |
+| Gauge | `GaugeStyle` | `.neoBrutalism` | ✅ dedupe with Progress (T04) |
+| Label | `LabelStyle` | `.neoBrutalism` | ✅ foreground fix (T09) |
+| LabeledContent | `LabeledContentStyle` | `.neoBrutalism` | ✅ contrast fix (T09) |
+| DisclosureGroup | `DisclosureGroupStyle` | `.neoBrutalismAccordion` | ✅ naming (T10) |
+| GroupBox | `GroupBoxStyle` | `.neoBrutalism(type:elevated:)` | ✅ |
+| ControlGroup | `ControlGroupStyle` | `.neoBrutalism` | ✅ press effect (T06) |
+| Menu | `MenuStyle` (trigger only) | style + `NBMenu` for the dropdown | ✅ polish (T19) |
+| Slider | **no protocol** | `NBSlider` | ⚠️ not drop-in yet (T17) |
+| Stepper | **no protocol** | `NBStepper` | ⚠️ Int-only (T18) |
+| Picker (segmented) | **no protocol** | `NBSegmentedPicker` | ✅ |
+| Picker (menu/wheel) | **no protocol** | document `NBMenu` as the alternative | 🔲 T26 docs |
+| List / Form | **not stylable** | `nbList()` / `nbListRow()` helpers | 🔲 T12 |
+| NavigationStack chrome | partial | `nbNavigationBar()` helper | 🔲 T13 |
+| TabView (screen-level) | **not stylable** | `NBTabView` (inline tabs) | ✅ |
+| alert / confirmationDialog | **not stylable** | `nbDialog()` | 🔲 T16 |
+| sheet | partial | `nbDrawer()` | ✅ |
+| Radio group (no native iOS control) | — | `NBRadioGroup` | ⚠️ structure + a11y (T05) |
+
+Intentionally custom-only (no native counterpart): `NBAlert`, `NBBadge`, `NBCollapsable`,
+skeletons.
+
+## Task index
+
+**Phase T — Testing foundation** (do before everything else: Phase 1 tasks all use
+"snapshots must not change" as their safety net, which requires snapshots you can trust.
+Diagnosis + strategy: [TESTING.md](TESTING.md))
+
+| Task | Title | Size |
+|---|---|---|
+| [T29](T29-snapshot-migration-and-pinning.md) | Snapshot stack migration + environment pinning (iPhone 16 · iOS 18.5) | M |
+| [T30](T30-ci-record-workflow-and-unit-layer.md) | CI re-record workflow + unit-test layer | S |
+
+**Phase 1 — Correctness & consistency** (small mechanical fixes)
+
+| Task | Title | Size |
+|---|---|---|
+| [T01](T01-theme-token-color-sweep.md) | Replace hardcoded blacks with theme tokens | XS |
+| [T02](T02-reduce-motion-sweep.md) | Respect Reduce Motion everywhere | XS |
+| [T03](T03-disabled-states.md) | Disabled-state rendering for all controls | S |
+| [T04](T04-bar-meter-dedupe-indeterminate.md) | Shared bar meter for Progress+Gauge; indeterminate progress | S |
+| [T05](T05-radio-structure-a11y.md) | Radio: remove nested button, add accessibility | S |
+| [T06](T06-press-effect-unification.md) | One shared press effect everywhere | S |
+| [T07](T07-snapshot-coverage-gaps.md) | Snapshot tests for Accordion/Alert/Badge/Collapsable | S |
+| [T08](T08-dead-code-and-typos.md) | Dead code, folder typos, namespace cleanup | XS |
+
+**Phase 2 — The one-modifier headline**
+
+| Task | Title | Size |
+|---|---|---|
+| [T09](T09-label-labeledcontent-hygiene.md) | Label/LabeledContent style fixes (prereq for T11) | XS |
+| [T10](T10-style-naming-convention.md) | Naming convention: `.neoBrutalism` everywhere, deprecations | S |
+| [T11](T11-root-modifier-v2.md) | Root modifier v2: full coverage, one signature | M |
+| [T12](T12-list-and-form-support.md) | List & Form support (`nbList`, `nbListRow`) | M |
+| [T13](T13-navigation-chrome.md) | Navigation bar/toolbar helper | S |
+| [T14](T14-texteditor-securefield.md) | TextEditor helper + SecureField verification | S |
+| [T15](T15-typography-token.md) | `fontDesign` theme token | XS |
+| [T16](T16-dialog.md) | `nbDialog()` centered modal (alert replacement) | M |
+
+**Phase 3 — Drop-in parity for custom components**
+
+| Task | Title | Size |
+|---|---|---|
+| [T17](T17-slider-v2.md) | NBSlider v2: generic value, range, step, a11y | M |
+| [T18](T18-stepper-v2.md) | NBStepper v2: step, auto-repeat, a11y | S |
+| [T19](T19-menu-polish.md) | NBMenu: dividers, disabled items, long menus | S |
+| [T20](T20-skeleton-shimmer.md) | Skeleton pulse + `nbSkeleton()` modifier | S |
+| [T21](T21-alert-conveniences.md) | NBAlert string-based initializers | XS |
+
+**Phase 4 — Theming as a feature**
+
+| Task | Title | Size |
+|---|---|---|
+| [T22](T22-preset-themes.md) | Ship 5 preset themes | S |
+| [T23](T23-example-theme-gallery.md) | Live theme gallery in the Example app | S |
+
+**Phase 5 — Adoption** (parallel to everything after Phase 2)
+
+| Task | Title | Size |
+|---|---|---|
+| [T24](T24-example-app-restructure.md) | Example app: real-app-first + capture kit | M |
+| [T25](T25-readme-overhaul.md) | README overhaul: hero, 10-second pitch | S |
+| [T26](T26-docc-and-spi.md) | DocC catalog + Swift Package Index | M |
+| [T27](T27-release-engineering.md) | CHANGELOG, CONTRIBUTING, CI artifacts, v2.1 | S |
+| [T28](T28-launch-kit.md) | Launch kit: posts, submissions, link-backs | S |
+
+## Conventions (the contract for every task)
+
+1. **Native first.** Style native controls via style protocols; custom `NB*` views only when no
+   protocol exists. Custom views mirror the native initializer shape so adoption is a rename.
+2. **Theme tokens only.** No hardcoded colors/sizes in component bodies — read
+   `@Environment(\.nbTheme)`. Every border is `theme.border`, every surface `theme.bw` or
+   `theme.main`, every radius `theme.borderRadius`.
+3. **Box + press language.** Bordered surfaces go through `.nbBox(elevated:roundedCorners:)`.
+   Pressed = shadow collapses (`nbPressEffect` / `nbPressAnimation`). Pop-in = `nbPopAnimation`.
+4. **Accessibility.** Custom-gesture components need labels/values/traits and
+   `accessibilityReduceMotion` handling. Native-styled controls inherit this for free — don't
+   break it (keep `Button`-based internals, not bare `onTapGesture`, where practical).
+5. **Definition of done** for anything public: DocC comment `///` with a code example ·
+   `#Preview(traits: .modifier(NBPreviewHelper()))` · snapshot test(s) (light+dark are generated
+   by the suite) · Example app entry (`Example/Sources/ContentView.swift`) · README section.
+6. **API stability.** Additive changes only until v3.0. Renames = add new name +
+   `@available(*, deprecated, renamed:)` on the old one. Never change `NBTheme`'s stored
+   properties' meaning; adding tokens with defaulted `updateBy` parameters is fine.
+7. **Code style.** Match the existing files: 4-space indent, `// MARK: -` sections, private
+   helpers in an `extension` below the type, previews at the bottom of the file.
+8. **Snapshot determinism.** Snapshot subjects must be static at first frame — no `onAppear`
+   animations in the captured state; animated things snapshot their Reduce-Motion/static
+   rendering. Full policy in [TESTING.md](TESTING.md).
+
+## Verification (run after every task)
+
+```bash
+# Build (fast sanity check — the package is iOS-only, so plain `swift build` won't work):
+xcodebuild -scheme NeoBrutalism -destination "generic/platform=iOS Simulator" build
+
+# Snapshot tests — MUST run on the pinned reference environment (see TESTING.md):
+Scripts/test.sh          # after T29; pins iPhone 16 · iOS 18.5
+Scripts/record.sh        # re-record intentional visual changes on the same pin
+```
+
+Until T29 lands, treat local snapshot results as advisory only — references were recorded on
+unpinned environments and the comparison is exact-match, so local failures don't necessarily
+mean your change is wrong (see [TESTING.md](TESTING.md) for why). After T29: reference images
+live in `Tests/NeoBrutalismTests/__Snapshots__/<Suite>/`, one light + one dark per test. New
+test → record once, verify twice. Intentional visual change → re-record only the affected
+suites, eyeball every changed PNG (and the Example app) before committing; the canonical
+recorder is the CI workflow from T30. Never blanket-delete `__Snapshots__`.

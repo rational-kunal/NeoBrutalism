@@ -16,6 +16,9 @@ look. Custom `NB*` views exist only where SwiftUI has no native counterpart.
 
 Current release: **2.0.0** · iOS 17+ · 20 components
 
+> **Execution:** each roadmap item is broken into implementation-ready, single-session task
+> specs in [`Plans/`](Plans/README.md).
+
 ---
 
 ## Milestone 1 — Out of the box (v2.1–v2.x)
@@ -38,7 +41,7 @@ Done already: ✅ Button · ✅ Checkbox/Switch (`ToggleStyle`) · ✅ TextField
 ✅ ProgressView · ✅ Accordion (`DisclosureGroupStyle`)
 
 Each new style follows the same definition of done (docs + previews + snapshots + README):
-- [ ] `GroupBoxStyle` — native `GroupBox` gets the Card look for free
+- [x] `GroupBoxStyle` — native `GroupBox` gets the Card look for free
 - [ ] `LabelStyle` — icon + text in theme style
 - [ ] `GaugeStyle` — bordered dial/meter; a natural fit for the style
 - [ ] `ControlGroupStyle` — bordered button group
@@ -51,8 +54,6 @@ SwiftUI doesn't let us style these via a protocol, so we mirror the native API w
 drop-in view (same initializer shape, so migration is a rename):
 - [ ] `NBStepper` — mirrors `Stepper`
 - [ ] `NBSegmentedPicker` — segmented `Picker` is not stylable
-- [ ] `List`/`Form` row helpers — modifiers that make native list rows look right
-      (full custom list style isn't possible; helpers are the realistic scope)
 
 ### Design consistency
 - [ ] One shared press effect (shadow collapses, content translates by the shadow

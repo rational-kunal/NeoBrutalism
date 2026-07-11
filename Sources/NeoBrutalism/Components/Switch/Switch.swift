@@ -6,10 +6,11 @@ public extension ToggleStyle where Self == NBSwitchToggleStyle {
 
 public struct NBSwitchToggleStyle: ToggleStyle {
     @Environment(\.nbTheme) var theme: NBTheme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     public func makeBody(configuration: Configuration) -> some View {
         Button {
-            withAnimation(.interactiveSpring) {
+            withAnimation(nbPressAnimation(reduceMotion: reduceMotion)) {
                 configuration.isOn.toggle()
             }
         } label: {

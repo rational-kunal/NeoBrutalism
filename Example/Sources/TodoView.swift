@@ -61,12 +61,13 @@ struct TodoRow: View {
     @State var isChecked = false
 
     var body: some View {
-        NBFlatCard {
+        GroupBox {
             Toggle(isOn: $isChecked) {
                 Text(todo.title)
                     .strikethrough(isChecked)
             }
             .toggleStyle(.neoBrutalismChecklist)
         }
+        .groupBoxStyle(.neoBrutalism(elevated: false))
     }
 }

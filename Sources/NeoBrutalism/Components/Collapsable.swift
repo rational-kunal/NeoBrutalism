@@ -70,7 +70,7 @@ public struct NBCollapsable<Content>: View where Content: View {
 
     VStack {
         NBCollapsable(isExpanded: $isExapanded) {
-            NBFlatCard {
+            GroupBox {
                 HStack {
                     Text("Some")
                     Spacer()
@@ -80,17 +80,19 @@ public struct NBCollapsable<Content>: View where Content: View {
                 }
             }
 
-            NBFlatCard(type: .neutral) {
+            GroupBox {
                 Text("another card")
             }
+            .groupBoxStyle(.neoBrutalism(type: .neutral, elevated: false))
 
             NBCollapsableContent {
-                NBFlatCard(type: .default) {
+                GroupBox {
                     Text("Content")
                     Text("Content")
                     Text("Content")
                 }
             }
         }
+        .groupBoxStyle(.neoBrutalism(elevated: false))
     }
 }

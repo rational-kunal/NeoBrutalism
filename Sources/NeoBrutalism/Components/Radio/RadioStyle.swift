@@ -7,10 +7,11 @@ public extension ToggleStyle where Self == NBRadioStyle {
 // TODO: https://github.com/rational-kunal/NeoBrutalism/issues/9
 public struct NBRadioStyle: ToggleStyle {
     @Environment(\.nbTheme) var theme: NBTheme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     public func makeBody(configuration: Configuration) -> some View {
         Button {
-            withAnimation(.interactiveSpring) {
+            withAnimation(nbPressAnimation(reduceMotion: reduceMotion)) {
                 configuration.isOn.toggle()
             }
         } label: {
@@ -26,7 +27,7 @@ public struct NBRadioStyle: ToggleStyle {
 extension NBRadioStyle {
     private func makeRadio(configuration: Configuration) -> some View {
         Button {
-            withAnimation(.interactiveSpring) {
+            withAnimation(nbPressAnimation(reduceMotion: reduceMotion)) {
                 configuration.isOn.toggle()
             }
         } label: {

@@ -4,6 +4,7 @@ public struct NBRadioItem<Label>: View where Label: View {
     @Environment(\.nbTheme) var theme: NBTheme
     @Environment(\.nbSelectedRadioItemValue) var selectedRadioItemValue: AnyEquatable?
     @Environment(\.nbRadioItemDidSelect) var radioItemDidSelect: NBRadioItemDidSelect
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var value: AnyEquatable
     var selected: Bool {
@@ -30,7 +31,7 @@ public struct NBRadioItem<Label>: View where Label: View {
         }
         .contentShape(Rectangle())
         .onTapGesture {
-            withAnimation(.interactiveSpring) {
+            withAnimation(nbPressAnimation(reduceMotion: reduceMotion)) {
                 radioItemDidSelect(value)
             }
         }

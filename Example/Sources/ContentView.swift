@@ -120,26 +120,23 @@ struct ButtonExampleView: View {
     }
 }
 
-struct CardExampleView: View {
+struct GroupBoxExampleView: View {
     var body: some View {
         VStack(spacing: 28.0) {
-            NBCard {
-                Text("Hogwarts Letter")
-            } main: {
+            GroupBox("Hogwarts Letter") {
                 Text("You have been accepted to Hogwarts School of Witchcraft and Wizardry!")
-            } footer: {
+
                 Button {
                     // No-op
                 } label: {
                     Text("Open Letter").frame(maxWidth: .infinity)
                 }.buttonStyle(.neoBrutalism())
             }
+            .groupBoxStyle(.neoBrutalism())
 
-            NBCard(type: .neutral) {
-                Text("Quidditch Gear")
-            } main: {
+            GroupBox("Quidditch Gear") {
                 Text("Get your broomstick, Quidditch robes, and golden snitch!")
-            } footer: {
+
                 HStack(spacing: 12.0) {
                     Button {
                         // No-op
@@ -156,6 +153,17 @@ struct CardExampleView: View {
                     }.buttonStyle(.neoBrutalism())
                 }
             }
+            .groupBoxStyle(.neoBrutalism(type: .neutral))
+
+            GroupBox {
+                Text("Quidditch Tryouts - This Saturday! (flat)")
+            }
+            .groupBoxStyle(.neoBrutalism(elevated: false))
+
+            GroupBox {
+                Text("O.W.L. Exams Approaching - Study Hard!")
+            }
+            .groupBoxStyle(.neoBrutalism(type: .neutral, elevated: false))
         }
     }
 }
@@ -225,9 +233,10 @@ struct RadioGroupExampleView: View {
 struct RoundSkeletonExampleView: View {
     var body: some View {
         VStack(spacing: 12.0) {
-            NBFlatCard {
+            GroupBox {
                 NBRoundSkeleton()
             }
+            .groupBoxStyle(.neoBrutalism(elevated: false))
             .frame(width: 120, height: 120)
         }
     }
@@ -252,22 +261,29 @@ struct TabsExampleView: View {
             Text("House Selection: \(selectedTab)")
                 .font(.title3)
 
-            NBTabs(selectedTabItem: $selectedTab) {
-                NBTabsList {
-                    NBTabsTrigger(tabItem: 0) { Image(systemName: "flame.fill") }
-                    NBTabsTrigger(tabItem: 1) { Image(systemName: "lanyardcard.fill") }
-                    NBTabsTrigger(tabItem: 2) { Image(systemName: "book.fill") }
-                    NBTabsTrigger(tabItem: 3) { Image(systemName: "leaf.fill") }
+            NBTabView(selection: $selectedTab) {
+                NBTab(value: 0) {
+                    GroupBox { Text("Bravery and Daring!") }
+                } label: {
+                    Image(systemName: "flame.fill")
                 }
-                NBFlatCard {
-                    ZStack {
-                        NBTabsContent(tabItem: 0) { Text("Bravery and Daring!") }
-                        NBTabsContent(tabItem: 1) { Text("Cunning and Ambition!") }
-                        NBTabsContent(tabItem: 2) { Text("Wisdom and Learning!") }
-                        NBTabsContent(tabItem: 3) { Text("Loyalty and Hard Work!") }
-                    }
+                NBTab(value: 1) {
+                    GroupBox { Text("Cunning and Ambition!") }
+                } label: {
+                    Image(systemName: "lanyardcard.fill")
+                }
+                NBTab(value: 2) {
+                    GroupBox { Text("Wisdom and Learning!") }
+                } label: {
+                    Image(systemName: "book.fill")
+                }
+                NBTab(value: 3) {
+                    GroupBox { Text("Loyalty and Hard Work!") }
+                } label: {
+                    Image(systemName: "leaf.fill")
                 }
             }
+            .groupBoxStyle(.neoBrutalism(elevated: false))
         }
     }
 }
@@ -281,7 +297,7 @@ struct CollapsableExampleView: View {
                 .font(.title)
 
             NBCollapsable(isExpanded: $isExpanded) {
-                NBFlatCard {
+                GroupBox {
                     HStack {
                         Text("Need something?")
                         Spacer()
@@ -290,10 +306,12 @@ struct CollapsableExampleView: View {
                         }
                     }
                 }
+                .groupBoxStyle(.neoBrutalism(elevated: false))
                 NBCollapsableContent {
-                    NBFlatCard(type: .neutral) {
+                    GroupBox {
                         Text("Here’s what you need!")
                     }
+                    .groupBoxStyle(.neoBrutalism(type: .neutral, elevated: false))
                 }
             }
         }
@@ -329,17 +347,119 @@ struct DrawerExampleView: View {
     }
 }
 
-struct FlatCardExampleView: View {
-    var body: some View {
-        VStack(spacing: 16.0) {
-            NBFlatCard {
-                Text("Quidditch Tryouts - This Saturday!")
-            }
+// MARK: - Label Style
 
-            NBFlatCard(type: .neutral) {
-                Text("O.W.L. Exams Approaching - Study Hard!")
-            }
+struct LabelStyleExampleView: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Label("Gryffindor Common Room", systemImage: "flame.fill")
+                .labelStyle(.neoBrutalism)
+            Label("Potions Class", systemImage: "flask.fill")
+                .labelStyle(.neoBrutalism)
         }
+    }
+}
+
+// MARK: - Gauge Style
+
+struct GaugeStyleExampleView: View {
+    var body: some View {
+        VStack(spacing: 12) {
+            Gauge(value: 0.75) {
+                Text("Patronus Power")
+            }
+            .gaugeStyle(.neoBrutalism)
+        }
+    }
+}
+
+// MARK: - Menu Style
+
+struct MenuStyleExampleView: View {
+    var body: some View {
+        NBMenu {
+            NBMenuItem("Holly & Phoenix Feather", systemImage: "wand.and.stars") {}
+            NBMenuItem("Elder & Thestral Hair", systemImage: "wand.and.stars") {}
+            NBMenuItem("Vine & Dragon Heartstring", systemImage: "wand.and.stars") {}
+            NBMenuItem("Snap It", systemImage: "trash", role: .destructive) {}
+        } label: {
+            Text("Choose Your Wand")
+        }
+    }
+}
+
+// MARK: - Control Group Style
+
+struct ControlGroupStyleExampleView: View {
+    var body: some View {
+        ControlGroup {
+            Button("Lumos") {}
+            Button("Nox") {}
+            Button("Accio") {}
+        }
+        .controlGroupStyle(.neoBrutalism)
+    }
+}
+
+// MARK: - Labeled Content Style
+
+struct LabeledContentStyleExampleView: View {
+    var body: some View {
+        VStack(spacing: 12) {
+            LabeledContent("House", value: "Gryffindor")
+                .labeledContentStyle(.neoBrutalism)
+            LabeledContent("Patronus", value: "Stag")
+                .labeledContentStyle(.neoBrutalism)
+        }
+    }
+}
+
+// MARK: - Stepper
+
+struct StepperExampleView: View {
+    @State private var cauldronCount: Int = 3
+
+    var body: some View {
+        VStack(spacing: 12) {
+            NBStepper("Cauldrons", value: $cauldronCount, in: 0...10)
+            Text("Brewing \(cauldronCount) potions tonight")
+                .italic()
+        }
+    }
+}
+
+// MARK: - Segmented Picker
+
+struct SegmentedPickerExampleView: View {
+    @State private var selectedHouse: String = "Gryffindor"
+
+    var body: some View {
+        VStack(spacing: 12) {
+            NBSegmentedPicker(selection: $selectedHouse) {
+                Text("Gryffindor").nbSegment("Gryffindor")
+                Text("Slytherin").nbSegment("Slytherin")
+                Text("Ravenclaw").nbSegment("Ravenclaw")
+            }
+            Text("Chosen: \(selectedHouse)")
+                .italic()
+        }
+    }
+}
+
+// MARK: - Root Modifier Demo
+
+struct RootModifierExampleView: View {
+    @State private var spellActive = true
+    @State private var incantation = "Expecto Patronum"
+
+    var body: some View {
+        VStack(spacing: 14) {
+            Button("Cast Spell") {}
+            Toggle("Shield Charm", isOn: $spellActive)
+            TextField("Incantation", text: $incantation)
+            ProgressView(value: 0.6)
+        }
+        .neoBrutalism()
     }
 }
 
@@ -369,7 +489,7 @@ struct ContentView: View {
             AnyView(AlertExampleView()),
             AnyView(BadgeExampleView()),
             AnyView(ButtonExampleView()),
-            AnyView(CardExampleView()),
+            AnyView(GroupBoxExampleView()),
             AnyView(InputExampleView()),
             AnyView(ProgressExampleView()),
             AnyView(SliderExampleView()),
@@ -379,7 +499,14 @@ struct ContentView: View {
             AnyView(TabsExampleView()),
             AnyView(CollapsableExampleView()),
             AnyView(DrawerExampleView()),
-            AnyView(FlatCardExampleView()),
+            AnyView(LabelStyleExampleView()),
+            AnyView(GaugeStyleExampleView()),
+            AnyView(MenuStyleExampleView()),
+            AnyView(ControlGroupStyleExampleView()),
+            AnyView(LabeledContentStyleExampleView()),
+            AnyView(StepperExampleView()),
+            AnyView(SegmentedPickerExampleView()),
+            AnyView(RootModifierExampleView()),
         ]
 
         ZStack {
@@ -401,9 +528,10 @@ struct ContentView: View {
                     }
 
                     ForEach(0 ..< exampleViews.count, id: \.self) { index in
-                        NBCard(type: .neutral) {
+                        GroupBox {
                             exampleViews[index]
                         }
+                        .groupBoxStyle(.neoBrutalism(type: .neutral))
                     }
                 }.padding(theme.padding)
             }
