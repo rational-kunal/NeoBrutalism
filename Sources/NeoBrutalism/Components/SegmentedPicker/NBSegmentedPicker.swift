@@ -92,6 +92,12 @@ public extension View {
             Text("Two").nbSegment("Two")
             Text("Three").nbSegment("Three")
         }
+        
+        NBSegmentedPicker(selection: $selected) {
+            Text("One").nbSegment("One")
+            Text("Two").nbSegment("Two")
+            Text("Three").nbSegment("Three")
+        }.disabled(true)
 
         NBSegmentedPicker(selection: $size) {
             Text("S").nbSegment(0)

@@ -128,6 +128,9 @@ public extension NBStepper where Label == Text {
         NBStepper(value: $count, in: 0...10) {
             Label("Items", systemImage: "cart")
         }
+        NBStepper(value: $count, in: 0...10) {
+            Label("Items", systemImage: "cart")
+        }.disabled(true)
         NBStepper("At minimum", value: .constant(0), in: 0...5)
         NBStepper("At maximum", value: .constant(5), in: 0...5)
     }

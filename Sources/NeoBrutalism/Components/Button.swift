@@ -67,6 +67,10 @@ public struct NBButtonStyle: ButtonStyle {
     VStack(alignment: .leading, spacing: 20) {
         Button("Basic Button") {}
             .buttonStyle(.neoBrutalism())
+        
+        Button("Disabled Button") {}
+            .disabled(true)
+            .buttonStyle(.neoBrutalism())
 
         Button {} label: {
             Label("With Icon", systemImage: "star.fill")
