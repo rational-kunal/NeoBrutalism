@@ -71,4 +71,14 @@ struct ButtonStyleTests {
             .buttonStyle(.neoBrutalism())
         )
     }
+
+    // MARK: - Disabled State
+
+    @Test func button_disabled() {
+        assertNBSnapshot(
+            of: Button("Disabled") {}
+                .buttonStyle(.neoBrutalism())
+                .disabled(true)
+        )
+    }
 }

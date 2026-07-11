@@ -102,6 +102,7 @@ public struct NBStepper<Label: View>: View {
             .animation(reduceMotion ? .none : .interactiveSpring(), value: isPlusPressed)
             .nbBox(elevated: !(isMinusPressed || isPlusPressed))
         }
+        .nbDisabledEffect()
     }
 }
 

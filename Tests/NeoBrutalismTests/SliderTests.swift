@@ -16,4 +16,8 @@ struct SliderTests {
     @Test func slider_48() {
         assertNBSnapshot(of: NBSlider(value: .constant(0.48)))
     }
+
+    @Test func slider_disabled() {
+        assertNBSnapshot(of: NBSlider(value: .constant(0.48)).disabled(true))
+    }
 }

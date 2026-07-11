@@ -44,6 +44,7 @@ public struct NBButtonStyle: ButtonStyle {
             .background(backgroundColor)
             .nbBox(elevated: elevated)
             .animation(reduceMotion ? .none : .interactiveSpring(), value: isPressed)
+            .nbDisabledEffect()
     }
 
     private var textForegroundColor: Color {

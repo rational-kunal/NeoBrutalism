@@ -55,6 +55,7 @@ public struct NBSegmentedPicker<Value: Hashable>: View {
         }
         .fixedSize(horizontal: false, vertical: true)
         .nbBox()
+        .nbDisabledEffect()
     }
 }
 

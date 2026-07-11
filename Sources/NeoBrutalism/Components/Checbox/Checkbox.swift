@@ -20,6 +20,7 @@ public struct NBCheckboxToggleStyle: ToggleStyle {
             }
         }
         .buttonStyle(.plain)
+        .nbDisabledEffect()
     }
 }
 

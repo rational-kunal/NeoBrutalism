@@ -20,6 +20,7 @@ public struct NBSwitchToggleStyle: ToggleStyle {
             }
         }
         .buttonStyle(.plain)
+        .nbDisabledEffect()
     }
 }
 
