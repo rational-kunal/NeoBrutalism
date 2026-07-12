@@ -20,4 +20,12 @@ struct SliderTests {
     @Test func slider_disabled() {
         assertNBSnapshot(of: NBSlider(value: .constant(0.48)).disabled(true))
     }
+
+    @Test func slider_range_with_step() {
+        assertNBSnapshot(of: NBSlider(value: .constant(50.0), in: 0...100, step: 5))
+    }
+
+    @Test func slider_range_disabled() {
+        assertNBSnapshot(of: NBSlider(value: .constant(30.0), in: 0...100, step: 5).disabled(true))
+    }
 }

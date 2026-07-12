@@ -204,13 +204,17 @@ struct ProgressExampleView: View {
 }
 
 struct SliderExampleView: View {
-    @State var sliderValue: CGFloat = 0.0
+    @State var volume: Double = 30
 
     var body: some View {
-        HStack {
-            Text("\(sliderValue, specifier: "%.2f")")
-                .frame(width: 50.0, alignment: .leading)
-            NBSlider(value: $sliderValue)
+        VStack(spacing: 12) {
+            HStack {
+                Text("Volume")
+                Spacer()
+                Text("\(Int(volume))%")
+                    .font(.headline)
+            }
+            NBSlider(value: $volume, in: 0...100, step: 5)
         }
     }
 }
