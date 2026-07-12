@@ -17,6 +17,7 @@ struct ListTests {
             }
             .nbList()
             .frame(height: 300)
+            .neoBrutalism()
         )
     }
 
@@ -38,6 +39,7 @@ struct ListTests {
             }
             .nbList()
             .frame(height: 300)
+            .neoBrutalism()
         )
     }
 }
