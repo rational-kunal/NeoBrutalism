@@ -7,13 +7,15 @@ public struct NBRoundSkeleton: View {
 
     public var body: some View {
         Circle()
-            .fill(theme.clear)
+            .fill(theme.bw)
             .overlay(
                 Circle()
                     .stroke(theme.border, lineWidth: theme.borderWidth)
             )
             .padding(theme.smpadding)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .modifier(NBSkeletonPulse())
+            .accessibilityHidden(true)
     }
 }
 

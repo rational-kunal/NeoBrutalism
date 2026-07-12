@@ -552,6 +552,27 @@ VStack(alignment: .leading, spacing: 12.0) {
 }
 ```
 
+### Skeleton Modifier
+
+Replaces any view with a pulsing skeleton placeholder while loading. The skeleton inherits the
+size and layout of the wrapped view.
+
+```swift
+@State var isLoading = true
+
+HStack(spacing: 12.0) {
+    Image(systemName: "person.crop.circle.fill")
+        .resizable()
+        .frame(width: 48, height: 48)
+
+    VStack(alignment: .leading, spacing: 4.0) {
+        Text("Profile Name")
+        Text("@username").font(.caption)
+    }
+}
+.nbSkeleton(active: isLoading)
+```
+
 ### Menu
 
 `NBMenu` provides a fully themed dropdown menu — both trigger and items. The dropdown renders in
