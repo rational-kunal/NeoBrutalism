@@ -42,17 +42,13 @@ struct SwitchExampleView: View {
     @State var switchState = true
 
     var body: some View {
-        HStack {
-            Toggle(isOn: .constant(true)) {}
-            Toggle(isOn: .constant(false)) {}
-
-            Divider().fixedSize()
-
+        VStack(spacing: 12.0) {
             Toggle(isOn: $switchState) {
-                Spacer()
                 Text(switchState ? "(Lumos!)" : "(Nox!)")
                     .italic()
             }
+            Toggle("Invisibility Cloak", isOn: .constant(true))
+            Toggle("Muggle Mode", isOn: .constant(false))
         }.toggleStyle(.neoBrutalismSwitch)
     }
 }

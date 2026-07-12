@@ -18,8 +18,9 @@ public struct NBSwitchToggleStyle: ToggleStyle {
             }
         } label: {
             HStack {
-                makeSwitch(configuration: configuration)
                 configuration.label
+                Spacer(minLength: theme.spacing)
+                makeSwitch(configuration: configuration)
             }
         }
         .buttonStyle(.plain)
