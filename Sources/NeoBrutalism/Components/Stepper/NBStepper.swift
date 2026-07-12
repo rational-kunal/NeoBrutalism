@@ -11,7 +11,6 @@ import SwiftUI
 /// ```
 public struct NBStepper<Label: View>: View {
     @Environment(\.nbTheme) var theme: NBTheme
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @Binding private var value: Int
     private let range: ClosedRange<Int>
@@ -98,9 +97,7 @@ public struct NBStepper<Label: View>: View {
                 )
             }
             .fixedSize(horizontal: true, vertical: true)
-            .animation(reduceMotion ? .none : .interactiveSpring(), value: isMinusPressed)
-            .animation(reduceMotion ? .none : .interactiveSpring(), value: isPlusPressed)
-            .nbBox(elevated: !(isMinusPressed || isPlusPressed))
+            .nbPressEffect(isPressed: isMinusPressed || isPlusPressed)
         }
         .nbDisabledEffect()
     }

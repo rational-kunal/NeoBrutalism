@@ -71,7 +71,6 @@ public extension ControlGroupStyle where Self == NBControlGroupStyle {
 private struct NBControlGroupSectionStyle: ButtonStyle {
     @Environment(\.nbTheme) private var theme
     @Environment(\.backgroundStyle) private var backgroundStyle
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.nbSectionCorners) private var corners
 
     func makeBody(configuration: Configuration) -> some View {
@@ -80,12 +79,8 @@ private struct NBControlGroupSectionStyle: ButtonStyle {
             .padding(theme.smpadding)
             .background {
                 Rectangle().fill(backgroundStyle ?? AnyShapeStyle(theme.main))
-                if configuration.isPressed {
-                    theme.border.opacity(0.15)
-                }
             }
-            .nbBox(roundedCorners: corners)
-            .animation(reduceMotion ? .none : .interactiveSpring(), value: configuration.isPressed)
+            .nbPressEffect(isPressed: configuration.isPressed, roundedCorners: corners)
     }
 }
 
