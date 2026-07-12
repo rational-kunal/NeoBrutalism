@@ -108,6 +108,17 @@ struct ContentView: View {
 - **Borders**: `borderWidth`, `borderRadius`
 - **Typography**: `fontDesign` — applies a `Font.Design` (e.g., `.rounded`) to the entire hierarchy via the root modifier
 
+**Preset themes:** ship five bundled looks besides `.default`, each a drop-in for the `theme:` argument of `.neoBrutalism(theme:)` / `.nbTheme(_:)`:
+- `.sunnyPeach` — warm yellow on peach
+- `.bubblegum` — pink on blush
+- `.seafoam` — lime on sage
+- `.tangerine` — orange on cream
+- `.lavender` — purple on lilac
+
+```swift
+ContentView().neoBrutalism(theme: .bubblegum, applyBackground: true)
+```
+
 ## Architecture
 
 ```
