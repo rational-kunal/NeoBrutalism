@@ -96,7 +96,7 @@ us style (List, navigation, dialogs) with helpers or drop-in `NB*` views.
 | TabView (screen-level) | **not stylable** | `NBTabView` (inline tabs) | ✅ |
 | alert / confirmationDialog | **not stylable** | `nbDialog()` | 🔲 T16 |
 | sheet | partial | `nbDrawer()` | ✅ |
-| Radio group (no native iOS control) | — | `NBRadioGroup` | ⚠️ structure + a11y (T05) |
+| Radio group (no native iOS control) | — | `NBRadioGroup` | ✅ structure + a11y fixed (T05) |
 
 Intentionally custom-only (no native counterpart): `NBAlert`, `NBBadge`, `NBCollapsable`,
 skeletons.
@@ -120,10 +120,10 @@ Diagnosis + strategy: [TESTING.md](TESTING.md))
 | [T02](T02-reduce-motion-sweep.md) | Respect Reduce Motion everywhere | XS | ✅ Done |
 | [T03](T03-disabled-states.md) | Disabled-state rendering for all controls | S | ✅ Done |
 | [T04](T04-bar-meter-dedupe-indeterminate.md) | Shared bar meter for Progress+Gauge; indeterminate progress | S | ✅ Done |
-| [T05](T05-radio-structure-a11y.md) | Radio: remove nested button, add accessibility | S | 🔄 [PR #24](https://github.com/rational-kunal/NeoBrutalism/pull/24) — CI green, ready to merge |
-| [T06](T06-press-effect-unification.md) | One shared press effect everywhere | S | 🔄 [PR #25](https://github.com/rational-kunal/NeoBrutalism/pull/25) — CI green, ready to merge (ControlGroup's pressed state has no snapshot coverage, so nothing to re-record — see note below) |
-| [T07](T07-snapshot-coverage-gaps.md) | Snapshot tests for Accordion/Alert/Badge/Collapsable | S | 🔄 [PR #27](https://github.com/rational-kunal/NeoBrutalism/pull/27) — 18 reference PNGs recorded via CI and eyeballed, all correct; the verification CI run on that commit needs manual approval in the Actions tab (see note below) before merge |
-| [T08](T08-dead-code-and-typos.md) | Dead code, folder typos, namespace cleanup | XS | 🔄 [PR #26](https://github.com/rational-kunal/NeoBrutalism/pull/26) — CI green, ready to merge |
+| [T05](T05-radio-structure-a11y.md) | Radio: remove nested button, add accessibility | S | ✅ Done ([PR #24](https://github.com/rational-kunal/NeoBrutalism/pull/24)) |
+| [T06](T06-press-effect-unification.md) | One shared press effect everywhere | S | ✅ Done ([PR #25](https://github.com/rational-kunal/NeoBrutalism/pull/25)) |
+| [T07](T07-snapshot-coverage-gaps.md) | Snapshot tests for Accordion/Alert/Badge/Collapsable | S | ✅ Done ([PR #27](https://github.com/rational-kunal/NeoBrutalism/pull/27)) |
+| [T08](T08-dead-code-and-typos.md) | Dead code, folder typos, namespace cleanup | XS | ✅ Done ([PR #26](https://github.com/rational-kunal/NeoBrutalism/pull/26)) |
 
 **Phase 2 — The one-modifier headline**
 
