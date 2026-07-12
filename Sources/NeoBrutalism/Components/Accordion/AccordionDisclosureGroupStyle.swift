@@ -1,6 +1,10 @@
 import SwiftUI
 
 public extension DisclosureGroupStyle where Self == NBAccordionDisclosureGroupStyle {
+    /// Accordion look for `DisclosureGroup`.
+    static var neoBrutalism: NBAccordionDisclosureGroupStyle { .init() }
+
+    @available(*, deprecated, renamed: "neoBrutalism")
     static var neoBrutalismAccordion: NBAccordionDisclosureGroupStyle { .init() }
 }
 
@@ -66,6 +70,6 @@ public struct NBAccordionDisclosureGroupStyle: DisclosureGroupStyle {
     VStack(spacing: 18.0) {
         DisclosureGroup("Expecto Patronum") {
             Text("Pitradev Sanrakshanam - पितृदेव संरक्षणम्")
-        }.disclosureGroupStyle(.neoBrutalismAccordion)
+        }.disclosureGroupStyle(.neoBrutalism)
     }.padding()
 }

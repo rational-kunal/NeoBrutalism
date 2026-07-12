@@ -34,7 +34,9 @@ private func publicAPISurface() {
     // MARK: Style protocol entry points
 
     let _: NBButtonStyle = .neoBrutalism(type: .default, variant: .default)
-    let _: NBCheckboxToggleStyle = .neoBrutalismChecklist
+    let _: NBCheckboxToggleStyle = .neoBrutalismCheckbox
+    let _: NBCheckboxToggleStyle = .neoBrutalismChecklist // deprecated alias, must still compile
+    let _: NBSwitchToggleStyle = .neoBrutalism
     let _: NBSwitchToggleStyle = .neoBrutalismSwitch
     let _: NBRadioStyle = .neoBrutalismRadio
     let _: NBGroupBoxStyle = .neoBrutalism(type: .default, elevated: true)
@@ -45,7 +47,8 @@ private func publicAPISurface() {
     let _: NBLabeledContentStyle = .neoBrutalism
     let _: NBMenuStyle = .neoBrutalism
     let _: NBProgressViewStyle = .neoBrutalism
-    let _: NBAccordionDisclosureGroupStyle = .neoBrutalismAccordion
+    let _: NBAccordionDisclosureGroupStyle = .neoBrutalism
+    let _: NBAccordionDisclosureGroupStyle = .neoBrutalismAccordion // deprecated alias, must still compile
 
     // MARK: Theme
 

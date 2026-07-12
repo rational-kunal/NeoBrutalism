@@ -1,6 +1,10 @@
 import SwiftUI
 
 public extension ToggleStyle where Self == NBCheckboxToggleStyle {
+    /// Checkbox look for `Toggle`.
+    static var neoBrutalismCheckbox: NBCheckboxToggleStyle { .init() }
+
+    @available(*, deprecated, renamed: "neoBrutalismCheckbox")
     static var neoBrutalismChecklist: NBCheckboxToggleStyle { .init() }
 }
 
@@ -71,5 +75,5 @@ extension NBCheckboxToggleStyle {
             .disabled(true)
 
         Toggle(isOn: $checkboxState2) {}
-    }.toggleStyle(.neoBrutalismChecklist)
+    }.toggleStyle(.neoBrutalismCheckbox)
 }

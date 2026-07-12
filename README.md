@@ -43,7 +43,7 @@ struct ContentView: View {
             NBTheme.default.background
                 .ignoresSafeArea()
             Toggle(isOn: .constant(true)) { Text("Are you a wizard?") }
-                .toggleStyle(.neoBrutalismChecklist)
+                .toggleStyle(.neoBrutalismCheckbox)
         }
     }
 }
@@ -62,7 +62,7 @@ struct ContentView: View {
             theme.background
                 .ignoresSafeArea()
             Toggle(isOn: .constant(true)) { Text("Are you a wizard?") }
-                .toggleStyle(.neoBrutalismChecklist)
+                .toggleStyle(.neoBrutalismCheckbox)
         }.nbTheme(theme)
     }
 }
@@ -94,7 +94,7 @@ NeoBrutalism (Swift Package, iOS 17+)
 │       ├── Slider.swift            # NBSlider — CGFloat drag slider
 │       ├── Drawer.swift            # .nbDrawer() — bottom sheet
 │       ├── Collapsable.swift       # NBCollapsable + Trigger + Content
-│       ├── Accordian/              # DisclosureGroupStyle (.neoBrutalismAccordion)
+│       ├── Accordian/              # DisclosureGroupStyle (.neoBrutalism)
 │       ├── Radio/                  # NBRadioGroup + NBRadioItem + Indicator
 │       ├── Tabs/                   # NBTabView + NBTab — inline tab view
 │       └── Skeleton/               # NBRoundSkeleton + NBTextSkeleton
@@ -128,7 +128,7 @@ NeoBrutalism includes commonly used UI components, with plans to expand as neede
 
 ```swift
 Toggle(isOn: $checkboxState) { Text(checkboxState ? "(Alohomora!)" : "(Colloportus!)") }
-    .toggleStyle(.neoBrutalismChecklist)
+    .toggleStyle(.neoBrutalismCheckbox)
 ```
 
 ### Switch
@@ -151,7 +151,7 @@ Toggle(isOn: $switchState) { Text(switchState ? "(Lumos!)" : "(Nox!)") }
 ```swift
 DisclosureGroup("Expecto Patronum") {
     Text("Pitradev Sanrakshanam - पितृदेव संरक्षणम्")
-}.disclosureGroupStyle(.neoBrutalismAccordion)
+}.disclosureGroupStyle(.neoBrutalism)
 ```
 
 ### Button

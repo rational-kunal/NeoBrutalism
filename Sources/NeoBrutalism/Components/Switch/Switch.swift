@@ -1,6 +1,9 @@
 import SwiftUI
 
 public extension ToggleStyle where Self == NBSwitchToggleStyle {
+    /// The default neobrutalism toggle: a switch, matching native `Toggle` semantics.
+    static var neoBrutalism: NBSwitchToggleStyle { .init() }
+
     static var neoBrutalismSwitch: NBSwitchToggleStyle { .init() }
 }
 

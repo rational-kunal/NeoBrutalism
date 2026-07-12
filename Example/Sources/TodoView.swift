@@ -66,7 +66,7 @@ struct TodoRow: View {
                 Text(todo.title)
                     .strikethrough(isChecked)
             }
-            .toggleStyle(.neoBrutalismChecklist)
+            .toggleStyle(.neoBrutalismCheckbox)
         }
         .groupBoxStyle(.neoBrutalism(elevated: false))
     }
