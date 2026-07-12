@@ -56,18 +56,18 @@ struct SwitchExampleView: View {
 struct AlertExampleView: View {
     var body: some View {
         VStack(spacing: 18.0) {
-            NBAlert {
-                Text("The Chamber of Secrets has been opened. Enemies of the heir, beware!")
-            } icon: {
-                Image(systemName: "exclamationmark.triangle")
-            } head: {
-                Text("Warning")
-            }
+            NBAlert("Warning", message: "The Chamber of Secrets has been opened. Enemies of the heir, beware!",
+                    systemImage: "exclamationmark.triangle")
 
-            NBAlert(type: .neutral) {
-                Text("Dementors are nearby. Expecto Patronum!")
+            NBAlert("Caution", message: "Dementors are nearby. Expecto Patronum!", type: .neutral)
+
+            // Builder form (showing it still exists for custom View types)
+            NBAlert {
+                Text("This form allows any View types for the title, message, or icon—useful when you need custom styling.")
+            } icon: {
+                Image(systemName: "star.fill")
             } head: {
-                Text("Caution")
+                Text("Flexible")
             }
         }
     }

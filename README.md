@@ -455,18 +455,18 @@ NavigationStack {
 <p />
 
 ```swift
+NBAlert("Warning", message: "The Chamber of Secrets has been opened. Enemies of the heir, beware!",
+        systemImage: "exclamationmark.triangle")
+
+NBAlert("Caution", message: "Dementors are nearby. Expecto Patronum!", type: .neutral)
+
+// For custom View types, use the builder form:
 NBAlert {
-    Text("The Chamber of Secrets has been opened. Enemies of the heir, beware!")
+    Text("Custom message content")
 } icon: {
     Image(systemName: "exclamationmark.triangle")
 } head: {
-    Text("Warning")
-}
-
-NBAlert(type: .neutral) {
-    Text("Dementors are nearby. Expecto Patronum!")
-} head: {
-    Text("Caution")
+    Text("Custom Title")
 }
 ```
 
