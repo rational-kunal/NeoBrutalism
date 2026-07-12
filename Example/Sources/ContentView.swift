@@ -521,6 +521,17 @@ struct RootModifierExampleView: View {
             Toggle("Shield Charm", isOn: $spellActive)
             TextField("Incantation", text: $incantation)
             ProgressView(value: 0.6)
+            Gauge(value: 0.6) { Text("Mana") }
+            Label("Spellbook", systemImage: "book.fill")
+            LabeledContent("House", value: "Gryffindor")
+            Menu("Choose Wand") {
+                Button("Holly") {}
+                Button("Elder") {}
+            }
+            ControlGroup {
+                Button("Lumos") {}
+                Button("Nox") {}
+            }
         }
         .neoBrutalism()
     }

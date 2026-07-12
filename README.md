@@ -31,7 +31,40 @@ You can add NeoBrutalism to your Swift project using Swift Package Manager.
 
 ## How to use
 
-NeoBrutalism offers a variety of components that can be seamlessly integrated into your SwiftUI project.
+The headline feature is a single root modifier. Add `.neoBrutalism()` once and every
+supported SwiftUI control — `Button`, `Toggle`, `TextField`, `ProgressView`, `Gauge`, `Label`,
+`LabeledContent`, `Menu`, `DisclosureGroup`, `ControlGroup`, `GroupBox` — takes on the
+neobrutalism look, with no per-view modifiers:
+
+```swift
+import NeoBrutalism
+import SwiftUI
+
+struct ContentView: View {
+    var body: some View {
+        Form {
+            Toggle("Are you a wizard?", isOn: .constant(true))
+            Button("Cast Spell") {}
+        }
+        .neoBrutalism()                      // themed controls
+    }
+}
+```
+
+Pass `applyBackground: true` to also fill the background with the theme color, so a
+two-line app is fully styled:
+
+```swift
+ContentView()
+    .neoBrutalism(applyBackground: true)
+```
+
+> The default `Toggle` style is the **switch** (matching native semantics). Opt into the
+> checkbox per subtree with `.toggleStyle(.neoBrutalismCheckbox)`. `List`/`Form` chrome and
+> navigation bars aren't reachable through the environment — use `nbList()` / `nbListRow()`
+> and `nbNavigationBar()` on those views.
+
+You can also style individual components directly:
 
 ```swift
 import NeoBrutalism
