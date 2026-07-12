@@ -91,8 +91,8 @@ us style (List, navigation, dialogs) with helpers or drop-in `NB*` views.
 | Stepper | **no protocol** | `NBStepper` | ⚠️ Int-only (T18) |
 | Picker (segmented) | **no protocol** | `NBSegmentedPicker` | ✅ |
 | Picker (menu/wheel) | **no protocol** | document `NBMenu` as the alternative | 🔲 T26 docs |
-| List / Form | **not stylable** | `nbList()` / `nbListRow()` helpers | 🔲 T12 |
-| Swipe actions (row) | tint + label only | native tint (T12) / `nbSwipeActions` custom reveal (T31) | 🔲 T12, T31 |
+| List / Form | **not stylable** | `nbList()` / `nbListRow()` helpers | ✅ T12 done |
+| Swipe actions (row) | tint + label only | native tint (T12) / `nbSwipeActions` custom reveal (T31) | ✅ T12 native tint done · 🔲 T31 custom reveal |
 | NavigationStack chrome | partial | `nbNavigationBar()` helper | ✅ T13 done |
 | TabView (screen-level) | **not stylable** | `NBTabView` (inline tabs) | ✅ |
 | alert / confirmationDialog | **not stylable** | `nbDialog()` | ✅ T16 done |
@@ -133,10 +133,10 @@ Diagnosis + strategy: [TESTING.md](TESTING.md))
 | [T09](T09-label-labeledcontent-hygiene.md) | Label/LabeledContent style fixes (prereq for T11) | XS | ✅ Done |
 | [T10](T10-style-naming-convention.md) | Naming convention: `.neoBrutalism` everywhere, deprecations | S | ✅ Done ([PR #32](https://github.com/rational-kunal/NeoBrutalism/pull/32)) |
 | [T11](T11-root-modifier-v2.md) | Root modifier v2: full coverage, one signature | M | ✅ Done ([PR #33](https://github.com/rational-kunal/NeoBrutalism/pull/33)) |
-| [T12](T12-list-and-form-support.md) | List & Form support (`nbList`, `nbListRow`) | M | 🔲 To do |
+| [T12](T12-list-and-form-support.md) | List & Form support (`nbList`, `nbListRow`) | M | ✅ Done ([PR #35](https://github.com/rational-kunal/NeoBrutalism/pull/35)) |
 | [T13](T13-navigation-chrome.md) | Navigation bar/toolbar helper | S | ✅ Done ([PR #30](https://github.com/rational-kunal/NeoBrutalism/pull/30)) |
 | [T14](T14-texteditor-securefield.md) | TextEditor helper + SecureField verification | S | ✅ Done ([PR #29](https://github.com/rational-kunal/NeoBrutalism/pull/29)) |
-| [T15](T15-typography-token.md) | `fontDesign` theme token | XS | 🔲 To do |
+| [T15](T15-typography-token.md) | `fontDesign` theme token | XS | ✅ Done ([PR #34](https://github.com/rational-kunal/NeoBrutalism/pull/34)) |
 | [T16](T16-dialog.md) | `nbDialog()` centered modal (alert replacement) | M | ✅ Done ([PR #31](https://github.com/rational-kunal/NeoBrutalism/pull/31)) |
 
 **Phase 3 — Drop-in parity for custom components**
