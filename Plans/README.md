@@ -78,7 +78,7 @@ us style (List, navigation, dialogs) with helpers or drop-in `NB*` views.
 | Button | `ButtonStyle` | `.neoBrutalism(type:variant:)` | ✅ needs disabled state (T03) |
 | Toggle | `ToggleStyle` | checkbox / switch / radio styles | ✅ needs disabled + naming (T03, T10) |
 | TextField / SecureField | `TextFieldStyle` | `.neoBrutalism` | ✅ verify SecureField (T14) |
-| TextEditor | none usable | `nbTextEditor()` helper | 🔲 T14 |
+| TextEditor | none usable | `nbTextEditor()` helper | ✅ T14 done |
 | ProgressView | `ProgressViewStyle` | `.neoBrutalism` | ✅ indeterminate missing (T04) |
 | Gauge | `GaugeStyle` | `.neoBrutalism` | ✅ dedupe with Progress (T04) |
 | Label | `LabelStyle` | `.neoBrutalism` | ✅ foreground fix (T09) |
@@ -93,9 +93,9 @@ us style (List, navigation, dialogs) with helpers or drop-in `NB*` views.
 | Picker (menu/wheel) | **no protocol** | document `NBMenu` as the alternative | 🔲 T26 docs |
 | List / Form | **not stylable** | `nbList()` / `nbListRow()` helpers | 🔲 T12 |
 | Swipe actions (row) | tint + label only | native tint (T12) / `nbSwipeActions` custom reveal (T31) | 🔲 T12, T31 |
-| NavigationStack chrome | partial | `nbNavigationBar()` helper | 🔲 T13 |
+| NavigationStack chrome | partial | `nbNavigationBar()` helper | ✅ T13 done |
 | TabView (screen-level) | **not stylable** | `NBTabView` (inline tabs) | ✅ |
-| alert / confirmationDialog | **not stylable** | `nbDialog()` | 🔲 T16 |
+| alert / confirmationDialog | **not stylable** | `nbDialog()` | ✅ T16 done |
 | sheet | partial | `nbDrawer()` | ✅ |
 | Radio group (no native iOS control) | — | `NBRadioGroup` | ✅ structure + a11y fixed (T05) |
 
@@ -131,13 +131,13 @@ Diagnosis + strategy: [TESTING.md](TESTING.md))
 | Task | Title | Size | Status |
 |---|---|---|---|
 | [T09](T09-label-labeledcontent-hygiene.md) | Label/LabeledContent style fixes (prereq for T11) | XS | ✅ Done |
-| [T10](T10-style-naming-convention.md) | Naming convention: `.neoBrutalism` everywhere, deprecations | S |
-| [T11](T11-root-modifier-v2.md) | Root modifier v2: full coverage, one signature | M |
-| [T12](T12-list-and-form-support.md) | List & Form support (`nbList`, `nbListRow`) | M |
-| [T13](T13-navigation-chrome.md) | Navigation bar/toolbar helper | S |
-| [T14](T14-texteditor-securefield.md) | TextEditor helper + SecureField verification | S |
-| [T15](T15-typography-token.md) | `fontDesign` theme token | XS |
-| [T16](T16-dialog.md) | `nbDialog()` centered modal (alert replacement) | M |
+| [T10](T10-style-naming-convention.md) | Naming convention: `.neoBrutalism` everywhere, deprecations | S | ✅ Done ([PR #32](https://github.com/rational-kunal/NeoBrutalism/pull/32)) |
+| [T11](T11-root-modifier-v2.md) | Root modifier v2: full coverage, one signature | M | ✅ Done ([PR #33](https://github.com/rational-kunal/NeoBrutalism/pull/33)) |
+| [T12](T12-list-and-form-support.md) | List & Form support (`nbList`, `nbListRow`) | M | 🔲 To do |
+| [T13](T13-navigation-chrome.md) | Navigation bar/toolbar helper | S | ✅ Done ([PR #30](https://github.com/rational-kunal/NeoBrutalism/pull/30)) |
+| [T14](T14-texteditor-securefield.md) | TextEditor helper + SecureField verification | S | ✅ Done ([PR #29](https://github.com/rational-kunal/NeoBrutalism/pull/29)) |
+| [T15](T15-typography-token.md) | `fontDesign` theme token | XS | 🔲 To do |
+| [T16](T16-dialog.md) | `nbDialog()` centered modal (alert replacement) | M | ✅ Done ([PR #31](https://github.com/rational-kunal/NeoBrutalism/pull/31)) |
 
 **Phase 3 — Drop-in parity for custom components**
 
