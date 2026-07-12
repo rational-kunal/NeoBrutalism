@@ -59,8 +59,9 @@ app builds unchanged.
 ## Tests + example
 
 - `SliderTests`: existing snapshots must pass without re-recording **if** the thumb-inset fix
-  is snapshot-visible — it will be (0.0/1.0 cases). Expected: re-record `slider` suite;
-  eyeball that 0 and 1 now sit flush inside the track.
+  is snapshot-visible — it will be (0.0/1.0 cases). Expected: re-record `slider` suite via the
+  CI "Re-record snapshots" workflow (README "Verification"); eyeball that 0 and 1 now sit flush
+  inside the track.
 - New snapshots: `in: 0...100` with step, disabled.
 - Example app: replace the CGFloat example with `@State var volume: Double = 30` +
   `NBSlider(value: $volume, in: 0...100, step: 5)`.

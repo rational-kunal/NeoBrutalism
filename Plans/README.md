@@ -92,6 +92,7 @@ us style (List, navigation, dialogs) with helpers or drop-in `NB*` views.
 | Picker (segmented) | **no protocol** | `NBSegmentedPicker` | ✅ |
 | Picker (menu/wheel) | **no protocol** | document `NBMenu` as the alternative | 🔲 T26 docs |
 | List / Form | **not stylable** | `nbList()` / `nbListRow()` helpers | 🔲 T12 |
+| Swipe actions (row) | tint + label only | native tint (T12) / `nbSwipeActions` custom reveal (T31) | 🔲 T12, T31 |
 | NavigationStack chrome | partial | `nbNavigationBar()` helper | 🔲 T13 |
 | TabView (screen-level) | **not stylable** | `NBTabView` (inline tabs) | ✅ |
 | alert / confirmationDialog | **not stylable** | `nbDialog()` | 🔲 T16 |
@@ -147,6 +148,7 @@ Diagnosis + strategy: [TESTING.md](TESTING.md))
 | [T19](T19-menu-polish.md) | NBMenu: dividers, disabled items, long menus | S |
 | [T20](T20-skeleton-shimmer.md) | Skeleton pulse + `nbSkeleton()` modifier | S |
 | [T21](T21-alert-conveniences.md) | NBAlert string-based initializers | XS |
+| [T31](T31-nb-swipe-row.md) | Neobrutalist swipe actions (`nbSwipeActions`) — full drag-to-reveal look (depends on T12) | M |
 
 **Phase 4 — Theming as a feature**
 
@@ -188,6 +190,12 @@ Diagnosis + strategy: [TESTING.md](TESTING.md))
 8. **Snapshot determinism.** Snapshot subjects must be static at first frame — no `onAppear`
    animations in the captured state; animated things snapshot their Reduce-Motion/static
    rendering. Full policy in [TESTING.md](TESTING.md).
+9. **Stay brutalist.** Flat fills, thick borders, hard offset shadows, square-ish corners.
+   No gradients, no blur or translucent materials, no soft/diffuse shadows, no glossy
+   highlights. When a native affordance's chrome can't be made brutalist (system-owned
+   geometry — e.g. native swipe reveal, nav-bar material), tint/configure what the API exposes,
+   state the ceiling in the docs, and spec a custom `NB*` alternative as its own task rather
+   than shipping an off-brand compromise (the T12 → T31 pattern).
 
 ## Verification (run after every task)
 
@@ -197,28 +205,32 @@ xcodebuild -scheme NeoBrutalism -destination "generic/platform=iOS Simulator" bu
 
 # Snapshot tests — MUST run on the pinned reference environment (see TESTING.md):
 Scripts/test.sh          # pins iPhone 16 · iOS 26.2, boots/creates the sim if needed
-Scripts/record.sh        # re-record intentional visual changes on the same pin
+Scripts/record.sh        # local preview of visual changes — committed PNGs come from CI (below)
 ```
 
 Reference images live in `Tests/NeoBrutalismTests/__Snapshots__/<Suite>/<test>.{light|dark}.png`.
-New test → `Scripts/record.sh` once, then `Scripts/test.sh` twice to confirm it's stable.
-Intentional visual change → re-record only the affected suites, eyeball every changed PNG (and
-the Example app) before committing; the canonical recorder is the
-[Re-record snapshots](../.github/workflows/record-snapshots.yml) CI workflow. Never
-blanket-delete `__Snapshots__` (T29's one-time exception aside — see
-[T29](T29-snapshot-migration-and-pinning.md)).
+
+**Recording rule (2026-07-12): every committed reference PNG is recorded by CI, not locally.**
+Because of the local ≠ CI gap below, PNGs recorded by a local `Scripts/record.sh` run will fail
+on CI (and vice versa) — do not commit them. The one canonical recorder is the
+[Re-record snapshots](../.github/workflows/record-snapshots.yml) workflow: push your branch/PR,
+then Actions tab → "Re-record snapshots" → Run workflow against that branch. It records on the
+pinned environment and pushes the updated PNGs straight to the branch, so they show up in the
+PR diff for review. Local record/test remains useful to iterate fast and eyeball what changed —
+treat it as a preview, never as the verdict or the source of committed references.
+
+- New snapshot test → commit the test (no PNGs), push, run the re-record workflow, then let the
+  PR's normal test run confirm it's stable.
+- Intentional visual change → same flow; eyeball every changed PNG (and the Example app) in the
+  PR diff before merging.
+- Never blanket-delete `__Snapshots__` (T29's one-time exception aside — see
+  [T29](T29-snapshot-migration-and-pinning.md)).
 
 **2026-07 repin:** the reference environment moved from iPhone 16 · iOS 18.5 to iPhone 16 ·
 iOS 26.2 (`Scripts/snapshot-env.sh`) — Xcode 16.4/iOS 18.5 is no longer installable on the dev
 fleet, and GitHub's `macos-15` runner ships Xcode 26.2 (build 17C52) by default, so CI needed no
 extra runtime download. All 160 references were re-recorded on the new pin; only 8 (font-metric
 drift of a few px, no visual regression) actually changed.
-
-Record-via-CI: push a PR with visual changes, then run the "Re-record snapshots" workflow
-(Actions tab → Run workflow) against that branch — it records on the pinned environment and
-pushes the updated PNGs straight to the branch for review in the PR diff. Local
-`Scripts/record.sh` stays fine for fast iteration, but CI's recording is canonical whenever the
-two disagree.
 
 **Known gap — local ≠ CI even on the pin (as of 2026-07-11):** a clean `Scripts/test.sh` run,
 with zero source changes, still fails ~116 assertions across unrelated suites (Button, GroupBox,

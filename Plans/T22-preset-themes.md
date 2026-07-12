@@ -44,7 +44,8 @@ containing a Button, a Toggle, a Badge, wrapped in `.neoBrutalism(theme: preset,
 ## Definition of done
 
 - [ ] `Example` builds with the library `sunnyPeach` (its local copy deleted).
-- [ ] All preset snapshots recorded and **visually reviewed** — this task is 50% taste;
+- [ ] All preset snapshots recorded via the CI workflow and **visually reviewed** — this task
+      is 50% taste;
       the reviewer instruction is: black text must be comfortably readable on every `main`,
       and `bw` cards must stand out against every `background`, in both modes.
 - [ ] README Theming section lists the presets (a table of name → swatch can wait for T25's

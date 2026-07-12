@@ -54,7 +54,8 @@ the standard pulse, and a `redacted`-style modifier that turns any view into its
 
 ## Definition of done
 
-- [ ] `SkeletonTests`: existing tests re-recorded **only if** the `bw` fill changes pixels
+- [ ] `SkeletonTests`: existing tests re-recorded (via the CI workflow) **only if** the `bw`
+      fill changes pixels
       (it will — eyeball the diff: shapes gain a surface). Snapshot the initial frame — the
       pulse starts at full opacity, so frames stay deterministic; if flaky on CI, snapshot
       with reduce-motion asserted via the test's traits and note it.
