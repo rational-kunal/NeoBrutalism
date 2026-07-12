@@ -103,6 +103,9 @@ private struct NBMenuOverlayContent: View {
 
     @State private var appear = false
     @State private var dropdownSize: CGSize = .zero
+    /// The items' *natural* (uncapped) height, measured independently of `dropdownSize` so the
+    /// scroll-cap decision can't feed back on the size it's derived from.
+    @State private var contentHeight: CGFloat = 0
 
     var body: some View {
         GeometryReader { proxy in
@@ -189,7 +192,10 @@ private struct NBMenuOverlayContent: View {
     private func dropdown(elevated: Bool) -> some View {
         let screenHeight = UIScreen.main.bounds.height
         let scrollCap = screenHeight * 0.6
-        let needsScroll = dropdownSize.height > scrollCap
+        // Decide from the items' natural height, NOT `dropdownSize`: `dropdownSize` measures the
+        // final (possibly capped) container, so deriving `needsScroll` from it would oscillate —
+        // capping shrinks the measured height back under the cap, which un-caps, which re-grows…
+        let needsScroll = contentHeight > scrollCap
 
         let itemsView = VStack(spacing: 0) {
             ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
@@ -223,6 +229,15 @@ private struct NBMenuOverlayContent: View {
         }
         .frame(minWidth: triggerFrame.width, alignment: .leading)
         .fixedSize(horizontal: true, vertical: true)
+        .background {
+            // Measures the items' natural height (kept natural by `.fixedSize` even inside the
+            // ScrollView below), feeding the stable `needsScroll` decision above.
+            GeometryReader { proxy in
+                Color.clear
+                    .onAppear { contentHeight = proxy.size.height }
+                    .onChange(of: proxy.size.height) { _, newValue in contentHeight = newValue }
+            }
+        }
 
         if needsScroll {
             return AnyView(
