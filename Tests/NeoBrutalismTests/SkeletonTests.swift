@@ -33,10 +33,9 @@ struct SkeletonTests {
 
     // MARK: - Skeleton Modifier
 
-    @SnapshotTest(.sizes(width: .fixed(300.0)))
-    func skeletonModifier_active() -> some View {
-        VStack(alignment: .leading, spacing: 8.0) {
-            HStack(spacing: 12.0) {
+    @Test func skeletonModifier_active() {
+        assertNBSnapshot(
+            of: HStack(spacing: 12.0) {
                 NBRoundSkeleton()
                     .frame(width: 48, height: 48)
 
@@ -50,8 +49,6 @@ struct SkeletonTests {
                 }
             }
             .nbSkeleton(active: true)
-        }
-        .padding(16.0)
-        .prettifyForTest()
+        )
     }
 }

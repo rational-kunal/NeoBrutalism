@@ -8,6 +8,10 @@ struct NBSkeletonPulse: ViewModifier {
 
     func body(content: Content) -> some View {
         content
+            // Flatten fill + border into one layer before dimming, otherwise stacked
+            // same-color layers (e.g. nbBox's background vs. its content fill) don't
+            // visually dim together — see NBDisabledEffect for the same fix.
+            .compositingGroup()
             .opacity(dimmed ? 0.45 : 1.0)
             .onAppear {
                 guard !reduceMotion else { return }

@@ -38,8 +38,8 @@ private struct _NBSkeletonModifier<Content: View>: View {
                 .overlay(
                     RoundedRectangle(cornerRadius: theme.borderRadius)
                         .fill(theme.bw)
-                        .modifier(NBSkeletonPulse())
                         .nbBox(elevated: false)
+                        .modifier(NBSkeletonPulse())
                 )
                 .accessibilityLabel("Loading")
                 .accessibilityAddTraits(.updatesFrequently)
