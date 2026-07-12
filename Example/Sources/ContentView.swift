@@ -240,25 +240,37 @@ struct RadioGroupExampleView: View {
     }
 }
 
-struct RoundSkeletonExampleView: View {
+struct SkeletonExampleView: View {
+    @State private var isLoading = true
+
     var body: some View {
-        VStack(spacing: 12.0) {
+        VStack(alignment: .leading, spacing: 16.0) {
             GroupBox {
                 NBRoundSkeleton()
             }
             .groupBoxStyle(.neoBrutalism(elevated: false))
             .frame(width: 120, height: 120)
-        }
-    }
-}
 
-struct TextSkeletonExampleView: View {
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12.0) {
-            NBTextSkeleton()
+            HStack {
+                Text("Loading Content")
+                Spacer()
+                Toggle(isOn: $isLoading) {}
+                    .toggleStyle(.neoBrutalismSwitch)
+            }
 
-            NBTextSkeleton()
-                .frame(width: 120)
+            HStack(spacing: 12.0) {
+                NBRoundSkeleton()
+                    .frame(width: 48, height: 48)
+
+                VStack(alignment: .leading, spacing: 4.0) {
+                    Text("Profile Name")
+                        .font(.headline)
+                    Text("@username")
+                        .font(.caption)
+                        .foregroundStyle(.gray)
+                }
+            }
+            .nbSkeleton(active: isLoading)
         }
     }
 }
@@ -626,8 +638,7 @@ struct ContentView: View {
             AnyView(ProgressExampleView()),
             AnyView(SliderExampleView()),
             AnyView(RadioGroupExampleView()),
-            AnyView(RoundSkeletonExampleView()),
-            AnyView(TextSkeletonExampleView()),
+            AnyView(SkeletonExampleView()),
             AnyView(TabsExampleView()),
             AnyView(CollapsableExampleView()),
             AnyView(DrawerExampleView()),

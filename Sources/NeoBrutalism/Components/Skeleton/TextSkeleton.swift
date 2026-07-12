@@ -7,10 +7,12 @@ public struct NBTextSkeleton: View {
 
     public var body: some View {
         Rectangle()
-            .fill(theme.clear)
+            .fill(theme.bw)
             .nbBox(elevated: false)
             .frame(maxWidth: .infinity)
             .frame(height: theme.size)
+            .modifier(NBSkeletonPulse())
+            .accessibilityHidden(true)
     }
 }
 
