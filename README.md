@@ -601,11 +601,44 @@ List {
 ```
 
 **Native swipe-to-delete ceiling:** SwiftUI's native swipe reveal can only be *tinted*
-(`.tint(theme.destructive)`) and *labelled* — its border stroke, hard offset shadow, and square
-corners are system-owned and can't be restyled (and `ForEach.onDelete` gives even less: a fixed,
-un-tintable "Delete"). For a fully neobrutalist drag-to-reveal action — border, hard shadow,
-square corners, press language — use the custom `nbSwipeActions` component (T31), tracked as a
-follow-up.
+(`.tint(theme.destructive)`) and *labelled* — its border stroke and square corners are
+system-owned and can't be restyled (and `ForEach.onDelete` gives even less: a fixed,
+un-tintable "Delete"). For a fully neobrutalist drag-to-reveal action — bordered tiles, square
+corners, press language — use the custom `nbSwipeActions` component below.
+
+### Swipe Actions
+
+`nbSwipeActions` is a themed, bordered alternative to SwiftUI's `.swipeActions` for rows in a
+`LazyVStack`/`ScrollView`. Where native swipe reveal can only be tinted, `nbSwipeActions` renders
+real neobrutalist tiles — thick border, `theme.destructive` fill, square corners — flush against
+the row edge (no offset shadow on the revealed tiles, since they sit inline with the row).
+
+```swift
+LazyVStack(spacing: 8.0) {
+    ForEach(items) { item in
+        ItemRow(item)
+            .nbListRow()
+            .nbSwipeActions(actions: [
+                NBSwipeAction("Pin", systemImage: "pin.fill", tint: .blue) {
+                    pin(item)
+                },
+                NBSwipeAction("Delete", systemImage: "trash", role: .destructive) {
+                    delete(item)
+                }
+            ])
+    }
+}
+```
+
+- Drag from `edge` (default `.trailing`) to reveal; past ~60% of the row width with
+  `allowsFullSwipe` (default `true`), releasing runs the first action directly.
+- `role: .destructive` fills with `theme.destructive`/`theme.destructiveText`; otherwise
+  `tint ?? theme.main`/`theme.mainText`.
+- Every action is also exposed as a named VoiceOver/Switch Control accessibility action, so it's
+  reachable without performing the drag gesture.
+
+**Not for `List`:** List owns its own pan gesture and fights a custom one — use native
+`.swipeActions` + `.tint(theme.destructive)` there instead (see List & Form above).
 
 ---
 

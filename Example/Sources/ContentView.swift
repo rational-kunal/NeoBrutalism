@@ -594,6 +594,74 @@ struct ListExampleView: View {
     }
 }
 
+struct SwipeActionsExampleView: View {
+    @State private var items: [String] = [
+        "Defense Against Dark Arts",
+        "Potions",
+        "Transfiguration",
+        "Charms"
+    ]
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12.0) {
+            Text("Swipe to reveal actions:")
+                .font(.caption)
+                .foregroundStyle(.gray)
+
+            ScrollView {
+                LazyVStack(spacing: 8.0) {
+                    ForEach(items, id: \.self) { item in
+                        HStack {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(item)
+                                    .font(.headline)
+                                Text("Course Details")
+                                    .font(.caption)
+                                    .foregroundStyle(.gray)
+                            }
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .foregroundStyle(.gray)
+                        }
+                        .padding(12)
+                        .nbListRow()
+                        .nbSwipeActions(actions: [
+                            NBSwipeAction("Delete", systemImage: "trash", role: .destructive) {
+                                items.removeAll { $0 == item }
+                            }
+                        ])
+                    }
+                }
+            }
+            .frame(height: 200)
+
+            Divider()
+
+            Text("Multi-action row:")
+                .font(.caption)
+                .foregroundStyle(.gray)
+
+            HStack {
+                Text("Favorite Course")
+                    .font(.headline)
+                Spacer()
+                Image(systemName: "star.fill")
+                    .foregroundStyle(.orange)
+            }
+            .padding(12)
+            .nbListRow()
+            .nbSwipeActions(actions: [
+                NBSwipeAction("Pin", systemImage: "pin.fill", tint: .blue) {
+                    // Pin action
+                },
+                NBSwipeAction("Delete", systemImage: "trash", role: .destructive) {
+                    // Delete action
+                }
+            ])
+        }
+    }
+}
+
 struct ContentView: View {
     @State var colorSceme: ColorScheme = .light
     @State var theme = NBTheme.default.updateBy(
@@ -642,6 +710,7 @@ struct ContentView: View {
             AnyView(SegmentedPickerExampleView()),
             AnyView(RootModifierExampleView()),
             AnyView(ListExampleView()),
+            AnyView(SwipeActionsExampleView()),
         ]
 
         ZStack {
