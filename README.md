@@ -286,19 +286,25 @@ ProgressView(value: 0.7)
     <img width="350" alt="image" src="https://github.com/user-attachments/assets/51924255-eaec-4de2-98b3-f78e52b0d2cb" loading="lazy" />
 </p>
 
-```swift
-struct SliderExampleView: View {
-    @State var sliderValue: CGFloat = 0.0
+`NBSlider` is a generic slider that accepts any `BinaryFloatingPoint` value type and mirrors the native `Slider` API for drop-in compatibility.
 
-    var body: some View {
-        HStack {
-            Text("\(sliderValue, specifier: "%.2f")")
-                .frame(width: 50.0, alignment: .leading)
-            NBSlider(value: $sliderValue)
-        }
-    }
-}
+```swift
+@State var volume: Double = 30
+
+// Basic slider with range and step
+NBSlider(value: $volume, in: 0...100, step: 5)
+
+// Slider with 0…1 range (default)
+NBSlider(value: .constant(0.52))
 ```
+
+**Parameters:**
+- `value` — a binding to a floating-point value
+- `bounds` — the closed range of valid values (default: `0...1`)
+- `step` — optional increment to snap to
+- `onEditingChanged` — called with `true` on drag start, `false` on drag end
+
+Accessibility: exposes an adjustable element; works with VoiceOver to adjust the value.
 
 ### Stepper
 
