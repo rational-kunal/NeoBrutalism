@@ -31,4 +31,10 @@ struct StepperTests {
                 .disabled(true)
         )
     }
+
+    @Test func stepper_wideValue() {
+        assertNBSnapshot(
+            of: NBStepper("Large range", value: .constant(100), in: 0...1000)
+        )
+    }
 }
