@@ -519,6 +519,27 @@ VStack(alignment: .leading, spacing: 12.0) {
 }
 ```
 
+### Menu
+
+`NBMenu` provides a fully themed dropdown menu — both trigger and items. The dropdown renders in
+a separate overlay window so it appears above the entire app, even inside scrolling containers.
+
+```swift
+NBMenu {
+    NBMenuItem("Edit", systemImage: "pencil") { edit() }
+    NBMenuItem.divider
+    NBMenuItem("Share", systemImage: "square.and.arrow.up", disabled: true) { }
+    NBMenuItem("Delete", systemImage: "trash", role: .destructive) { delete() }
+} label: {
+    Text("Options")
+}
+```
+
+Features:
+- **Divider rows** with `NBMenuItem.divider` to group related actions
+- **Disabled items** with the `disabled:` parameter — renders at 50% opacity and non-interactive
+- **Long menus** automatically scroll when they exceed 60% of screen height
+
 ### List & Form
 
 SwiftUI exposes no style protocol for `List`/`Form`, so the `.neoBrutalism()` root modifier
