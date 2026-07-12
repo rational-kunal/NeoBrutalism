@@ -25,7 +25,7 @@ struct CheckboxExampleView: View {
             Spacer()
             Text(checkboxState ? "(Alohomora!)" : "(Colloportus!)")
         }
-        .toggleStyle(.neoBrutalismChecklist)
+        .toggleStyle(.neoBrutalismCheckbox)
         HStack {
             Toggle(isOn: .constant(true)) {}
                 .disabled(true)
@@ -34,7 +34,7 @@ struct CheckboxExampleView: View {
             Spacer()
             Text("Petrificus Totalus!")
                 .italic()
-        }.toggleStyle(.neoBrutalismChecklist)
+        }.toggleStyle(.neoBrutalismCheckbox)
     }
 }
 

@@ -12,10 +12,10 @@ struct NBRootModifier: ViewModifier {
     func body(content: Content) -> some View {
         let styled = content
             .buttonStyle(.neoBrutalism())
-            .toggleStyle(.neoBrutalismChecklist)
+            .toggleStyle(.neoBrutalismCheckbox)
             .textFieldStyle(.neoBrutalism)
             .progressViewStyle(.neoBrutalism)
-            .disclosureGroupStyle(.neoBrutalismAccordion)
+            .disclosureGroupStyle(.neoBrutalism)
             .controlGroupStyle(.neoBrutalism)
             .groupBoxStyle(.neoBrutalism())
             .environment(\.nbTheme, theme)

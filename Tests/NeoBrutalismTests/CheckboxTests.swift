@@ -10,7 +10,7 @@ struct CheckboxTests {
     @Test func checkbox_on() {
         assertNBSnapshot(
             of: Toggle(isOn: .constant(true)) {}
-                .toggleStyle(.neoBrutalismChecklist)
+                .toggleStyle(.neoBrutalismCheckbox)
         )
     }
 
@@ -18,14 +18,14 @@ struct CheckboxTests {
         assertNBSnapshot(
             of: Toggle(isOn: .constant(true)) {}
                 .disabled(true)
-                .toggleStyle(.neoBrutalismChecklist)
+                .toggleStyle(.neoBrutalismCheckbox)
         )
     }
 
     @Test func checkbox_off() {
         assertNBSnapshot(
             of: Toggle(isOn: .constant(false)) {}
-                .toggleStyle(.neoBrutalismChecklist)
+                .toggleStyle(.neoBrutalismCheckbox)
         )
     }
 
@@ -33,7 +33,7 @@ struct CheckboxTests {
         assertNBSnapshot(
             of: Toggle(isOn: .constant(false)) {}
                 .disabled(true)
-                .toggleStyle(.neoBrutalismChecklist)
+                .toggleStyle(.neoBrutalismCheckbox)
         )
     }
 
@@ -42,7 +42,7 @@ struct CheckboxTests {
     @Test func checkboxWithLabel_on() {
         assertNBSnapshot(
             of: Toggle(isOn: .constant(true)) { Text("checkbox") }
-                .toggleStyle(.neoBrutalismChecklist)
+                .toggleStyle(.neoBrutalismCheckbox)
         )
     }
 
@@ -50,14 +50,14 @@ struct CheckboxTests {
         assertNBSnapshot(
             of: Toggle(isOn: .constant(true)) { Text("checkbox") }
                 .disabled(true)
-                .toggleStyle(.neoBrutalismChecklist)
+                .toggleStyle(.neoBrutalismCheckbox)
         )
     }
 
     @Test func checkboxWithLabel_off() {
         assertNBSnapshot(
             of: Toggle(isOn: .constant(false)) { Text("checkbox") }
-                .toggleStyle(.neoBrutalismChecklist)
+                .toggleStyle(.neoBrutalismCheckbox)
         )
     }
 
@@ -65,7 +65,7 @@ struct CheckboxTests {
         assertNBSnapshot(
             of: Toggle(isOn: .constant(false)) { Text("checkbox") }
                 .disabled(true)
-                .toggleStyle(.neoBrutalismChecklist)
+                .toggleStyle(.neoBrutalismCheckbox)
         )
     }
 
@@ -74,7 +74,7 @@ struct CheckboxTests {
     @Test func checkboxWithLargeLabel() {
         assertNBSnapshot(
             of: Toggle(isOn: .constant(true)) { Text("checkbox").font(.largeTitle) }
-                .toggleStyle(.neoBrutalismChecklist)
+                .toggleStyle(.neoBrutalismCheckbox)
         )
     }
 }
