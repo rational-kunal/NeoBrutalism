@@ -108,12 +108,12 @@ struct ContentView: View {
 - **Borders**: `borderWidth`, `borderRadius`
 - **Typography**: `fontDesign` — applies a `Font.Design` (e.g., `.rounded`) to the entire hierarchy via the root modifier
 
-**Preset themes:** ship five bundled looks besides `.default`, each a drop-in for the `theme:` argument of `.neoBrutalism(theme:)` / `.nbTheme(_:)`:
-- `.sunnyPeach` — warm yellow on peach
-- `.bubblegum` — pink on blush
-- `.seafoam` — lime on sage
-- `.tangerine` — orange on cream
-- `.lavender` — purple on lilac
+**Preset themes:** ship five bundled looks besides `.default`, each a drop-in for the `theme:` argument of `.neoBrutalism(theme:)` / `.nbTheme(_:)`. They vary more than color — corner radius, border weight, shadow depth, and font design each give the presets a distinct personality:
+- `.sunnyPeach` — warm yellow on peach (the classic flat look)
+- `.bubblegum` — pink on blush; pillowy rounded corners + rounded font
+- `.seafoam` — lime on sage; square corners + heavier border
+- `.tangerine` — orange on cream; thick border + deep offset shadow
+- `.lavender` — purple on lilac; serif font + subtle shadow
 
 ```swift
 ContentView().neoBrutalism(theme: .bubblegum, applyBackground: true)

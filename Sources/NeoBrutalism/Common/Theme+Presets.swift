@@ -37,7 +37,8 @@ public extension NBTheme {
         )
     )
 
-    /// Pink accent (#FFA6F6) on a blush background.
+    /// Pink accent (#FFA6F6) on a blush background — soft, rounded, and playful:
+    /// generous corner radius and a rounded font design.
     static let bubblegum: NBTheme = NBTheme.default.updateBy(
         main: Color(
             light: .rgb(1.0, 0.651, 0.965), // #FFA6F6
@@ -50,10 +51,13 @@ public extension NBTheme {
         mainText: Color(
             light: .rgb(0.0, 0.0, 0.0),
             dark: .rgb(0.0, 0.0, 0.0) // black on pastel pink in both modes
-        )
+        ),
+        borderRadius: 16.0, // pillowy corners for a bubbly feel
+        fontDesign: .rounded
     )
 
-    /// Lime accent (#A3E636) on a soft sage background.
+    /// Lime accent (#A3E636) on a soft sage background — hard-edged brutalist:
+    /// square corners and a heavier border.
     static let seafoam: NBTheme = NBTheme.default.updateBy(
         main: Color(
             light: .rgb(0.639, 0.902, 0.212), // #A3E636
@@ -66,10 +70,13 @@ public extension NBTheme {
         mainText: Color(
             light: .rgb(0.0, 0.0, 0.0),
             dark: .rgb(0.0, 0.0, 0.0) // black on pastel lime in both modes
-        )
+        ),
+        borderWidth: 3.0, // chunkier outline
+        borderRadius: 0.0 // sharp, uncompromising corners
     )
 
-    /// Orange accent (#FD9745) on a warm cream background.
+    /// Orange accent (#FD9745) on a warm cream background — loud and heavy:
+    /// a thick border and a deep offset shadow that pops off the page.
     static let tangerine: NBTheme = NBTheme.default.updateBy(
         main: Color(
             light: .rgb(0.992, 0.592, 0.271), // #FD9745
@@ -82,10 +89,14 @@ public extension NBTheme {
         mainText: Color(
             light: .rgb(0.0, 0.0, 0.0),
             dark: .rgb(0.0, 0.0, 0.0) // black on pastel orange in both modes
-        )
+        ),
+        borderWidth: 3.0, // bold outline
+        boxShadowX: 7.0, // exaggerated hard shadow
+        boxShadowY: 7.0
     )
 
-    /// Purple accent (#A388EE) on a pale lilac background.
+    /// Purple accent (#A388EE) on a pale lilac background — refined and elegant:
+    /// a serif font, gently rounded corners, and a restrained, subtle shadow.
     static let lavender: NBTheme = NBTheme.default.updateBy(
         main: Color(
             light: .rgb(0.639, 0.533, 0.933), // #A388EE
@@ -98,7 +109,11 @@ public extension NBTheme {
         mainText: Color(
             light: .rgb(0.0, 0.0, 0.0),
             dark: .rgb(0.0, 0.0, 0.0) // black on pastel purple in both modes
-        )
+        ),
+        borderRadius: 12.0, // soft but not pillowy
+        boxShadowX: 2.0, // understated shadow
+        boxShadowY: 2.0,
+        fontDesign: .serif
     )
 }
 
