@@ -21,6 +21,7 @@ public struct NBStepper<Label: View>: View {
     @State private var isMinusPressed = false
     @State private var isPlusPressed = false
     @State private var repeatTimer: Timer?
+    @State private var repeatDelay: DispatchWorkItem?
 
     /// Creates a stepper with a custom label.
     /// - Parameters:
@@ -65,14 +66,13 @@ public struct NBStepper<Label: View>: View {
                 .simultaneousGesture(
                     DragGesture(minimumDistance: 0)
                         .onChanged { _ in
+                            guard !isMinusPressed else { return }
                             isMinusPressed = true
-                            if repeatTimer == nil {
-                                scheduleRepeatTimer(isIncrement: false)
-                            }
+                            startRepeating(isIncrement: false)
                         }
                         .onEnded { _ in
                             isMinusPressed = false
-                            invalidateRepeatTimer()
+                            stopRepeating()
                         }
                 )
 
@@ -109,14 +109,13 @@ public struct NBStepper<Label: View>: View {
                 .simultaneousGesture(
                     DragGesture(minimumDistance: 0)
                         .onChanged { _ in
+                            guard !isPlusPressed else { return }
                             isPlusPressed = true
-                            if repeatTimer == nil {
-                                scheduleRepeatTimer(isIncrement: true)
-                            }
+                            startRepeating(isIncrement: true)
                         }
                         .onEnded { _ in
                             isPlusPressed = false
-                            invalidateRepeatTimer()
+                            stopRepeating()
                         }
                 )
             }
@@ -174,35 +173,36 @@ extension NBStepper {
         }
     }
 
-    private func scheduleRepeatTimer(isIncrement: Bool) {
-        // Start with 0.5s delay, then repeat every 0.15s
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            // Check if we're still at a bound; if so, don't start repeating
-            if isIncrement && self.value >= self.range.upperBound {
-                return
+    /// Starts press-and-hold auto-repeat: after a 0.5s hold the step repeats every 0.15s until
+    /// the finger lifts or the range bound is hit. The 0.5s delay is a cancellable
+    /// `DispatchWorkItem` (not a bare `asyncAfter`) so an early release stops it — otherwise the
+    /// delayed closure would still fire and start repeating with no finger down.
+    private func startRepeating(isIncrement: Bool) {
+        let delay = DispatchWorkItem {
+            repeatTimer = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true) { _ in
+                repeatStep(isIncrement: isIncrement)
             }
-            if !isIncrement && self.value <= self.range.lowerBound {
-                return
-            }
-            self.repeatTimer = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true) { _ in
-                if isIncrement {
-                    if self.value < self.range.upperBound {
-                        self.increment()
-                    } else {
-                        self.invalidateRepeatTimer()
-                    }
-                } else {
-                    if self.value > self.range.lowerBound {
-                        self.decrement()
-                    } else {
-                        self.invalidateRepeatTimer()
-                    }
-                }
-            }
+        }
+        repeatDelay = delay
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: delay)
+    }
+
+    /// Steps once for the repeat timer, stopping the timer when it reaches the range bound so it
+    /// doesn't keep firing uselessly against a clamped value.
+    private func repeatStep(isIncrement: Bool) {
+        if isIncrement {
+            guard value < range.upperBound else { return stopRepeating() }
+            increment()
+        } else {
+            guard value > range.lowerBound else { return stopRepeating() }
+            decrement()
         }
     }
 
-    private func invalidateRepeatTimer() {
+    /// Cancels both the pending 0.5s delay and any running repeat timer.
+    private func stopRepeating() {
+        repeatDelay?.cancel()
+        repeatDelay = nil
         repeatTimer?.invalidate()
         repeatTimer = nil
     }
