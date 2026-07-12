@@ -25,7 +25,25 @@ against the real target base first (`git diff <target>...<agent-branch> --stat`)
 has moved, rebase the agent's own commit(s) onto the real tip (excluding whatever unrelated
 commits came along for the ride) and hand-resolve any overlap before opening the PR. T05 and T06
 both had real conflicts this way — T05 vs. T03's disabled-state work, T06 vs. an
-already-existing `NBCornerSet` the agent had no way to see and duplicated.
+already-existing `NBCornerSet` the agent had no way to see and duplicated. T07's stale base
+predated the root modifier, GroupBox styling, and even T29's `assertNBSnapshot` helper entirely,
+so its output used the wrong test macros and dropped `.neoBrutalism()`/`GroupBox` from its own
+contract test — that one needed a full rewrite against the real current APIs rather than a rebase.
+
+**CI-recording gotchas found this round (2026-07-12):** (1) `Scripts/record.sh` sets
+`SNAPSHOT_TESTING_RECORD=all`, so the "Re-record snapshots" workflow re-records *every* suite,
+not just the ones your PR touched — that's fine, it only commits files that actually changed.
+(2) If a task renames a `@Test func`, the recorded reference filename (`<test>.<light|dark>.png`)
+is keyed off the *old* function name via `#function` — renaming the test without `git mv`-ing its
+PNGs breaks every renamed test (T08 hit this: renamed `checbox_*` → `checkbox_*` per its own
+"zero `checbox` hits in Tests/" acceptance criterion, forgot the reference files, all 9 Checkbox
+tests failed on CI until fixed). (3) `progress_indeterminate` failed once on an unrelated PR
+(T06, which never touches Progress/Gauge) and passed cleanly on a re-run and on two other PRs —
+treat a single indeterminate-progress snapshot failure as a flake to retry, not a regression,
+unless it repeats. (4) When the "Re-record snapshots" workflow's own commit (authored by
+`github-actions[bot]`) retriggers the PR's `pull_request` check, that new run can land in
+`action_required` pending manual approval in the Actions tab — a repo-owner action, not something
+a coding agent should (or, per this session, even technically could) approve on its own.
 
 ## Phase 0 — before any task runs (maintainer, by hand)
 
@@ -102,10 +120,10 @@ Diagnosis + strategy: [TESTING.md](TESTING.md))
 | [T02](T02-reduce-motion-sweep.md) | Respect Reduce Motion everywhere | XS | ✅ Done |
 | [T03](T03-disabled-states.md) | Disabled-state rendering for all controls | S | ✅ Done |
 | [T04](T04-bar-meter-dedupe-indeterminate.md) | Shared bar meter for Progress+Gauge; indeterminate progress | S | ✅ Done |
-| [T05](T05-radio-structure-a11y.md) | Radio: remove nested button, add accessibility | S | 🔄 [PR #24](https://github.com/rational-kunal/NeoBrutalism/pull/24) |
-| [T06](T06-press-effect-unification.md) | One shared press effect everywhere | S | 🔄 [PR #25](https://github.com/rational-kunal/NeoBrutalism/pull/25) — ControlGroup snapshots pending CI re-record |
-| [T07](T07-snapshot-coverage-gaps.md) | Snapshot tests for Accordion/Alert/Badge/Collapsable | S | 🔄 [PR #27](https://github.com/rational-kunal/NeoBrutalism/pull/27) — reference PNGs pending CI record |
-| [T08](T08-dead-code-and-typos.md) | Dead code, folder typos, namespace cleanup | XS | 🔄 [PR #26](https://github.com/rational-kunal/NeoBrutalism/pull/26) |
+| [T05](T05-radio-structure-a11y.md) | Radio: remove nested button, add accessibility | S | 🔄 [PR #24](https://github.com/rational-kunal/NeoBrutalism/pull/24) — CI green, ready to merge |
+| [T06](T06-press-effect-unification.md) | One shared press effect everywhere | S | 🔄 [PR #25](https://github.com/rational-kunal/NeoBrutalism/pull/25) — CI green, ready to merge (ControlGroup's pressed state has no snapshot coverage, so nothing to re-record — see note below) |
+| [T07](T07-snapshot-coverage-gaps.md) | Snapshot tests for Accordion/Alert/Badge/Collapsable | S | 🔄 [PR #27](https://github.com/rational-kunal/NeoBrutalism/pull/27) — 18 reference PNGs recorded via CI and eyeballed, all correct; the verification CI run on that commit needs manual approval in the Actions tab (see note below) before merge |
+| [T08](T08-dead-code-and-typos.md) | Dead code, folder typos, namespace cleanup | XS | 🔄 [PR #26](https://github.com/rational-kunal/NeoBrutalism/pull/26) — CI green, ready to merge |
 
 **Phase 2 — The one-modifier headline**
 
