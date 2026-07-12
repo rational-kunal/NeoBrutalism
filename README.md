@@ -216,6 +216,13 @@ GroupBox("Marauder's Map") {
 ```swift
 TextField("Enter your spell", text: $text)
     .textFieldStyle(.neoBrutalism)
+
+SecureField("Password", text: $password)
+    .textFieldStyle(.neoBrutalism)
+
+TextEditor(text: $notes)
+    .nbTextEditor()
+    .frame(height: 120)
 ```
 
 ### Progress
