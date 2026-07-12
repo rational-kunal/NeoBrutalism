@@ -30,6 +30,16 @@ struct RootModifierTests {
                     Button("Bold") {}
                     Button("Italic") {}
                 }
+
+                Gauge(value: 0.6) { Text("Gauge") }
+
+                Label("Label", systemImage: "star.fill")
+
+                LabeledContent("Key", value: "Value")
+
+                Menu("Menu") {
+                    Button("Item") {}
+                }
             }
             .neoBrutalism()
         )
