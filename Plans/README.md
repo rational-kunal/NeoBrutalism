@@ -86,9 +86,9 @@ us style (List, navigation, dialogs) with helpers or drop-in `NB*` views.
 | DisclosureGroup | `DisclosureGroupStyle` | `.neoBrutalismAccordion` | ✅ naming (T10) |
 | GroupBox | `GroupBoxStyle` | `.neoBrutalism(type:elevated:)` | ✅ |
 | ControlGroup | `ControlGroupStyle` | `.neoBrutalism` | ✅ press effect (T06) |
-| Menu | `MenuStyle` (trigger only) | style + `NBMenu` for the dropdown | ✅ polish (T19) |
+| Menu | `MenuStyle` (trigger only) | style + `NBMenu` for the dropdown | ✅ T19 done (dividers/disabled/scroll) |
 | Slider | **no protocol** | `NBSlider` | ⚠️ not drop-in yet (T17) |
-| Stepper | **no protocol** | `NBStepper` | ⚠️ Int-only (T18) |
+| Stepper | **no protocol** | `NBStepper` | ✅ T18 done (step/auto-repeat/a11y; Int by design) |
 | Picker (segmented) | **no protocol** | `NBSegmentedPicker` | ✅ |
 | Picker (menu/wheel) | **no protocol** | document `NBMenu` as the alternative | 🔲 T26 docs |
 | List / Form | **not stylable** | `nbList()` / `nbListRow()` helpers | ✅ T12 done |
@@ -139,16 +139,16 @@ Diagnosis + strategy: [TESTING.md](TESTING.md))
 | [T15](T15-typography-token.md) | `fontDesign` theme token | XS | ✅ Done ([PR #34](https://github.com/rational-kunal/NeoBrutalism/pull/34)) |
 | [T16](T16-dialog.md) | `nbDialog()` centered modal (alert replacement) | M | ✅ Done ([PR #31](https://github.com/rational-kunal/NeoBrutalism/pull/31)) |
 
-**Phase 3 — Drop-in parity for custom components**
+**Phase 3 — Drop-in parity for custom components** (3/6 done — Wave 3B: T17, T20, T31 remain)
 
-| Task | Title | Size |
-|---|---|---|
-| [T17](T17-slider-v2.md) | NBSlider v2: generic value, range, step, a11y | M |
-| [T18](T18-stepper-v2.md) | NBStepper v2: step, auto-repeat, a11y | S |
-| [T19](T19-menu-polish.md) | NBMenu: dividers, disabled items, long menus | S |
-| [T20](T20-skeleton-shimmer.md) | Skeleton pulse + `nbSkeleton()` modifier | S |
-| [T21](T21-alert-conveniences.md) | NBAlert string-based initializers | XS |
-| [T31](T31-nb-swipe-row.md) | Neobrutalist swipe actions (`nbSwipeActions`) — full drag-to-reveal look (depends on T12) | M |
+| Task | Title | Size | Status |
+|---|---|---|---|
+| [T17](T17-slider-v2.md) | NBSlider v2: generic value, range, step, a11y | M | 🔲 To do |
+| [T18](T18-stepper-v2.md) | NBStepper v2: step, auto-repeat, a11y | S | ✅ Done ([PR #36](https://github.com/rational-kunal/NeoBrutalism/pull/36)) |
+| [T19](T19-menu-polish.md) | NBMenu: dividers, disabled items, long menus | S | ✅ Done ([PR #37](https://github.com/rational-kunal/NeoBrutalism/pull/37)) |
+| [T20](T20-skeleton-shimmer.md) | Skeleton pulse + `nbSkeleton()` modifier | S | 🔲 To do |
+| [T21](T21-alert-conveniences.md) | NBAlert string-based initializers | XS | ✅ Done ([PR #38](https://github.com/rational-kunal/NeoBrutalism/pull/38)) |
+| [T31](T31-nb-swipe-row.md) | Neobrutalist swipe actions (`nbSwipeActions`) — full drag-to-reveal look (depends on T12) | M | 🔲 To do |
 
 **Phase 4 — Theming as a feature**
 
