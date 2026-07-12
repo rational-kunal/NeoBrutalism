@@ -519,6 +519,40 @@ VStack(alignment: .leading, spacing: 12.0) {
 }
 ```
 
+### List & Form
+
+SwiftUI exposes no style protocol for `List`/`Form`, so the `.neoBrutalism()` root modifier
+can't reach them. Style the container with `nbList()` and each row with `nbListRow()`: the
+helpers hide the system background and separators and render every row as a neobrutalist card.
+`Form` is a `List` under the hood, so the same helpers apply.
+
+```swift
+@Environment(\.nbTheme) private var theme
+
+List {
+    ForEach(items) { item in
+        Text(item.title)
+            .nbListRow()
+            .swipeActions(edge: .trailing) {
+                Button(role: .destructive) {
+                    items.removeAll { $0 == item }
+                } label: {
+                    Label("Delete", systemImage: "trash")
+                }
+                .tint(theme.destructive)
+            }
+    }
+}
+.nbList()
+```
+
+**Native swipe-to-delete ceiling:** SwiftUI's native swipe reveal can only be *tinted*
+(`.tint(theme.destructive)`) and *labelled* — its border stroke, hard offset shadow, and square
+corners are system-owned and can't be restyled (and `ForEach.onDelete` gives even less: a fixed,
+un-tintable "Delete"). For a fully neobrutalist drag-to-reveal action — border, hard shadow,
+square corners, press language — use the custom `nbSwipeActions` component (T31), tracked as a
+follow-up.
+
 ---
 
 <small>The credit for the design belongs to https://www.neobrutalism.dev.<small>

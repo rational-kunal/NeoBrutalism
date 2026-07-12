@@ -194,7 +194,7 @@ private struct NBMenuOverlayContent: View {
                     item.action()
                 } label: {
                     item.label
-                        .foregroundStyle(item.role == .destructive ? Color.red : theme.text)
+                        .foregroundStyle(item.role == .destructive ? theme.destructive : theme.text)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(theme.padding)
                 }

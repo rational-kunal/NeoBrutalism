@@ -42,17 +42,13 @@ struct SwitchExampleView: View {
     @State var switchState = true
 
     var body: some View {
-        HStack {
-            Toggle(isOn: .constant(true)) {}
-            Toggle(isOn: .constant(false)) {}
-
-            Divider().fixedSize()
-
+        VStack(spacing: 12.0) {
             Toggle(isOn: $switchState) {
-                Spacer()
                 Text(switchState ? "(Lumos!)" : "(Nox!)")
                     .italic()
             }
+            Toggle("Invisibility Cloak", isOn: .constant(true))
+            Toggle("Muggle Mode", isOn: .constant(false))
         }.toggleStyle(.neoBrutalismSwitch)
     }
 }
@@ -537,6 +533,58 @@ struct RootModifierExampleView: View {
     }
 }
 
+struct ListExampleView: View {
+    @State private var items = ["Expelliarmus", "Wingardium Leviosa", "Lumos"]
+    @State private var formText = "Spell Name"
+    @State private var formToggle = true
+    @Environment(\.nbTheme) private var theme
+
+    var body: some View {
+        VStack(spacing: 12.0) {
+            Text("List Example")
+                .font(.headline)
+
+            List {
+                ForEach(Array(items.enumerated()), id: \.offset) { index, item in
+                    Text(item)
+                        .nbListRow()
+                        .swipeActions(edge: .trailing) {
+                            Button(role: .destructive) {
+                                items.remove(at: index)
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                            }
+                            .tint(theme.destructive)
+                        }
+                }
+            }
+            .nbList()
+            .frame(height: 150)
+
+            Text("Form Example")
+                .font(.headline)
+
+            Form {
+                Section("Settings") {
+                    Toggle("Enable Spell Notifications", isOn: $formToggle)
+                        .nbListRow()
+
+                    TextField("Spell", text: $formText)
+                        .nbListRow()
+
+                    LabeledContent("House") {
+                        Text("Gryffindor")
+                    }
+                    .nbListRow()
+                }
+            }
+            .nbList()
+            .frame(height: 180)
+        }
+        .neoBrutalism()
+    }
+}
+
 struct ContentView: View {
     @State var colorSceme: ColorScheme = .light
     @State var theme = NBTheme.default.updateBy(
@@ -584,6 +632,7 @@ struct ContentView: View {
             AnyView(StepperExampleView()),
             AnyView(SegmentedPickerExampleView()),
             AnyView(RootModifierExampleView()),
+            AnyView(ListExampleView()),
         ]
 
         ZStack {
