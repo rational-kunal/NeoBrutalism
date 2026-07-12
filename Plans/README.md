@@ -127,9 +127,9 @@ Diagnosis + strategy: [TESTING.md](TESTING.md))
 
 **Phase 2 — The one-modifier headline**
 
-| Task | Title | Size |
-|---|---|---|
-| [T09](T09-label-labeledcontent-hygiene.md) | Label/LabeledContent style fixes (prereq for T11) | XS |
+| Task | Title | Size | Status |
+|---|---|---|---|
+| [T09](T09-label-labeledcontent-hygiene.md) | Label/LabeledContent style fixes (prereq for T11) | XS | ✅ Done |
 | [T10](T10-style-naming-convention.md) | Naming convention: `.neoBrutalism` everywhere, deprecations | S |
 | [T11](T11-root-modifier-v2.md) | Root modifier v2: full coverage, one signature | M |
 | [T12](T12-list-and-form-support.md) | List & Form support (`nbList`, `nbListRow`) | M |

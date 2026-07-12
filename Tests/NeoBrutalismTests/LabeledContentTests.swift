@@ -25,4 +25,20 @@ struct LabeledContentTests {
                 .labeledContentStyle(.neoBrutalism)
         )
     }
+
+    @Test func labeledContent_inside_groupBox() {
+        assertNBSnapshot(
+            of: GroupBox {
+                VStack(spacing: 12) {
+                    LabeledContent("Username", value: "johndoe")
+                        .labeledContentStyle(.neoBrutalism)
+                    LabeledContent("Email", value: "user@example.com")
+                        .labeledContentStyle(.neoBrutalism)
+                    LabeledContent("Plan", value: "Pro")
+                        .labeledContentStyle(.neoBrutalism)
+                }
+            }
+            .groupBoxStyle(.neoBrutalism())
+        )
+    }
 }
