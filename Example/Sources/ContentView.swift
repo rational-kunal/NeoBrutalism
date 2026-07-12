@@ -352,6 +352,30 @@ struct DrawerExampleView: View {
     }
 }
 
+struct DialogExampleView: View {
+    @State private var isDialogOpen: Bool = false
+
+    var body: some View {
+        VStack(spacing: 16.0) {
+            Button {
+                isDialogOpen.toggle()
+            } label: {
+                Text("Open Dialog")
+            }.buttonStyle(.neoBrutalism())
+        }
+        .nbDialog("Delete this memory?", isPresented: $isDialogOpen) {
+            Button("Delete", role: .destructive) {
+                isDialogOpen = false
+            }
+            Button("Keep") {
+                isDialogOpen = false
+            }
+        } message: {
+            Text("This action cannot be undone.")
+        }
+    }
+}
+
 // MARK: - Label Style
 
 struct LabelStyleExampleView: View {
@@ -504,6 +528,7 @@ struct ContentView: View {
             AnyView(TabsExampleView()),
             AnyView(CollapsableExampleView()),
             AnyView(DrawerExampleView()),
+            AnyView(DialogExampleView()),
             AnyView(LabelStyleExampleView()),
             AnyView(GaugeStyleExampleView()),
             AnyView(MenuStyleExampleView()),
