@@ -42,4 +42,48 @@ struct InputTests {
                 .textFieldStyle(.neoBrutalism)
         )
     }
+
+    // MARK: - SecureField
+
+    @Test func securefield_enabled() {
+        assertNBSnapshot(
+            of: SecureField("Password", text: .constant("hunter2"))
+                .textFieldStyle(.neoBrutalism)
+        )
+    }
+
+    @Test func securefield_disabled() {
+        assertNBSnapshot(
+            of: SecureField("Password", text: .constant("hunter2"))
+                .disabled(true)
+                .textFieldStyle(.neoBrutalism)
+        )
+    }
+
+    // MARK: - TextEditor
+
+    @Test func texteditor_enabled() {
+        assertNBSnapshot(
+            of: TextEditor(text: .constant("Some text content"))
+                .nbTextEditor()
+                .frame(width: 300, height: 100)
+        )
+    }
+
+    @Test func texteditor_disabled() {
+        assertNBSnapshot(
+            of: TextEditor(text: .constant("Some text content"))
+                .nbTextEditor()
+                .disabled(true)
+                .frame(width: 300, height: 100)
+        )
+    }
+
+    @Test func texteditor_empty() {
+        assertNBSnapshot(
+            of: TextEditor(text: .constant(""))
+                .nbTextEditor()
+                .frame(width: 300, height: 100)
+        )
+    }
 }

@@ -1,5 +1,4 @@
 import SwiftUI
-import UIKit
 
 /// A neobrutalism-styled menu with a fully themed dropdown.
 ///
@@ -26,7 +25,7 @@ public struct NBMenu<Label: View>: View {
 
     @State private var isOpen = false
     @State private var triggerFrame: CGRect = .zero
-    @State private var overlayWindow = NBMenuOverlayWindow()
+    @State private var overlayWindow = NBOverlayWindow()
 
     private let label: Label
     private let items: [NBMenuItem]
@@ -92,37 +91,7 @@ public struct NBMenu<Label: View>: View {
     }
 }
 
-/// Hosts an `NBMenu`'s dropdown in its own `UIWindow`, layered above the app's key window so the
-/// dropdown is never clipped or painted-under by sibling views in the presenting hierarchy.
-@MainActor
-final class NBMenuOverlayWindow {
-    private var window: UIWindow?
-
-    func show<Content: View>(@ViewBuilder content: () -> Content) {
-        guard let scene = UIApplication.shared.connectedScenes
-            .compactMap({ $0 as? UIWindowScene })
-            .first(where: { $0.activationState == .foregroundActive })
-        else { return }
-
-        let hostingController = UIHostingController(rootView: content())
-        hostingController.view.backgroundColor = .clear
-
-        let window = self.window ?? UIWindow(windowScene: scene)
-        window.rootViewController = hostingController
-        window.backgroundColor = .clear
-        window.windowLevel = .alert + 1
-        window.isHidden = false
-        self.window = window
-    }
-
-    func hide() {
-        window?.isHidden = true
-        window?.rootViewController = nil
-        window = nil
-    }
-}
-
-/// The content hosted inside `NBMenuOverlayWindow`: a full-screen tap-to-dismiss catcher plus the
+/// The content hosted inside `NBOverlayWindow`: a full-screen tap-to-dismiss catcher plus the
 /// themed dropdown, positioned under the trigger using its frame in the original window.
 private struct NBMenuOverlayContent: View {
     let theme: NBTheme
