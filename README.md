@@ -300,6 +300,39 @@ struct SliderExampleView: View {
 }
 ```
 
+### Stepper
+
+<p>
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/cd674947-b9ce-482f-ac4f-1dcfa7ba2279" loading="lazy" />
+    <br />
+    <img width="350" alt="image" src="https://github.com/user-attachments/assets/51924255-eaec-4de2-98b3-f78e52b0d2cb" loading="lazy" />
+</p>
+
+`NBStepper` increments and decrements an integer value with a configurable step. Press and hold the +/– buttons for auto-repeat. Supports customizable steps and custom labels.
+
+```swift
+@State private var quantity = 1
+
+// Basic stepper with default step of 1
+NBStepper("Quantity", value: $quantity, in: 0...10)
+
+// Stepper with custom step
+NBStepper("Price", value: $price, in: 0...100, step: 5)
+
+// Custom label
+NBStepper(value: $quantity, in: 0...10) {
+    Label("Items", systemImage: "cart")
+}
+```
+
+**Parameters:**
+- `value` — a binding to an integer value
+- `range` — the closed range of valid values
+- `step` — the increment/decrement step (default: 1)
+- `label` — an optional view describing the stepper's purpose
+
+Accessibility: exposes one adjustable element; works with VoiceOver to increment/decrement by the configured step.
+
 ### Radio
 
 <p>

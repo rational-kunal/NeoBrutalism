@@ -14,20 +14,33 @@ public struct NBStepper<Label: View>: View {
 
     @Binding private var value: Int
     private let range: ClosedRange<Int>
+    private let step: Int
     private let label: Label
+    private let accessibilityLabelText: String?
 
     @State private var isMinusPressed = false
     @State private var isPlusPressed = false
+    @State private var repeatTimer: Timer?
+    @State private var repeatDelay: DispatchWorkItem?
 
     /// Creates a stepper with a custom label.
     /// - Parameters:
     ///   - value: A binding to an integer value.
     ///   - range: The closed range of valid values.
+    ///   - step: The value to increment or decrement by (default: 1).
     ///   - label: A view that describes the stepper's purpose.
-    public init(value: Binding<Int>, in range: ClosedRange<Int>, @ViewBuilder label: () -> Label) {
+    public init(
+        value: Binding<Int>,
+        in range: ClosedRange<Int>,
+        step: Int = 1,
+        accessibilityLabelText: String? = nil,
+        @ViewBuilder label: () -> Label
+    ) {
         _value = value
         self.range = range
+        self.step = step
         self.label = label()
+        self.accessibilityLabelText = accessibilityLabelText
     }
 
     public var body: some View {
@@ -40,9 +53,7 @@ public struct NBStepper<Label: View>: View {
             HStack(spacing: 0) {
                 // Minus button
                 Button {
-                    if value > range.lowerBound {
-                        value -= 1
-                    }
+                    decrement()
                 } label: {
                     Image(systemName: "minus")
                         .font(.body.weight(.bold))
@@ -54,8 +65,15 @@ public struct NBStepper<Label: View>: View {
                 .background(theme.bw)
                 .simultaneousGesture(
                     DragGesture(minimumDistance: 0)
-                        .onChanged { _ in isMinusPressed = true }
-                        .onEnded { _ in isMinusPressed = false }
+                        .onChanged { _ in
+                            guard !isMinusPressed else { return }
+                            isMinusPressed = true
+                            startRepeating(isIncrement: false)
+                        }
+                        .onEnded { _ in
+                            isMinusPressed = false
+                            stopRepeating()
+                        }
                 )
 
                 // Divider
@@ -78,9 +96,7 @@ public struct NBStepper<Label: View>: View {
 
                 // Plus button
                 Button {
-                    if value < range.upperBound {
-                        value += 1
-                    }
+                    increment()
                 } label: {
                     Image(systemName: "plus")
                         .font(.body.weight(.bold))
@@ -92,14 +108,34 @@ public struct NBStepper<Label: View>: View {
                 .background(theme.bw)
                 .simultaneousGesture(
                     DragGesture(minimumDistance: 0)
-                        .onChanged { _ in isPlusPressed = true }
-                        .onEnded { _ in isPlusPressed = false }
+                        .onChanged { _ in
+                            guard !isPlusPressed else { return }
+                            isPlusPressed = true
+                            startRepeating(isIncrement: true)
+                        }
+                        .onEnded { _ in
+                            isPlusPressed = false
+                            stopRepeating()
+                        }
                 )
             }
             .fixedSize(horizontal: true, vertical: true)
             .nbPressEffect(isPressed: isMinusPressed || isPlusPressed)
         }
         .nbDisabledEffect()
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(accessibilityLabelText ?? "Stepper")
+        .accessibilityValue("\(value)")
+        .accessibilityAdjustableAction { direction in
+            switch direction {
+            case .increment:
+                increment()
+            case .decrement:
+                decrement()
+            @unknown default:
+                break
+            }
+        }
     }
 }
 
@@ -109,21 +145,82 @@ public extension NBStepper where Label == Text {
     ///   - title: A string that describes the stepper's purpose.
     ///   - value: A binding to an integer value.
     ///   - range: The closed range of valid values.
-    init(_ title: String, value: Binding<Int>, in range: ClosedRange<Int>) {
-        self.init(value: value, in: range) {
+    ///   - step: The value to increment or decrement by (default: 1).
+    init(_ title: String, value: Binding<Int>, in range: ClosedRange<Int>, step: Int = 1) {
+        self.init(value: value, in: range, step: step, accessibilityLabelText: title) {
             Text(title)
         }
+    }
+}
+
+// MARK: - Private helpers
+extension NBStepper {
+    private func increment() {
+        let newValue = value + step
+        if newValue <= range.upperBound {
+            value = newValue
+        } else {
+            value = range.upperBound
+        }
+    }
+
+    private func decrement() {
+        let newValue = value - step
+        if newValue >= range.lowerBound {
+            value = newValue
+        } else {
+            value = range.lowerBound
+        }
+    }
+
+    /// Starts press-and-hold auto-repeat: after a 0.5s hold the step repeats every 0.15s until
+    /// the finger lifts or the range bound is hit. The 0.5s delay is a cancellable
+    /// `DispatchWorkItem` (not a bare `asyncAfter`) so an early release stops it — otherwise the
+    /// delayed closure would still fire and start repeating with no finger down.
+    private func startRepeating(isIncrement: Bool) {
+        let delay = DispatchWorkItem {
+            repeatTimer = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true) { _ in
+                repeatStep(isIncrement: isIncrement)
+            }
+        }
+        repeatDelay = delay
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: delay)
+    }
+
+    /// Steps once for the repeat timer, stopping the timer when it reaches the range bound so it
+    /// doesn't keep firing uselessly against a clamped value.
+    private func repeatStep(isIncrement: Bool) {
+        if isIncrement {
+            guard value < range.upperBound else { return stopRepeating() }
+            increment()
+        } else {
+            guard value > range.lowerBound else { return stopRepeating() }
+            decrement()
+        }
+    }
+
+    /// Cancels both the pending 0.5s delay and any running repeat timer.
+    private func stopRepeating() {
+        repeatDelay?.cancel()
+        repeatDelay = nil
+        repeatTimer?.invalidate()
+        repeatTimer = nil
     }
 }
 
 @available(iOS 18.0, *)
 #Preview(traits: .modifier(NBPreviewHelper())) {
     @Previewable @State var count = 3
+    @Previewable @State var largeValue = 500
 
     VStack(spacing: 20) {
         NBStepper("Quantity", value: $count, in: 0...10)
         NBStepper(value: $count, in: 0...10) {
             Label("Items", systemImage: "cart")
+        }
+        NBStepper("Step 5", value: $count, in: 0...100, step: 5)
+        NBStepper(value: $largeValue, in: 0...1000) {
+            Label("Wide value", systemImage: "rectangle")
         }
         NBStepper(value: $count, in: 0...10) {
             Label("Items", systemImage: "cart")

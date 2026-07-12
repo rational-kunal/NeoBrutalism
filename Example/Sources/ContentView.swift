@@ -477,12 +477,21 @@ struct LabeledContentStyleExampleView: View {
 
 struct StepperExampleView: View {
     @State private var cauldronCount: Int = 3
+    @State private var potion: Int = 0
 
     var body: some View {
         VStack(spacing: 12) {
             NBStepper("Cauldrons", value: $cauldronCount, in: 0...10)
             Text("Brewing \(cauldronCount) potions tonight")
                 .italic()
+
+            Divider()
+                .padding(.vertical, 8)
+
+            NBStepper("Galleons", value: $potion, in: 0...100, step: 10)
+            Text("Step by 10")
+                .font(.caption)
+                .foregroundStyle(.secondary)
         }
     }
 }
