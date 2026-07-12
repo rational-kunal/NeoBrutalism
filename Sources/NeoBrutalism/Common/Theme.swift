@@ -74,6 +74,15 @@ public struct NBTheme: Sendable {
     /// stays legible regardless of theme.
     public private(set) var mainText: Color
 
+    /// The fill color for delete/danger affordances (e.g. destructive menu rows, tinted
+    /// swipe-to-delete actions), so those affordances read from the theme instead of a
+    /// hardcoded red.
+    public private(set) var destructive: Color
+
+    /// The legible foreground color for text/icons placed on top of `destructive`; black in
+    /// both modes to match `mainText`'s high-contrast-on-color convention.
+    public private(set) var destructiveText: Color
+
     /// A fully transparent color, provided for convenience when a token slot is required
     /// but no fill should be drawn.
     public private(set) var clear: Color = .clear
@@ -157,6 +166,14 @@ public struct NBTheme: Sendable {
             light: .rgb(0.0, 0.0, 0.0),
             dark: .rgb(0.0, 0.0, 0.0)
         ),
+        destructive: Color(
+            light: .rgb(1.0, 0.42, 0.42),
+            dark: .rgb(1.0, 0.42, 0.42)
+        ),
+        destructiveText: Color(
+            light: .rgb(0.0, 0.0, 0.0),
+            dark: .rgb(0.0, 0.0, 0.0)
+        ),
         smsize: 8.0, size: 16.0, xlsize: 24.0,
         smpadding: 8.0, padding: 12.0, xlpadding: 24.0,
         smspacing: 8.0, spacing: 12.0, xlspacing: 24.0,
@@ -183,6 +200,8 @@ public struct NBTheme: Sendable {
         border: Color? = nil,
         text: Color? = nil,
         mainText: Color? = nil,
+        destructive: Color? = nil,
+        destructiveText: Color? = nil,
         smsize: CGFloat? = nil,
         size: CGFloat? = nil,
         xlsize: CGFloat? = nil,
@@ -207,6 +226,8 @@ public struct NBTheme: Sendable {
             border: border ?? self.border,
             text: text ?? self.text,
             mainText: mainText ?? self.mainText,
+            destructive: destructive ?? self.destructive,
+            destructiveText: destructiveText ?? self.destructiveText,
             smsize: smsize ?? self.smsize,
             size: size ?? self.size,
             xlsize: xlsize ?? self.xlsize,
