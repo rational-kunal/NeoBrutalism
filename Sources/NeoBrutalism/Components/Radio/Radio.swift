@@ -68,7 +68,7 @@ public struct NBRadioGroup<Content, ValueType>: View where Content: View, ValueT
                 Text("Second")
             }
             NBRadioItem(value: 2) {
-                Text("Thhird")
+                Text("Third")
             }
         }
     }
