@@ -361,6 +361,31 @@ struct DrawerExampleView: View {
     }
 }
 
+// MARK: - Navigation
+
+struct NavigationExampleView: View {
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: 16.0) {
+                Text("Welcome to the Great Hall")
+                    .font(.title2)
+                    .padding()
+
+                Button("Browse Spells") {}
+                    .buttonStyle(.neoBrutalism())
+
+                Button("View Potions", action: {})
+                    .buttonStyle(.neoBrutalism(type: .neutral))
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            .navigationTitle("Navigation")
+            .nbNavigationBar()
+        }
+    }
+}
+
+// MARK: - Dialog
+
 struct DialogExampleView: View {
     @State private var isDialogOpen: Bool = false
 
@@ -537,6 +562,7 @@ struct ContentView: View {
             AnyView(TabsExampleView()),
             AnyView(CollapsableExampleView()),
             AnyView(DrawerExampleView()),
+            AnyView(NavigationExampleView()),
             AnyView(DialogExampleView()),
             AnyView(LabelStyleExampleView()),
             AnyView(GaugeStyleExampleView()),

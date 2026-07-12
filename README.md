@@ -393,6 +393,21 @@ struct DrawerExampleView: View {
 }
 ```
 
+### Navigation
+
+Apply `.nbNavigationBar()` to style the navigation bar with the neobrutalism theme. Use it inside a `NavigationStack` on the screen content.
+
+```swift
+NavigationStack {
+    ContentView()
+        .navigationTitle("Navigation Title")
+        .nbNavigationBar()
+}
+.neoBrutalism()
+```
+
+**Note:** Toolbar buttons automatically pick up `NBButtonStyle` from the root modifier. If styles reset in your toolbar context, explicitly apply `.buttonStyle(.neoBrutalism(type: .neutral))` to the toolbar item.
+
 ### Alert
 <p float="left">
     <img width="350" alt="image" src="https://github.com/user-attachments/assets/99f5328a-205c-4a25-b2b1-be3a1dbc5830" loading="lazy" />
