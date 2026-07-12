@@ -26,4 +26,11 @@ struct AlertTests {
             }
         )
     }
+
+    @Test func alert_string_init() {
+        assertNBSnapshot(
+            of: NBAlert("Heads up", message: "Something happened that you should know about.",
+                        systemImage: "exclamationmark.triangle.fill")
+        )
+    }
 }
