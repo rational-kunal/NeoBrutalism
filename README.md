@@ -101,6 +101,13 @@ struct ContentView: View {
 }
 ```
 
+**Available tokens:**
+- **Colors**: `main`, `bw`, `overlay`, `background`, `blank`, `border`, `text`, `mainText`
+- **Spacing**: `smsize`, `size`, `xlsize`, `smpadding`, `padding`, `xlpadding`, `smspacing`, `spacing`, `xlspacing`
+- **Shadow**: `boxShadowX`, `boxShadowY`
+- **Borders**: `borderWidth`, `borderRadius`
+- **Typography**: `fontDesign` — applies a `Font.Design` (e.g., `.rounded`) to the entire hierarchy via the root modifier
+
 ## Architecture
 
 ```

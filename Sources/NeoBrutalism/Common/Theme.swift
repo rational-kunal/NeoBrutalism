@@ -114,6 +114,12 @@ public struct NBTheme: Sendable {
     /// The vertical offset of the hard drop shadow characteristic of the style.
     public private(set) var boxShadowY: CGFloat
 
+    // MARK: Typography
+
+    /// The font design applied to the whole hierarchy by the `.neoBrutalism()` root
+    /// modifier. `nil` (the default) leaves the system font untouched.
+    public private(set) var fontDesign: Font.Design? = nil
+
     // MARK: Themes
 
     /// The default NeoBrutalism theme: a light-blue `main` accent, black borders, and the
@@ -162,6 +168,9 @@ public struct NBTheme: Sendable {
     /// unspecified parameter unchanged. Use this to derive a variant of `.default` (or any
     /// other theme) without restating every token.
     ///
+    /// The `fontDesign` token can only be set through this method; to reset to nil, derive
+    /// from `.default` instead.
+    ///
     /// ```swift
     /// let danger = NBTheme.default.updateBy(main: .red, mainText: .white)
     /// ```
@@ -186,7 +195,8 @@ public struct NBTheme: Sendable {
         borderWidth: CGFloat? = nil,
         borderRadius: CGFloat? = nil,
         boxShadowX: CGFloat? = nil,
-        boxShadowY: CGFloat? = nil
+        boxShadowY: CGFloat? = nil,
+        fontDesign: Font.Design? = nil
     ) -> NBTheme {
         return NBTheme(
             main: main ?? self.main,
@@ -209,7 +219,8 @@ public struct NBTheme: Sendable {
             borderWidth: borderWidth ?? self.borderWidth,
             borderRadius: borderRadius ?? self.borderRadius,
             boxShadowX: boxShadowX ?? self.boxShadowX,
-            boxShadowY: boxShadowY ?? self.boxShadowY
+            boxShadowY: boxShadowY ?? self.boxShadowY,
+            fontDesign: fontDesign ?? self.fontDesign
         )
     }
 }

@@ -22,6 +22,7 @@ struct NBRootModifier: ViewModifier {
             .disclosureGroupStyle(.neoBrutalism)
             .controlGroupStyle(.neoBrutalism)
             .groupBoxStyle(.neoBrutalism())
+            .fontDesign(theme.fontDesign)
             .environment(\.nbTheme, theme)
 
         if applyBackground {
