@@ -170,6 +170,8 @@ struct GroupBoxExampleView: View {
 
 struct InputExampleView: View {
     @State var text: String = ""
+    @State var password: String = ""
+    @State var notes: String = ""
 
     var body: some View {
         VStack {
@@ -179,6 +181,13 @@ struct InputExampleView: View {
 
             TextField("Enter your spell", text: $text)
                 .textFieldStyle(.neoBrutalism)
+
+            SecureField("Password", text: $password)
+                .textFieldStyle(.neoBrutalism)
+
+            TextEditor(text: $notes)
+                .nbTextEditor()
+                .frame(height: 100)
 
             Text("(You just cast: \(text))")
                 .italic()
