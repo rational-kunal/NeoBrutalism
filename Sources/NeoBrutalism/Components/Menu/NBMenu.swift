@@ -187,29 +187,58 @@ private struct NBMenuOverlayContent: View {
     ///   collapsed flush against the surface (closed) — the same shadow-collapse language
     ///   `nbPressEffect` uses for a pressed button.
     private func dropdown(elevated: Bool) -> some View {
-        VStack(spacing: 0) {
-            ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
-                Button {
-                    dismiss()
-                    item.action()
-                } label: {
-                    item.label
-                        .foregroundStyle(item.role == .destructive ? theme.destructive : theme.text)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(theme.padding)
-                }
-                .buttonStyle(NBMenuItemButtonStyle())
+        let screenHeight = UIScreen.main.bounds.height
+        let scrollCap = screenHeight * 0.6
+        let needsScroll = dropdownSize.height > scrollCap
 
-                if index < items.count - 1 {
+        let itemsView = VStack(spacing: 0) {
+            ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
+                if item.kind == .divider {
                     Rectangle()
                         .fill(theme.border)
-                        .frame(height: theme.borderWidth)
+                        .frame(height: theme.borderWidth * 2)
+                        .padding(.vertical, theme.smpadding)
+                } else {
+                    Button {
+                        dismiss()
+                        item.action()
+                    } label: {
+                        item.label
+                            .foregroundStyle(item.role == .destructive ? theme.destructive : theme.text)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(theme.padding)
+                            .opacity(item.disabled ? 0.5 : 1)
+                    }
+                    .buttonStyle(NBMenuItemButtonStyle())
+                    .disabled(item.disabled)
+
+                    // Hairline separator between items, but skip if next item is a divider
+                    if index < items.count - 1 && items[index + 1].kind != .divider {
+                        Rectangle()
+                            .fill(theme.border)
+                            .frame(height: theme.borderWidth)
+                    }
                 }
             }
         }
         .frame(minWidth: triggerFrame.width, alignment: .leading)
         .fixedSize(horizontal: true, vertical: true)
-        .nbBox(elevated: elevated)
+
+        if needsScroll {
+            return AnyView(
+                ScrollView {
+                    itemsView
+                }
+                .frame(maxHeight: scrollCap)
+                .frame(minWidth: triggerFrame.width, alignment: .leading)
+                .nbBox(elevated: elevated)
+            )
+        } else {
+            return AnyView(
+                itemsView
+                    .nbBox(elevated: elevated)
+            )
+        }
     }
 
     private func dismiss() {
@@ -225,45 +254,79 @@ private struct NBMenuOverlayContent: View {
 
 /// A single row in an ``NBMenu``.
 public struct NBMenuItem: Identifiable {
-    public let id = UUID()
+    enum Kind {
+        case item
+        case divider
+    }
+
+    public let id: UUID
     let label: AnyView
     let role: ButtonRole?
     let action: () -> Void
+    let disabled: Bool
+    let kind: Kind
 
     /// Creates a menu item from a title and optional SF Symbol.
     /// - Parameters:
     ///   - title: The row's text.
     ///   - systemImage: An optional leading SF Symbol name.
     ///   - role: An optional role; `.destructive` renders the row in red.
+    ///   - disabled: Whether this item is disabled and non-interactive.
     ///   - action: The closure run when the row is tapped.
     public init(
         _ title: String,
         systemImage: String? = nil,
         role: ButtonRole? = nil,
+        disabled: Bool = false,
         action: @escaping () -> Void
     ) {
+        self.id = UUID()
         if let systemImage {
             self.label = AnyView(Label(title, systemImage: systemImage))
         } else {
             self.label = AnyView(Text(title))
         }
         self.role = role
+        self.disabled = disabled
         self.action = action
+        self.kind = .item
     }
 
     /// Creates a menu item with fully custom label content.
     /// - Parameters:
     ///   - role: An optional role; `.destructive` renders the row in red.
+    ///   - disabled: Whether this item is disabled and non-interactive.
     ///   - action: The closure run when the row is tapped.
     ///   - label: The row's content.
     public init<Content: View>(
         role: ButtonRole? = nil,
+        disabled: Bool = false,
         action: @escaping () -> Void,
         @ViewBuilder label: () -> Content
     ) {
+        self.id = UUID()
         self.label = AnyView(label())
         self.role = role
+        self.disabled = disabled
         self.action = action
+        self.kind = .item
+    }
+
+    /// A section divider row.
+    private init(divider: Void) {
+        self.id = UUID()
+        self.label = AnyView(EmptyView())
+        self.role = nil
+        self.disabled = true
+        self.action = {}
+        self.kind = .divider
+    }
+}
+
+public extension NBMenuItem {
+    /// A section divider row.
+    static var divider: NBMenuItem {
+        NBMenuItem(divider: ())
     }
 }
 
@@ -312,6 +375,8 @@ private struct NBMenuItemButtonStyle: ButtonStyle {
         NBMenu {
             NBMenuItem("Edit", systemImage: "pencil") {}
             NBMenuItem("Duplicate", systemImage: "plus.square.on.square") {}
+            NBMenuItem.divider
+            NBMenuItem("Share", systemImage: "square.and.arrow.up", disabled: true) {}
             NBMenuItem("Delete", systemImage: "trash", role: .destructive) {}
         } label: {
             Text("Options")
@@ -348,4 +413,36 @@ private struct NBMenuItemButtonStyle: ButtonStyle {
         }
     }
     .padding(.bottom, 40)
+}
+
+/// Demonstrates a long menu that scrolls when it exceeds 60% of screen height.
+@available(iOS 18.0, *)
+#Preview("Long scrollable menu", traits: .modifier(NBPreviewHelper())) {
+    VStack(alignment: .leading, spacing: 20) {
+        NBMenu {
+            NBMenuItem("Item 1", systemImage: "square.and.pencil") {}
+            NBMenuItem("Item 2", systemImage: "square.and.pencil") {}
+            NBMenuItem("Item 3", systemImage: "square.and.pencil") {}
+            NBMenuItem("Item 4", systemImage: "square.and.pencil") {}
+            NBMenuItem("Item 5", systemImage: "square.and.pencil") {}
+            NBMenuItem("Item 6", systemImage: "square.and.pencil") {}
+            NBMenuItem("Item 7", systemImage: "square.and.pencil") {}
+            NBMenuItem("Item 8", systemImage: "square.and.pencil") {}
+            NBMenuItem("Item 9", systemImage: "square.and.pencil") {}
+            NBMenuItem("Item 10", systemImage: "square.and.pencil") {}
+            NBMenuItem("Item 11", systemImage: "square.and.pencil") {}
+            NBMenuItem("Item 12", systemImage: "square.and.pencil") {}
+            NBMenuItem("Item 13", systemImage: "square.and.pencil") {}
+            NBMenuItem("Item 14", systemImage: "square.and.pencil") {}
+            NBMenuItem("Item 15", systemImage: "square.and.pencil") {}
+            NBMenuItem("Item 16", systemImage: "square.and.pencil") {}
+            NBMenuItem("Item 17", systemImage: "square.and.pencil") {}
+            NBMenuItem("Item 18", systemImage: "square.and.pencil") {}
+            NBMenuItem("Item 19", systemImage: "square.and.pencil") {}
+            NBMenuItem("Item 20", systemImage: "square.and.pencil") {}
+        } label: {
+            Text("Scroll Menu")
+        }
+    }
+    .padding()
 }
