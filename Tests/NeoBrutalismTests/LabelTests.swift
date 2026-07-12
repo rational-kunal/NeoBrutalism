@@ -25,4 +25,18 @@ struct LabelTests {
                 .labelStyle(.neoBrutalism)
         )
     }
+
+    @Test func label_inside_groupBox() {
+        assertNBSnapshot(
+            of: GroupBox {
+                VStack(alignment: .leading, spacing: 12) {
+                    Label("Favorites", systemImage: "star.fill")
+                        .labelStyle(.neoBrutalism)
+                    Label("Settings", systemImage: "gear")
+                        .labelStyle(.neoBrutalism)
+                }
+            }
+            .groupBoxStyle(.neoBrutalism())
+        )
+    }
 }

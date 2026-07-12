@@ -7,7 +7,7 @@ public extension LabeledContentStyle where Self == NBLabeledContentStyle {
 /// A neo-brutalism styled `LabeledContentStyle` for settings-row style label/value pairs.
 ///
 /// Displays the label on the left with regular weight and the value on the right with bold weight,
-/// using themed colors and horizontal padding.
+/// both using the theme's text color for proper contrast.
 ///
 /// ```swift
 /// LabeledContent("Username", value: "johndoe")
@@ -25,23 +25,41 @@ public struct NBLabeledContentStyle: LabeledContentStyle {
             Spacer()
 
             configuration.content
-                .foregroundStyle(theme.main)
+                .foregroundStyle(theme.text)
                 .fontWeight(.bold)
         }
-        .padding(.horizontal, theme.padding)
     }
 }
 
 @available(iOS 18.0, *)
 #Preview(traits: .modifier(NBPreviewHelper())) {
     VStack(spacing: 20) {
-        LabeledContent("Username", value: "johndoe")
-            .labeledContentStyle(.neoBrutalism)
+        // Standalone labeled content
+        VStack(spacing: 12) {
+            LabeledContent("Username", value: "johndoe")
+                .labeledContentStyle(.neoBrutalism)
 
-        LabeledContent("Email", value: "user@example.com")
-            .labeledContentStyle(.neoBrutalism)
+            LabeledContent("Email", value: "user@example.com")
+                .labeledContentStyle(.neoBrutalism)
 
-        LabeledContent("Plan", value: "Pro")
-            .labeledContentStyle(.neoBrutalism)
+            LabeledContent("Plan", value: "Pro")
+                .labeledContentStyle(.neoBrutalism)
+        }
+
+        // Inside a neutral GroupBox (demonstrates proper contrast)
+        GroupBox {
+            VStack(spacing: 12) {
+                LabeledContent("Username", value: "johndoe")
+                    .labeledContentStyle(.neoBrutalism)
+
+                LabeledContent("Email", value: "user@example.com")
+                    .labeledContentStyle(.neoBrutalism)
+
+                LabeledContent("Plan", value: "Pro")
+                    .labeledContentStyle(.neoBrutalism)
+            }
+        }
+        .groupBoxStyle(.neoBrutalism())
     }
+    .padding()
 }
