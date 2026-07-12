@@ -55,8 +55,9 @@ File: `Sources/NeoBrutalism/Common/NeoBrutalismModifier.swift`.
 
 4. **Update the kitchen-sink assets**: extend `RootModifierTests` (from T07) and the Example
    app's `RootModifierExampleView` with `Gauge`, `Label`, `LabeledContent`, `Menu`, and a
-   `ControlGroup` so the contract test actually covers the new lines. Re-record that suite
-   (the Toggle in it changes from checkbox to switch — expected diff; eyeball it).
+   `ControlGroup` so the contract test actually covers the new lines. Re-record that suite via
+   the CI "Re-record snapshots" workflow (README "Verification"); the Toggle in it changes from
+   checkbox to switch — expected diff; eyeball it in the PR.
 
 ## Definition of done
 
