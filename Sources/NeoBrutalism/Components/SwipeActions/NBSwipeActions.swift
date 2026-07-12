@@ -153,7 +153,11 @@ struct NBSwipeActionsModifier: ViewModifier {
             .frame(height: geometry.size.height)
         }
         .onAppear {
-            offset = initialOffset
+            // Unclamped, an out-of-range initialOffset (e.g. a round test value that
+            // doesn't match the computed action-tile width) drags the content past the
+            // action tiles, exposing bare background in the gap — clamp to the same
+            // [-totalActionsWidth, 0] range the drag gesture itself enforces.
+            offset = min(0, max(initialOffset, -totalActionsWidth))
         }
         .accessibilityElement(children: .contain)
         .accessibilityActions {
