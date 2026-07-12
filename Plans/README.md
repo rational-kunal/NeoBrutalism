@@ -139,16 +139,16 @@ Diagnosis + strategy: [TESTING.md](TESTING.md))
 | [T15](T15-typography-token.md) | `fontDesign` theme token | XS | ✅ Done ([PR #34](https://github.com/rational-kunal/NeoBrutalism/pull/34)) |
 | [T16](T16-dialog.md) | `nbDialog()` centered modal (alert replacement) | M | ✅ Done ([PR #31](https://github.com/rational-kunal/NeoBrutalism/pull/31)) |
 
-**Phase 3 — Drop-in parity for custom components** (3/6 done — Wave 3B: T17, T20, T31 remain)
+**Phase 3 — Drop-in parity for custom components** (6/6 done)
 
 | Task | Title | Size | Status |
 |---|---|---|---|
-| [T17](T17-slider-v2.md) | NBSlider v2: generic value, range, step, a11y | M | 🔲 To do |
+| [T17](T17-slider-v2.md) | NBSlider v2: generic value, range, step, a11y | M | ✅ Done ([PR #40](https://github.com/rational-kunal/NeoBrutalism/pull/40)) |
 | [T18](T18-stepper-v2.md) | NBStepper v2: step, auto-repeat, a11y | S | ✅ Done ([PR #36](https://github.com/rational-kunal/NeoBrutalism/pull/36)) |
 | [T19](T19-menu-polish.md) | NBMenu: dividers, disabled items, long menus | S | ✅ Done ([PR #37](https://github.com/rational-kunal/NeoBrutalism/pull/37)) |
-| [T20](T20-skeleton-shimmer.md) | Skeleton pulse + `nbSkeleton()` modifier | S | 🔲 To do |
+| [T20](T20-skeleton-shimmer.md) | Skeleton pulse + `nbSkeleton()` modifier | S | ✅ Done ([PR #39](https://github.com/rational-kunal/NeoBrutalism/pull/39)) |
 | [T21](T21-alert-conveniences.md) | NBAlert string-based initializers | XS | ✅ Done ([PR #38](https://github.com/rational-kunal/NeoBrutalism/pull/38)) |
-| [T31](T31-nb-swipe-row.md) | Neobrutalist swipe actions (`nbSwipeActions`) — full drag-to-reveal look (depends on T12) | M | 🔲 To do |
+| [T31](T31-nb-swipe-row.md) | Neobrutalist swipe actions (`nbSwipeActions`) — full drag-to-reveal look (depends on T12) | M | ✅ Done ([PR #41](https://github.com/rational-kunal/NeoBrutalism/pull/41)) |
 
 **Phase 4 — Theming as a feature**
 
