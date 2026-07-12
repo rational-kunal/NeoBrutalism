@@ -80,9 +80,13 @@ public struct NBSlider<V: BinaryFloatingPoint>: View where V.Stride: BinaryFloat
                         .fill(theme.blank)
                         .stroke(theme.border, lineWidth: theme.borderWidth)
                         .frame(width: theme.size, height: theme.size)
-                        .position(.init(x: thumbOffsetX, y: thumbOffsetY))
                         .frame(width: 44, height: 44)
                         .contentShape(Circle())
+                        // `.position()` must be the last modifier: anything chained after it
+                        // re-centers within the (now flexible) parent space instead of
+                        // honoring this anchor, silently detaching the touch target from the
+                        // computed thumb offset.
+                        .position(.init(x: thumbOffsetX, y: thumbOffsetY))
                         .gesture(
                             DragGesture().onChanged { dragValue in
                                 if isEnabled {
@@ -109,10 +113,16 @@ public struct NBSlider<V: BinaryFloatingPoint>: View where V.Stride: BinaryFloat
         }
         .nbDisabledEffect()
         .accessibilityRepresentation {
-            Slider(value: Binding(
+            let valueBinding = Binding(
                 get: { Double(value) },
                 set: { value = V($0) }
-            ), in: Double(bounds.lowerBound)...Double(bounds.upperBound))
+            )
+            let doubleBounds = Double(bounds.lowerBound)...Double(bounds.upperBound)
+            if let step {
+                Slider(value: valueBinding, in: doubleBounds, step: Double(step))
+            } else {
+                Slider(value: valueBinding, in: doubleBounds)
+            }
         }
     }
 }
