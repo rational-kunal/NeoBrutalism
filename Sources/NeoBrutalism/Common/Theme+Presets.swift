@@ -38,7 +38,7 @@ public extension NBTheme {
     )
 
     /// Pink accent (#FFA6F6) on a blush background — soft, rounded, and playful:
-    /// generous corner radius and a rounded font design.
+    /// generous corner radius, airy padding, and a rounded font design.
     static let bubblegum: NBTheme = NBTheme.default.updateBy(
         main: Color(
             light: .rgb(1.0, 0.651, 0.965), // #FFA6F6
@@ -52,6 +52,8 @@ public extension NBTheme {
             light: .rgb(0.0, 0.0, 0.0),
             dark: .rgb(0.0, 0.0, 0.0) // black on pastel pink in both modes
         ),
+        padding: 16.0, // roomier interiors to match the soft look
+        spacing: 14.0,
         borderRadius: 16.0, // pillowy corners for a bubbly feel
         fontDesign: .rounded
     )
@@ -71,6 +73,8 @@ public extension NBTheme {
             light: .rgb(0.0, 0.0, 0.0),
             dark: .rgb(0.0, 0.0, 0.0) // black on pastel lime in both modes
         ),
+        padding: 10.0, // tighter interiors for a dense, utilitarian feel
+        spacing: 10.0,
         borderWidth: 3.0, // chunkier outline
         borderRadius: 0.0 // sharp, uncompromising corners
     )
@@ -90,7 +94,9 @@ public extension NBTheme {
             light: .rgb(0.0, 0.0, 0.0),
             dark: .rgb(0.0, 0.0, 0.0) // black on pastel orange in both modes
         ),
+        padding: 14.0, // a little extra bulk to carry the heavy border and shadow
         borderWidth: 3.0, // bold outline
+        borderRadius: 8.0, // rounder than default so the weight reads friendly, not harsh
         boxShadowX: 7.0, // exaggerated hard shadow
         boxShadowY: 7.0
     )
@@ -110,6 +116,8 @@ public extension NBTheme {
             light: .rgb(0.0, 0.0, 0.0),
             dark: .rgb(0.0, 0.0, 0.0) // black on pastel purple in both modes
         ),
+        spacing: 14.0, // extra breathing room between elements
+        borderWidth: 1.5, // hairline outline to match the delicate serif
         borderRadius: 12.0, // soft but not pillowy
         boxShadowX: 2.0, // understated shadow
         boxShadowY: 2.0,
