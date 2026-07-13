@@ -54,12 +54,12 @@ public extension NBTheme {
         ),
         padding: 16.0, // roomier interiors to match the soft look
         spacing: 14.0,
-        borderRadius: 16.0, // pillowy corners for a bubbly feel
+        borderRadius: 20.0, // pillowy, almost capsule corners
         fontDesign: .rounded
     )
 
-    /// Lime accent (#A3E636) on a soft sage background — hard-edged brutalist:
-    /// square corners and a heavier border.
+    /// Lime accent (#A3E636) on a soft sage background — terminal-grade brutalist:
+    /// square corners, a slab border, a heavy block shadow, and monospaced type.
     static let seafoam: NBTheme = NBTheme.default.updateBy(
         main: Color(
             light: .rgb(0.639, 0.902, 0.212), // #A3E636
@@ -75,12 +75,15 @@ public extension NBTheme {
         ),
         padding: 10.0, // tighter interiors for a dense, utilitarian feel
         spacing: 10.0,
-        borderWidth: 3.0, // chunkier outline
-        borderRadius: 0.0 // sharp, uncompromising corners
+        borderWidth: 4.0, // slab outline
+        borderRadius: 0.0, // sharp, uncompromising corners
+        boxShadowX: 6.0, // heavier block shadow to match the weight
+        boxShadowY: 6.0,
+        fontDesign: .monospaced // terminal-grade utilitarian type
     )
 
-    /// Orange accent (#FD9745) on a warm cream background — loud and heavy:
-    /// a thick border and a deep offset shadow that pops off the page.
+    /// Orange accent (#FD9745) on a warm cream background — loud poster style:
+    /// a thick border and a huge offset shadow that pops off the page.
     static let tangerine: NBTheme = NBTheme.default.updateBy(
         main: Color(
             light: .rgb(0.992, 0.592, 0.271), // #FD9745
@@ -97,12 +100,12 @@ public extension NBTheme {
         padding: 14.0, // a little extra bulk to carry the heavy border and shadow
         borderWidth: 3.0, // bold outline
         borderRadius: 8.0, // rounder than default so the weight reads friendly, not harsh
-        boxShadowX: 7.0, // exaggerated hard shadow
-        boxShadowY: 7.0
+        boxShadowX: 8.0, // poster-loud hard shadow
+        boxShadowY: 8.0
     )
 
-    /// Purple accent (#A388EE) on a pale lilac background — refined and elegant:
-    /// a serif font, gently rounded corners, and a restrained, subtle shadow.
+    /// Purple accent (#A388EE) on a pale lilac background — flat editorial elegance:
+    /// a serif font, a hairline border, gently rounded corners, and no shadow at all.
     static let lavender: NBTheme = NBTheme.default.updateBy(
         main: Color(
             light: .rgb(0.639, 0.533, 0.933), // #A388EE
@@ -117,10 +120,10 @@ public extension NBTheme {
             dark: .rgb(0.0, 0.0, 0.0) // black on pastel purple in both modes
         ),
         spacing: 14.0, // extra breathing room between elements
-        borderWidth: 1.5, // hairline outline to match the delicate serif
-        borderRadius: 12.0, // soft but not pillowy
-        boxShadowX: 2.0, // understated shadow
-        boxShadowY: 2.0,
+        borderWidth: 1.0, // hairline outline to match the delicate serif
+        borderRadius: 14.0, // soft but not pillowy
+        boxShadowX: 0.0, // fully flat — no offset shadow at all
+        boxShadowY: 0.0,
         fontDesign: .serif
     )
 }
