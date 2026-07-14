@@ -679,6 +679,35 @@ struct SwipeActionsExampleView: View {
 }
 
 struct ContentView: View {
+    private enum RootSection: Hashable {
+        case gallery, themes, todo
+    }
+
+    @State private var selectedSection: RootSection = .gallery
+
+    var body: some View {
+        VStack(spacing: 0) {
+            NBSegmentedPicker(selection: $selectedSection) {
+                Text("Gallery").nbSegment(RootSection.gallery)
+                Text("Themes").nbSegment(RootSection.themes)
+                Text("Todo").nbSegment(RootSection.todo)
+            }
+            .padding(12)
+
+            switch selectedSection {
+            case .gallery:
+                GalleryView()
+            case .themes:
+                ThemeGalleryView()
+            case .todo:
+                TodoAppView()
+            }
+        }
+    }
+}
+
+/// The original component showcase — every styled control in one scrollable page.
+private struct GalleryView: View {
     @State var colorSceme: ColorScheme = .light
     @State var theme = NBTheme.default.updateBy(
         main: Color(light: .rgb(1.0, 0.42, 0.42), dark: .rgb(1.0, 0.42, 0.42)),
@@ -686,16 +715,6 @@ struct ContentView: View {
         background: Color(light: .rgb(0.988, 0.843, 0.843), dark: .rgb(0.153, 0.161, 0.2)),
         fontDesign: .rounded
     )
-
-//    var body: some View {
-//        ZStack {
-//            theme.background
-//                            .ignoresSafeArea()
-//            TodoAppView()
-//        }
-//        .nbTheme(NBTheme.sunnyPeach)
-//        .colorScheme(colorSceme)
-//    }
 
     var body: some View {
         let exampleViews: [AnyView] = [
