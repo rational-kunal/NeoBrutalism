@@ -45,12 +45,24 @@ struct NBSwipeActionsModifier: ViewModifier {
     @State private var offset: CGFloat = 0
     @State private var isAnimatingOut = false
 
+    /// Width of a tile's icon/text content, before the tile's own outer padding is added.
     private var estimatedActionWidth: CGFloat {
         theme.xlsize + theme.padding * 2 + theme.smspacing
     }
 
+    /// A tile's true on-screen width: `estimatedActionWidth` sizes the inner content, but the
+    /// `.padding(theme.padding)` applied outside that frame (see the button below) then adds
+    /// its own margin on top — so the tile actually renders `theme.padding * 2` wider than
+    /// `estimatedActionWidth` alone accounts for. `totalActionsWidth` drives both the reveal/
+    /// drag math and how wide the row's content is assumed to be; undercounting it here is what
+    /// let the tiles render wider than the row believed itself to be, so a sliver of the last
+    /// tile's fill peeked out past the row's trailing edge even at rest.
+    private var actionTileWidth: CGFloat {
+        estimatedActionWidth + theme.padding * 2
+    }
+
     private var totalActionsWidth: CGFloat {
-        CGFloat(actions.count) * estimatedActionWidth
+        CGFloat(actions.count) * actionTileWidth
     }
 
     func body(content: Content) -> some View {
@@ -151,6 +163,12 @@ struct NBSwipeActionsModifier: ViewModifier {
                     .opacity(isAnimatingOut ? 0 : 1)
             }
             .frame(height: geometry.size.height)
+            // `content`'s `.offset()` (above) is a paint-time transform — it doesn't shrink
+            // content's layout bounds, so mid-drag and while revealed, content still paints
+            // past its own edge (most visibly the portion that scrolls out past the row's
+            // leading edge). Clip it to the row's actual bounds so that bleed — and any residual
+            // tile-width rounding — never escapes past the row's trailing edge, even at rest.
+            .clipped()
         }
         .onAppear {
             // Unclamped, an out-of-range initialOffset (e.g. a round test value that
