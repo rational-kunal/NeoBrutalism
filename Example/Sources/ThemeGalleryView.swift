@@ -34,11 +34,11 @@ enum ThemeChoice: String, CaseIterable, Identifiable {
     }
 }
 
-/// A live demo of every bundled `NBTheme` preset: pick one, toggle dark mode, and watch a
-/// representative cluster of components re-skin instantly.
+/// A live demo of every bundled `NBTheme` preset: pick one and watch a representative cluster
+/// of components — and the shared top bar — re-skin instantly. The selected preset and dark
+/// mode are owned by ``ContentView`` so the whole app stays in sync.
 struct ThemeGalleryView: View {
-    @State private var selection: ThemeChoice = .defaultBlue
-    @State private var colorScheme: ColorScheme = .light
+    @Binding var selection: ThemeChoice
     @State private var isToggleOn: Bool = true
     @State private var text: String = ""
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -50,30 +50,17 @@ struct ThemeGalleryView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: selection.theme.xlspacing) {
-                header
+                Text("Theme Gallery")
+                    .font(.largeTitle)
                 swatchPicker
                 previewCluster
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
             .padding(selection.theme.padding)
         }
-        .neoBrutalism(theme: selection.theme, applyBackground: true)
-        .colorScheme(colorScheme)
-    }
-
-    private var header: some View {
-        HStack {
-            Text("Theme Gallery")
-                .font(.largeTitle)
-            Spacer()
-            Button {
-                withAnimation(themeSwitchAnimation) {
-                    colorScheme = colorScheme == .light ? .dark : .light
-                }
-            } label: {
-                Image(systemName: colorScheme == .light ? "moon" : "sun.max")
-            }
-            .buttonStyle(.neoBrutalism(type: .neutral))
-        }
+        // Restyle this tab's controls with the selected preset. The theme itself already comes
+        // from ContentView (so the top bar matches); this also wires up the component styles.
+        .neoBrutalism(theme: selection.theme)
     }
 
     private var swatchPicker: some View {
@@ -96,9 +83,11 @@ struct ThemeGalleryView: View {
             }
         } label: {
             VStack(spacing: 6) {
-                Circle()
+                // A solid color chip that fills its bordered box, so the swatch and its
+                // container share the same neobrutalist rounded-rectangle shape.
+                Rectangle()
                     .fill(choice.theme.main)
-                    .frame(width: 36, height: 36)
+                    .frame(width: 46, height: 46)
                     .nbBox(elevated: isSelected)
                 Text(choice.title)
                     .font(.caption2)
@@ -130,5 +119,7 @@ struct ThemeGalleryView: View {
 }
 
 #Preview {
-    ThemeGalleryView()
+    @Previewable @State var selection: ThemeChoice = .defaultBlue
+    ThemeGalleryView(selection: $selection)
+        .nbTheme(selection.theme)
 }
