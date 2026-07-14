@@ -714,16 +714,12 @@ struct ContentView: View {
         reduceMotion ? nil : .interactiveSpring()
     }
 
-    /// The palette that skins the whole screen — the top bar included — for the active tab.
-    /// Deriving it here rather than inside each tab is what keeps the top bar consistent with
-    /// the content beneath it: switch tabs or pick a preset on the Themes tab and the bar
-    /// re-skins right along with everything else.
+    /// The palette that skins the whole screen — the top bar and every tab included. Deriving
+    /// it here from the single `themeChoice` (rather than per-tab) is what makes a preset picked
+    /// on the Themes tab carry over to Gallery and Todo too, instead of resetting when you
+    /// switch tabs.
     private var activeTheme: NBTheme {
-        switch selectedSection {
-        case .gallery: return GalleryView.theme
-        case .themes: return themeChoice.theme
-        case .todo: return TodoAppView.theme
-        }
+        themeChoice.theme
     }
 
     var body: some View {
@@ -758,7 +754,12 @@ struct ContentView: View {
                     colorScheme = colorScheme == .light ? .dark : .light
                 }
             } label: {
-                Image(systemName: colorScheme == .light ? "moon" : "sun.max")
+                // An SF Symbol sizes to its own glyph bounds, which are shorter than the
+                // segmented picker's text line-height. Overlaying it on a hidden copy of
+                // that same label text forces this button to the same content height.
+                segmentLabel("•").hidden().overlay {
+                    Image(systemName: colorScheme == .light ? "moon" : "sun.max")
+                }
             }
             .buttonStyle(.neoBrutalism(type: .neutral))
         }
@@ -776,15 +777,6 @@ struct ContentView: View {
 /// The original component showcase — every styled control in one scrollable page, each in its
 /// own titled card.
 private struct GalleryView: View {
-    /// The gallery's signature palette (coral accent + rounded font). Exposed so ``ContentView``
-    /// can inject it and skin the shared top bar to match while this tab is active.
-    static let theme = NBTheme.default.updateBy(
-        main: Color(light: .rgb(1.0, 0.42, 0.42), dark: .rgb(1.0, 0.42, 0.42)),
-        bw: Color(light: .rgb(1.0, 1.0, 1.0), dark: .rgb(0.129, 0.129, 0.129)),
-        background: Color(light: .rgb(0.988, 0.843, 0.843), dark: .rgb(0.153, 0.161, 0.2)),
-        fontDesign: .rounded
-    )
-
     @Environment(\.nbTheme) private var theme
 
     /// One showcase entry: a title naming the component/API, the demo view, and whether the

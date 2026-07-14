@@ -8,10 +8,6 @@ struct Todo: Identifiable {
 }
 
 struct TodoAppView: View {
-    /// The Todo tab's palette, exposed so ``ContentView`` can inject it and skin the shared top
-    /// bar to match while this tab is active.
-    static let theme: NBTheme = .seafoam
-
     @State private var todos: [Todo] = []
     @State private var newTodoText: String = ""
 
