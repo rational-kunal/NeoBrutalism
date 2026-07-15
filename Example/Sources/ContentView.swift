@@ -533,6 +533,9 @@ struct SegmentedPickerExampleView: View {
 // MARK: - Root Modifier Demo
 
 struct RootModifierExampleView: View {
+    // Read the ambient theme so this demo re-uses the gallery's palette instead of
+    // resetting to the default (blue) theme the way a bare `.neoBrutalism()` would.
+    @Environment(\.nbTheme) private var theme
     @State private var spellActive = true
     @State private var incantation = "Expecto Patronum"
 
@@ -545,33 +548,38 @@ struct RootModifierExampleView: View {
             Gauge(value: 0.6) { Text("Mana") }
             Label("Spellbook", systemImage: "book.fill")
             LabeledContent("House", value: "Gryffindor")
-            Menu("Choose Wand") {
-                Button("Holly") {}
-                Button("Elder") {}
+            NBMenu {
+                NBMenuItem("Holly & Phoenix Feather", systemImage: "wand.and.stars") {}
+                NBMenuItem("Elder & Thestral Hair", systemImage: "wand.and.stars") {}
+            } label: {
+                Text("Choose Wand")
             }
             ControlGroup {
                 Button("Lumos") {}
                 Button("Nox") {}
             }
         }
-        .neoBrutalism()
+        .neoBrutalism(theme: theme)
     }
 }
 
 struct ListExampleView: View {
     @State private var items = ["Expelliarmus", "Wingardium Leviosa", "Lumos"]
-    @State private var formText = "Spell Name"
-    @State private var formToggle = true
+    @State private var spellName = ""
+    @State private var notify = true
     @Environment(\.nbTheme) private var theme
 
     var body: some View {
-        VStack(spacing: 12.0) {
-            Text("List Example")
-                .font(.headline)
+        VStack(alignment: .leading, spacing: theme.spacing) {
+            sectionLabel("List · native swipe to delete")
 
+            // Height is derived from the (static) row count so the List renders as a
+            // self-sizing block inside the gallery's scroll view — no inner scrolling,
+            // no clipped last row.
             List {
                 ForEach(Array(items.enumerated()), id: \.offset) { index, item in
                     Text(item)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                         .nbListRow()
                         .swipeActions(edge: .trailing) {
                             Button(role: .destructive) {
@@ -584,29 +592,46 @@ struct ListExampleView: View {
                 }
             }
             .nbList()
-            .frame(height: 150)
+            .contentMargins(.vertical, 0, for: .scrollContent)
+            .scrollDisabled(true)
+            .frame(height: rowsHeight(items.count))
 
-            Text("Form Example")
-                .font(.headline)
+            sectionLabel("Form")
 
             Form {
-                Section("Settings") {
-                    Toggle("Enable Spell Notifications", isOn: $formToggle)
+                Section {
+                    Toggle("Notifications", isOn: $notify)
+                        .toggleStyle(.neoBrutalismSwitch)
                         .nbListRow()
 
-                    TextField("Spell", text: $formText)
+                    TextField("Spell name", text: $spellName)
                         .nbListRow()
 
                     LabeledContent("House") {
-                        Text("Gryffindor")
+                        Text("Gryffindor").bold()
                     }
                     .nbListRow()
                 }
             }
             .nbList()
-            .frame(height: 180)
+            .contentMargins(.vertical, 0, for: .scrollContent)
+            .scrollDisabled(true)
+            .frame(height: rowsHeight(3))
         }
-        .neoBrutalism()
+    }
+
+    private func sectionLabel(_ text: String) -> some View {
+        Text(text)
+            .font(.caption)
+            .foregroundStyle(theme.text.opacity(0.6))
+    }
+
+    /// Sizes the (scroll-disabled) List/Form to exactly fit its rows so it reads as a static
+    /// block inside the gallery's scroll view — no inner scrolling, no clipped last row and no
+    /// dead space below. `row` is the measured per-row stride (card + inter-row spacing).
+    private func rowsHeight(_ count: Int) -> CGFloat {
+        let row: CGFloat = 68
+        return CGFloat(count) * row + theme.smpadding
     }
 }
 
@@ -614,67 +639,64 @@ struct SwipeActionsExampleView: View {
     @State private var items: [String] = [
         "Defense Against Dark Arts",
         "Potions",
-        "Transfiguration",
-        "Charms"
+        "Transfiguration"
     ]
+    @Environment(\.nbTheme) private var theme
+
+    // Each swipe row is given a fixed height: `.nbSwipeActions` lays out over a `GeometryReader`,
+    // which has no height of its own, so rows in a plain stack need one to keep from collapsing.
+    private let rowHeight: CGFloat = 68
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12.0) {
-            Text("Swipe to reveal actions:")
+        // Rows live directly in the gallery's scroll view (no nested ScrollView), so each
+        // one can bleed to full width and reveal its action tiles without being clipped.
+        VStack(alignment: .leading, spacing: theme.smspacing) {
+            Text("Swipe a row left to reveal its actions")
                 .font(.caption)
-                .foregroundStyle(.gray)
+                .foregroundStyle(theme.text.opacity(0.6))
 
-            ScrollView {
-                LazyVStack(spacing: 8.0) {
-                    ForEach(items, id: \.self) { item in
-                        HStack {
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(item)
-                                    .font(.headline)
-                                Text("Course Details")
-                                    .font(.caption)
-                                    .foregroundStyle(.gray)
-                            }
-                            Spacer()
-                            Image(systemName: "chevron.right")
-                                .foregroundStyle(.gray)
-                        }
-                        .padding(12)
-                        .nbListRow()
-                        .nbSwipeActions(actions: [
-                            NBSwipeAction("Delete", systemImage: "trash", role: .destructive) {
+            ForEach(items, id: \.self) { item in
+                courseRow(title: item, subtitle: "Course Details", accessory: "chevron.right")
+                    .nbSwipeActions(actions: [
+                        NBSwipeAction("Delete", systemImage: "trash", role: .destructive) {
+                            withAnimation(.interactiveSpring()) {
                                 items.removeAll { $0 == item }
                             }
-                        ])
-                    }
-                }
+                        }
+                    ])
+                    .frame(height: rowHeight)
+                    // Keep the (initially hidden) action tiles from peeking past the row's
+                    // trailing edge while it's at rest; they still slide in on swipe.
+                    .clipped()
             }
-            .frame(height: 200)
 
-            Divider()
-
-            Text("Multi-action row:")
-                .font(.caption)
-                .foregroundStyle(.gray)
-
-            HStack {
-                Text("Favorite Course")
-                    .font(.headline)
-                Spacer()
-                Image(systemName: "star.fill")
-                    .foregroundStyle(.orange)
-            }
-            .padding(12)
-            .nbListRow()
-            .nbSwipeActions(actions: [
-                NBSwipeAction("Pin", systemImage: "pin.fill", tint: .blue) {
-                    // Pin action
-                },
-                NBSwipeAction("Delete", systemImage: "trash", role: .destructive) {
-                    // Delete action
-                }
-            ])
+            courseRow(title: "Favorite Course", subtitle: "Two actions", accessory: "star.fill")
+                .nbSwipeActions(actions: [
+                    NBSwipeAction("Pin", systemImage: "pin.fill", tint: theme.main) {},
+                    NBSwipeAction("Delete", systemImage: "trash", role: .destructive) {}
+                ])
+                .frame(height: rowHeight)
+                .clipped()
         }
+    }
+
+    private func courseRow(title: String, subtitle: String, accessory: String) -> some View {
+        HStack(spacing: theme.spacing) {
+            VStack(alignment: .leading, spacing: 2.0) {
+                Text(title)
+                    .font(.headline)
+                Text(subtitle)
+                    .font(.caption)
+                    .foregroundStyle(theme.text.opacity(0.6))
+            }
+            Spacer()
+            Image(systemName: accessory)
+                .foregroundStyle(theme.text.opacity(0.4))
+        }
+        // Fill the fixed row height so the row card and the action tiles behind it match
+        // exactly — otherwise a taller tile peeks out past the shorter card.
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+        .nbListRow()
     }
 }
 
@@ -684,98 +706,154 @@ struct ContentView: View {
     }
 
     @State private var selectedSection: RootSection = .gallery
+    @State private var colorScheme: ColorScheme = .light
+    @State private var themeChoice: ThemeChoice = .defaultBlue
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+    private var reskinAnimation: Animation? {
+        reduceMotion ? nil : .interactiveSpring()
+    }
+
+    /// The palette that skins the whole screen — the top bar and every tab included. Deriving
+    /// it here from the single `themeChoice` (rather than per-tab) is what makes a preset picked
+    /// on the Themes tab carry over to Gallery and Todo too, instead of resetting when you
+    /// switch tabs.
+    private var activeTheme: NBTheme {
+        themeChoice.theme
+    }
 
     var body: some View {
         VStack(spacing: 0) {
-            NBSegmentedPicker(selection: $selectedSection) {
-                Text("Gallery").nbSegment(RootSection.gallery)
-                Text("Themes").nbSegment(RootSection.themes)
-                Text("Todo").nbSegment(RootSection.todo)
-            }
-            .padding(12)
+            topBar
 
             switch selectedSection {
             case .gallery:
                 GalleryView()
             case .themes:
-                ThemeGalleryView()
+                ThemeGalleryView(selection: $themeChoice)
             case .todo:
                 TodoAppView()
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .background(activeTheme.background.ignoresSafeArea())
+        .nbTheme(activeTheme)
+        .colorScheme(colorScheme)
+    }
+
+    private var topBar: some View {
+        HStack(spacing: activeTheme.smspacing) {
+            NBSegmentedPicker(selection: $selectedSection) {
+                segmentLabel("Gallery").nbSegment(RootSection.gallery)
+                segmentLabel("Themes").nbSegment(RootSection.themes)
+                segmentLabel("Todo").nbSegment(RootSection.todo)
+            }
+
+            Button {
+                withAnimation(reskinAnimation) {
+                    colorScheme = colorScheme == .light ? .dark : .light
+                }
+            } label: {
+                // An SF Symbol sizes to its own glyph bounds, which are shorter than the
+                // segmented picker's text line-height. Overlaying it on a hidden copy of
+                // that same label text forces this button to the same content height.
+                segmentLabel("•").hidden().overlay {
+                    Image(systemName: colorScheme == .light ? "moon" : "sun.max")
+                }
+            }
+            .buttonStyle(.neoBrutalism(type: .neutral))
+        }
+        .padding(activeTheme.padding)
+    }
+
+    private func segmentLabel(_ title: String) -> some View {
+        Text(title)
+            .font(.callout.weight(.medium))
+            .lineLimit(1)
+            .minimumScaleFactor(0.85)
     }
 }
 
-/// The original component showcase — every styled control in one scrollable page.
+/// The original component showcase — every styled control in one scrollable page, each in its
+/// own titled card.
 private struct GalleryView: View {
-    @State var colorSceme: ColorScheme = .light
-    @State var theme = NBTheme.default.updateBy(
-        main: Color(light: .rgb(1.0, 0.42, 0.42), dark: .rgb(1.0, 0.42, 0.42)),
-        bw: Color(light: .rgb(1.0, 1.0, 1.0), dark: .rgb(0.129, 0.129, 0.129)),
-        background: Color(light: .rgb(0.988, 0.843, 0.843), dark: .rgb(0.153, 0.161, 0.2)),
-        fontDesign: .rounded
-    )
+    @Environment(\.nbTheme) private var theme
+
+    /// One showcase entry: a title naming the component/API, the demo view, and whether the
+    /// gallery should wrap it in a card. Self-contained demos that paint their own surfaces
+    /// (List/Form, swipe rows) opt out of the card so they can bleed to full width.
+    private struct Demo: Identifiable {
+        let id = UUID()
+        let title: String
+        let boxed: Bool
+        let view: AnyView
+
+        init<V: View>(_ title: String, boxed: Bool = true, @ViewBuilder _ view: () -> V) {
+            self.title = title
+            self.boxed = boxed
+            self.view = AnyView(view())
+        }
+    }
+
+    private var demos: [Demo] {
+        [
+            Demo("NBAccordion") { AccordianExampleView() },
+            Demo("Checkbox") { CheckboxExampleView() },
+            Demo("Switch") { SwitchExampleView() },
+            Demo("NBAlert") { AlertExampleView() },
+            Demo("NBBadge") { BadgeExampleView() },
+            Demo("Button") { ButtonExampleView() },
+            Demo("GroupBox") { GroupBoxExampleView() },
+            Demo("TextField & Editor") { InputExampleView() },
+            Demo("ProgressView") { ProgressExampleView() },
+            Demo("NBSlider") { SliderExampleView() },
+            Demo("NBRadioGroup") { RadioGroupExampleView() },
+            Demo("Skeleton") { SkeletonExampleView() },
+            Demo("NBTabView") { TabsExampleView() },
+            Demo("NBCollapsable") { CollapsableExampleView() },
+            Demo("Drawer") { DrawerExampleView() },
+            Demo("Navigation Bar") { NavigationExampleView() },
+            Demo("Dialog") { DialogExampleView() },
+            Demo("Label") { LabelStyleExampleView() },
+            Demo("Gauge") { GaugeStyleExampleView() },
+            Demo("NBMenu") { MenuStyleExampleView() },
+            Demo("ControlGroup") { ControlGroupStyleExampleView() },
+            Demo("LabeledContent") { LabeledContentStyleExampleView() },
+            Demo("NBStepper") { StepperExampleView() },
+            Demo("NBSegmentedPicker") { SegmentedPickerExampleView() },
+            Demo("Root Modifier") { RootModifierExampleView() },
+            Demo("List & Form", boxed: false) { ListExampleView() },
+            Demo("Swipe Actions", boxed: false) { SwipeActionsExampleView() },
+        ]
+    }
 
     var body: some View {
-        let exampleViews: [AnyView] = [
-            AnyView(AccordianExampleView()),
-            AnyView(CheckboxExampleView()),
-            AnyView(SwitchExampleView()),
-            AnyView(AlertExampleView()),
-            AnyView(BadgeExampleView()),
-            AnyView(ButtonExampleView()),
-            AnyView(GroupBoxExampleView()),
-            AnyView(InputExampleView()),
-            AnyView(ProgressExampleView()),
-            AnyView(SliderExampleView()),
-            AnyView(RadioGroupExampleView()),
-            AnyView(SkeletonExampleView()),
-            AnyView(TabsExampleView()),
-            AnyView(CollapsableExampleView()),
-            AnyView(DrawerExampleView()),
-            AnyView(NavigationExampleView()),
-            AnyView(DialogExampleView()),
-            AnyView(LabelStyleExampleView()),
-            AnyView(GaugeStyleExampleView()),
-            AnyView(MenuStyleExampleView()),
-            AnyView(ControlGroupStyleExampleView()),
-            AnyView(LabeledContentStyleExampleView()),
-            AnyView(StepperExampleView()),
-            AnyView(SegmentedPickerExampleView()),
-            AnyView(RootModifierExampleView()),
-            AnyView(ListExampleView()),
-            AnyView(SwipeActionsExampleView()),
-        ]
+        ScrollView {
+            VStack(alignment: .leading, spacing: theme.xlspacing) {
+                Text("Neo Brutalism")
+                    .font(.largeTitle)
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
-        ZStack {
-            theme.background
-                .ignoresSafeArea()
-            ScrollView {
-                VStack(spacing: theme.xlspacing) {
-                    HStack {
-                        Text("Neo Brutalism")
-                            .font(.largeTitle)
-                        Spacer()
-                        Button {
-                            withAnimation(.interactiveSpring) {
-                                colorSceme = colorSceme == .light ? .dark : .light
+                ForEach(demos) { demo in
+                    VStack(alignment: .leading, spacing: theme.smspacing) {
+                        Text(demo.title)
+                            .font(.subheadline.weight(.bold))
+                            .foregroundStyle(theme.text.opacity(0.55))
+
+                        if demo.boxed {
+                            GroupBox {
+                                demo.view
                             }
-                        } label: {
-                            Image(systemName: colorSceme == .light ? "moon" : "sun.max")
-                        }.buttonStyle(.neoBrutalism(type: .neutral))
-                    }
-
-                    ForEach(0 ..< exampleViews.count, id: \.self) { index in
-                        GroupBox {
-                            exampleViews[index]
+                            .groupBoxStyle(.neoBrutalism(type: .neutral))
+                        } else {
+                            demo.view
                         }
-                        .groupBoxStyle(.neoBrutalism(type: .neutral))
                     }
-                }.padding(theme.padding)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
             }
+            .padding(theme.padding)
         }
-        .nbTheme(theme)
-        .colorScheme(colorSceme)
     }
 }
 
