@@ -4,9 +4,14 @@ public extension ToggleStyle where Self == NBSwitchToggleStyle {
     /// The default neobrutalism toggle: a switch, matching native `Toggle` semantics.
     static var neoBrutalism: NBSwitchToggleStyle { .init() }
 
+    /// Alias for `.neoBrutalism`, for call sites that want to name the switch style explicitly
+    /// (e.g. alongside `.neoBrutalismCheckbox`/`.neoBrutalismRadio`).
     static var neoBrutalismSwitch: NBSwitchToggleStyle { .init() }
 }
 
+/// Renders a `Toggle` as a bordered sliding switch, matching native `Toggle` semantics.
+/// Apply via `.toggleStyle(.neoBrutalism)` (the root modifier's default toggle style) or
+/// explicitly via `.toggleStyle(.neoBrutalismSwitch)`.
 public struct NBSwitchToggleStyle: ToggleStyle {
     @Environment(\.nbTheme) var theme: NBTheme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion

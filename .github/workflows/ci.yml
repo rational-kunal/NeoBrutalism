@@ -1,18 +1,20 @@
 name: "NeoBrutalism CI"
 
-on: 
+on:
   push:
-    branches: 
+    branches:
       - main
     paths:
       - 'Sources/**'
       - 'Tests/**'
+      - 'Example/**'
       - '.github/workflows/**'
       - 'Package.swift'
   pull_request:
     paths:
       - 'Sources/**'
       - 'Tests/**'
+      - 'Example/**'
       - '.github/workflows/**'
       - 'Package.swift'
 
@@ -25,7 +27,7 @@ jobs:
   iOS:
     name: "iOS (pinned)"
     runs-on: macOS-15
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
 
@@ -33,6 +35,11 @@ jobs:
         run: |
           source Scripts/snapshot-env.sh
           echo "DEVELOPER_DIR=/Applications/$NB_CI_XCODE.app/Contents/Developer" >> "$GITHUB_ENV"
+
+      - name: Build documentation (DocC)
+        run: |
+          set -o pipefail
+          xcodebuild docbuild -scheme NeoBrutalism -destination "generic/platform=iOS Simulator" 2>&1 | xcbeautify --renderer github-actions
 
       - name: Run tests and save result bundle
         run: |
@@ -43,3 +50,32 @@ jobs:
             -resultBundlePath "test_output/iOS-${{ github.run_id }}.xcresult" \
             -enableCodeCoverage YES \
             CODE_SIGNING_ALLOWED=NO 2>&1 | xcbeautify --renderer github-actions
+
+      - name: Upload snapshot failures
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: snapshot-failures-${{ github.run_id }}
+          path: test_output/**
+
+  example-app:
+    name: "Example app (build only)"
+    runs-on: macOS-15
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Load pinned snapshot environment
+        run: |
+          source Scripts/snapshot-env.sh
+          echo "DEVELOPER_DIR=/Applications/$NB_CI_XCODE.app/Contents/Developer" >> "$GITHUB_ENV"
+
+      - name: Build Example app
+        run: |
+          set -o pipefail
+          cd Example
+          xcodebuild \
+            -scheme Example \
+            -destination "generic/platform=iOS Simulator" \
+            CODE_SIGNING_ALLOWED=NO \
+            build 2>&1 | xcbeautify --renderer github-actions

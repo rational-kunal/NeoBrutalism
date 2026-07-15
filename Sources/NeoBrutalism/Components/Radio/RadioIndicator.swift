@@ -1,5 +1,10 @@
 import SwiftUI
 
+/// The circular selection dot used by `NBRadioItem` and `NBRadioStyle` — a themed ring
+/// that fills with a solid center when `selected`.
+///
+/// Exposed publicly so it can be reused when building custom radio-like controls, but most
+/// call sites want `NBRadioItem` or `.toggleStyle(.neoBrutalismRadio)` instead.
 public struct NBRadioIndicator: View {
     @Environment(\.nbTheme) var theme: NBTheme
 

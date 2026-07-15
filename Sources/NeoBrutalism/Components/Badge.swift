@@ -1,6 +1,15 @@
 import SwiftUI
 
+/// A small, pill-shaped label for tags, counts, or status — a bordered, flat-filled
+/// `nbBox()` sized to its content.
+///
+/// ```swift
+/// NBBadge {
+///     Text("New")
+/// }
+/// ```
 public struct NBBadge<Content>: View where Content: View {
+    /// The badge's fill: `.default` uses the theme's `main` color, `.neutral` uses `bw`.
     public enum BadgeType {
         case `default`, neutral
     }
@@ -10,6 +19,10 @@ public struct NBBadge<Content>: View where Content: View {
     private let type: BadgeType
     private let content: Content
 
+    /// Creates a badge.
+    /// - Parameters:
+    ///   - type: The fill to use. Defaults to `.default`.
+    ///   - content: The badge's label content, typically a `Text`.
     public init(type: BadgeType = .default, @ViewBuilder content: () -> Content) {
         self.type = type
         self.content = content()

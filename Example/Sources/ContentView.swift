@@ -702,10 +702,10 @@ struct SwipeActionsExampleView: View {
 
 struct ContentView: View {
     private enum RootSection: Hashable {
-        case gallery, themes, todo
+        case todo, gallery, themes
     }
 
-    @State private var selectedSection: RootSection = .gallery
+    @State private var selectedSection: RootSection = .todo
     @State private var colorScheme: ColorScheme = .light
     @State private var themeChoice: ThemeChoice = .defaultBlue
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -727,12 +727,12 @@ struct ContentView: View {
             topBar
 
             switch selectedSection {
+            case .todo:
+                TodoAppView()
             case .gallery:
                 GalleryView()
             case .themes:
                 ThemeGalleryView(selection: $themeChoice)
-            case .todo:
-                TodoAppView()
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -744,9 +744,9 @@ struct ContentView: View {
     private var topBar: some View {
         HStack(spacing: activeTheme.smspacing) {
             NBSegmentedPicker(selection: $selectedSection) {
+                segmentLabel("Todo").nbSegment(RootSection.todo)
                 segmentLabel("Gallery").nbSegment(RootSection.gallery)
                 segmentLabel("Themes").nbSegment(RootSection.themes)
-                segmentLabel("Todo").nbSegment(RootSection.todo)
             }
 
             Button {
@@ -779,17 +779,26 @@ struct ContentView: View {
 private struct GalleryView: View {
     @Environment(\.nbTheme) private var theme
 
-    /// One showcase entry: a title naming the component/API, the demo view, and whether the
-    /// gallery should wrap it in a card. Self-contained demos that paint their own surfaces
-    /// (List/Form, swipe rows) opt out of the card so they can bleed to full width.
+    /// One showcase entry: a title naming the component/API, the section it's grouped under, and
+    /// the demo view. Self-contained demos that paint their own surfaces (List/Form, swipe rows)
+    /// opt out of the card so they can bleed to full width.
     private struct Demo: Identifiable {
+        enum Category: String, CaseIterable {
+            case controls = "Controls"
+            case containers = "Containers"
+            case feedback = "Feedback"
+            case loading = "Loading"
+        }
+
         let id = UUID()
         let title: String
+        let category: Category
         let boxed: Bool
         let view: AnyView
 
-        init<V: View>(_ title: String, boxed: Bool = true, @ViewBuilder _ view: () -> V) {
+        init<V: View>(_ title: String, category: Category, boxed: Bool = true, @ViewBuilder _ view: () -> V) {
             self.title = title
+            self.category = category
             self.boxed = boxed
             self.view = AnyView(view())
         }
@@ -797,34 +806,47 @@ private struct GalleryView: View {
 
     private var demos: [Demo] {
         [
-            Demo("NBAccordion") { AccordianExampleView() },
-            Demo("Checkbox") { CheckboxExampleView() },
-            Demo("Switch") { SwitchExampleView() },
-            Demo("NBAlert") { AlertExampleView() },
-            Demo("NBBadge") { BadgeExampleView() },
-            Demo("Button") { ButtonExampleView() },
-            Demo("GroupBox") { GroupBoxExampleView() },
-            Demo("TextField & Editor") { InputExampleView() },
-            Demo("ProgressView") { ProgressExampleView() },
-            Demo("NBSlider") { SliderExampleView() },
-            Demo("NBRadioGroup") { RadioGroupExampleView() },
-            Demo("Skeleton") { SkeletonExampleView() },
-            Demo("NBTabView") { TabsExampleView() },
-            Demo("NBCollapsable") { CollapsableExampleView() },
-            Demo("Drawer") { DrawerExampleView() },
-            Demo("Navigation Bar") { NavigationExampleView() },
-            Demo("Dialog") { DialogExampleView() },
-            Demo("Label") { LabelStyleExampleView() },
-            Demo("Gauge") { GaugeStyleExampleView() },
-            Demo("NBMenu") { MenuStyleExampleView() },
-            Demo("ControlGroup") { ControlGroupStyleExampleView() },
-            Demo("LabeledContent") { LabeledContentStyleExampleView() },
-            Demo("NBStepper") { StepperExampleView() },
-            Demo("NBSegmentedPicker") { SegmentedPickerExampleView() },
-            Demo("Root Modifier") { RootModifierExampleView() },
-            Demo("List & Form", boxed: false) { ListExampleView() },
-            Demo("Swipe Actions", boxed: false) { SwipeActionsExampleView() },
+            // Controls — things you directly operate.
+            Demo("Button", category: .controls) { ButtonExampleView() },
+            Demo("Checkbox", category: .controls) { CheckboxExampleView() },
+            Demo("Switch", category: .controls) { SwitchExampleView() },
+            Demo("TextField & Editor", category: .controls) { InputExampleView() },
+            Demo("NBSlider", category: .controls) { SliderExampleView() },
+            Demo("NBRadioGroup", category: .controls) { RadioGroupExampleView() },
+            Demo("NBStepper", category: .controls) { StepperExampleView() },
+            Demo("NBSegmentedPicker", category: .controls) { SegmentedPickerExampleView() },
+            Demo("NBMenu", category: .controls) { MenuStyleExampleView() },
+            Demo("ControlGroup", category: .controls) { ControlGroupStyleExampleView() },
+            Demo("Root Modifier", category: .controls) { RootModifierExampleView() },
+
+            // Containers — things that hold and organize other content.
+            Demo("NBAccordion", category: .containers) { AccordianExampleView() },
+            Demo("GroupBox", category: .containers) { GroupBoxExampleView() },
+            Demo("NBTabView", category: .containers) { TabsExampleView() },
+            Demo("NBCollapsable", category: .containers) { CollapsableExampleView() },
+            Demo("Drawer", category: .containers) { DrawerExampleView() },
+            Demo("Navigation Bar", category: .containers) { NavigationExampleView() },
+            Demo("List & Form", category: .containers, boxed: false) { ListExampleView() },
+            Demo("Swipe Actions", category: .containers, boxed: false) { SwipeActionsExampleView() },
+
+            // Feedback — communicates state or information to the user.
+            Demo("NBAlert", category: .feedback) { AlertExampleView() },
+            Demo("NBBadge", category: .feedback) { BadgeExampleView() },
+            Demo("Dialog", category: .feedback) { DialogExampleView() },
+            Demo("Label", category: .feedback) { LabelStyleExampleView() },
+            Demo("LabeledContent", category: .feedback) { LabeledContentStyleExampleView() },
+
+            // Loading — progress and placeholder indicators.
+            Demo("ProgressView", category: .loading) { ProgressExampleView() },
+            Demo("Gauge", category: .loading) { GaugeStyleExampleView() },
+            Demo("Skeleton", category: .loading) { SkeletonExampleView() },
         ]
+    }
+
+    private var groupedDemos: [(category: Demo.Category, demos: [Demo])] {
+        Demo.Category.allCases.map { category in
+            (category, demos.filter { $0.category == category })
+        }
     }
 
     var body: some View {
@@ -834,19 +856,28 @@ private struct GalleryView: View {
                     .font(.largeTitle)
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                ForEach(demos) { demo in
-                    VStack(alignment: .leading, spacing: theme.smspacing) {
-                        Text(demo.title)
-                            .font(.subheadline.weight(.bold))
-                            .foregroundStyle(theme.text.opacity(0.55))
+                ForEach(groupedDemos, id: \.category) { group in
+                    VStack(alignment: .leading, spacing: theme.spacing) {
+                        Text(group.category.rawValue)
+                            .font(.title3.weight(.heavy))
+                            .frame(maxWidth: .infinity, alignment: .leading)
 
-                        if demo.boxed {
-                            GroupBox {
-                                demo.view
+                        ForEach(group.demos) { demo in
+                            VStack(alignment: .leading, spacing: theme.smspacing) {
+                                Text(demo.title)
+                                    .font(.subheadline.weight(.bold))
+                                    .foregroundStyle(theme.text.opacity(0.55))
+
+                                if demo.boxed {
+                                    GroupBox {
+                                        demo.view
+                                    }
+                                    .groupBoxStyle(.neoBrutalism(type: .neutral))
+                                } else {
+                                    demo.view
+                                }
                             }
-                            .groupBoxStyle(.neoBrutalism(type: .neutral))
-                        } else {
-                            demo.view
+                            .frame(maxWidth: .infinity, alignment: .leading)
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)

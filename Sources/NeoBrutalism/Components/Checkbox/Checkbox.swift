@@ -8,6 +8,8 @@ public extension ToggleStyle where Self == NBCheckboxToggleStyle {
     static var neoBrutalismChecklist: NBCheckboxToggleStyle { .init() }
 }
 
+/// Renders a `Toggle` as a bordered checkbox with a hand-drawn check mark. Apply via
+/// `.toggleStyle(.neoBrutalismCheckbox)`.
 public struct NBCheckboxToggleStyle: ToggleStyle {
     @Environment(\.nbTheme) var theme: NBTheme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion

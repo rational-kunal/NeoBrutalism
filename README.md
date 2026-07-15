@@ -1,174 +1,120 @@
-![nb](https://github.com/user-attachments/assets/a88dabb4-f970-4592-bb94-878d7c5e0d07)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/media/logo-dark.svg">
+  <img src="docs/media/logo-light.svg" width="360" alt="NeoBrutalism">
+</picture>
 
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/rational-kunal/NeoBrutalism/ci.yml?style=flat-square) ![GitHub Tag](https://img.shields.io/github/v/tag/rational-kunal/NeoBrutalism?sort=semver&style=flat-square&label=version) ![GitHub commits since latest release](https://img.shields.io/github/commits-since/rational-kunal/NeoBrutalism/latest?style=flat-square)
-
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/rational-kunal/NeoBrutalism/ci.yml?style=flat-square) ![GitHub Tag](https://img.shields.io/github/v/tag/rational-kunal/NeoBrutalism?sort=semver&style=flat-square&label=version) ![GitHub commits since latest release](https://img.shields.io/github/commits-since/rational-kunal/NeoBrutalism/latest?style=flat-square) ![Platform](https://img.shields.io/badge/platform-iOS%2017%2B-lightgrey?style=flat-square) ![Swift](https://img.shields.io/badge/swift-6.0-orange?style=flat-square) ![License](https://img.shields.io/github/license/rational-kunal/NeoBrutalism?style=flat-square)
 
 # NeoBrutalism
 
-A set of SwiftUI components inspired by the [NeoBrutalism design trend](https://author.envato.com/hub/trend-deep-dive-neo-brutalism).
+```swift
+struct ContentView: View {
+    @State private var shieldOn = false
 
-This started as a learning project for SwiftUI but grew into a reusable UI library. It's useful for anyone looking to build apps with a bold, minimal style.
+    // Plain SwiftUI…
+    var body: some View {
+        VStack(spacing: 16) {
+            Toggle("Shield Charm", isOn: $shieldOn)
+            Button("Cast Spell") {}
+        }
+        .padding()
+        // …one modifier later:
+        .neoBrutalism()
+    }
+}
+```
 
-Feel free to contribute by reporting bugs or submitting fixes.
-
-<p float="left">
-  <img src="https://github.com/user-attachments/assets/5a81e0a3-8006-4ad0-903a-318ae8809e30" width="180px" />
-  <img src="https://github.com/user-attachments/assets/f1e745ce-765d-410f-9198-d4a3212c89f8" width="180px" />
-  <img src="https://github.com/user-attachments/assets/38664eaf-6d2c-4093-b317-0f425298882f" width="180px" />
-  <img src="https://github.com/user-attachments/assets/d41027d7-d483-4b2d-9320-f34505ebc2c5" width="180px" />
+<p align="center">
+  <img src="docs/media/demo.gif" width="300" alt="The Example app cycling through its Todo, Gallery, and Themes tabs in light and dark mode" />
 </p>
 
-## Checkout the library in action
-- [Mismatch](https://github.com/rational-kunal/mismatch)
-- _More coming soon..._
+Native SwiftUI controls, restyled through standard style protocols — keep your code, your accessibility, your behavior.
 
-## How to install
+## Quick start
 
-You can add NeoBrutalism to your Swift project using Swift Package Manager.
-1. In Xcode, go to File -> Swift Packages -> Add Package Dependency.
-1. Enter the repository URL: https://github.com/rational-kunal/NeoBrutalism.git
+Add NeoBrutalism with Swift Package Manager:
+1. In Xcode, go to File → Add Package Dependencies.
+1. Enter the repository URL: `https://github.com/rational-kunal/NeoBrutalism.git`
 1. Choose the version or branch you want to use.
 
-## How to use
-
-The headline feature is a single root modifier. Add `.neoBrutalism()` once and every
-supported SwiftUI control — `Button`, `Toggle`, `TextField`, `ProgressView`, `Gauge`, `Label`,
-`LabeledContent`, `Menu`, `DisclosureGroup`, `ControlGroup`, `GroupBox` — takes on the
-neobrutalism look, with no per-view modifiers:
+Two lines to a fully styled app:
 
 ```swift
 import NeoBrutalism
 import SwiftUI
 
-struct ContentView: View {
-    var body: some View {
-        Form {
-            Toggle("Are you a wizard?", isOn: .constant(true))
-            Button("Cast Spell") {}
-        }
-        .neoBrutalism()                      // themed controls
-    }
-}
-```
-
-Pass `applyBackground: true` to also fill the background with the theme color, so a
-two-line app is fully styled:
-
-```swift
 ContentView()
     .neoBrutalism(applyBackground: true)
 ```
 
-> The default `Toggle` style is the **switch** (matching native semantics). Opt into the
-> checkbox per subtree with `.toggleStyle(.neoBrutalismCheckbox)`. `List`/`Form` chrome and
-> navigation bars aren't reachable through the environment — use `nbList()` / `nbListRow()`
-> and `nbNavigationBar()` on those views.
-
-You can also style individual components directly:
-
-```swift
-import NeoBrutalism
-import SwiftUI
-
-struct ContentView: View {
-    var body: some View {
-        ZStack {
-            NBTheme.default.background
-                .ignoresSafeArea()
-            Toggle(isOn: .constant(true)) { Text("Are you a wizard?") }
-                .toggleStyle(.neoBrutalismCheckbox)
-        }
-    }
-}
-```
-
-## Styling
-
-NeoBrutalism supports theming, with both light and dark mode options. You can customize or create your own themes. To apply a theme to a view, use the `nbTheme()` modifier.
-
-```swift
-struct ContentView: View {
-    var theme = NBTheme.default.updateBy(background: .black, mainText: .white)
-
-    var body: some View {
-        ZStack {
-            theme.background
-                .ignoresSafeArea()
-            Toggle(isOn: .constant(true)) { Text("Are you a wizard?") }
-                .toggleStyle(.neoBrutalismCheckbox)
-        }.nbTheme(theme)
-    }
-}
-```
-
-**Available tokens:**
-- **Colors**: `main`, `bw`, `overlay`, `background`, `blank`, `border`, `text`, `mainText`
-- **Spacing**: `smsize`, `size`, `xlsize`, `smpadding`, `padding`, `xlpadding`, `smspacing`, `spacing`, `xlspacing`
-- **Shadow**: `boxShadowX`, `boxShadowY`
-- **Borders**: `borderWidth`, `borderRadius`
-- **Typography**: `fontDesign` — applies a `Font.Design` (e.g., `.rounded`) to the entire hierarchy via the root modifier
-
-**Preset themes:** ship five bundled looks besides `.default`, each a drop-in for the `theme:` argument of `.neoBrutalism(theme:)` / `.nbTheme(_:)`. They vary more than color — corner radius, border weight, shadow depth, padding/spacing density, and font design each give the presets a distinct personality:
-- `.sunnyPeach` — warm yellow on peach (the classic look)
-- `.bubblegum` — pink on blush; pillowy capsule corners, airy padding, rounded font
-- `.seafoam` — lime on sage; square corners, slab border, block shadow, monospaced font
-- `.tangerine` — orange on cream; thick border and a huge poster-style shadow
-- `.lavender` — purple on lilac; serif font, hairline border, completely flat (no shadow)
+Want a different look? Swap the theme, same call:
 
 ```swift
 ContentView().neoBrutalism(theme: .bubblegum, applyBackground: true)
 ```
 
-## Architecture
+<p align="center">
+  <img src="docs/media/preset-swatches.png" width="500" alt="Swatches for the .default, .sunnyPeach, .bubblegum, .seafoam, .tangerine, and .lavender preset themes" />
+</p>
 
-```
-NeoBrutalism (Swift Package, iOS 17+)
-│
-├── Sources/NeoBrutalism/
-│   ├── NeoBrutalism.swift          # Module entry point & NB namespace
-│   │
-│   ├── Common/
-│   │   ├── Theme.swift             # NBTheme — colors, spacing, shadow tokens
-│   │   ├── NeoBrutalismBoxModifier # Shared border + drop-shadow ViewModifier
-│   │   └── Equatable+             # Equatable helpers
-│   │
-│   ├── Internal/
-│   │   └── NeoBrutalismPreviewHelper  # Canvas preview utilities
-│   │
-│   └── Components/
-│       ├── Button.swift            # ButtonStyle (.neoBrutalism)
-│       ├── GroupBox/               # GroupBoxStyle (.neoBrutalism) — card look for native GroupBox
-│       ├── Badge.swift             # NBBadge — inline label
-│       ├── Alert.swift             # NBAlert — icon + head + body
-│       ├── Input.swift             # TextFieldStyle (.neoBrutalism)
-│       ├── Progress.swift          # ProgressViewStyle (.neoBrutalism)
-│       ├── Slider.swift            # NBSlider — CGFloat drag slider
-│       ├── Drawer.swift            # .nbDrawer() — bottom sheet
-│       ├── Collapsable.swift       # NBCollapsable + Trigger + Content
-│       ├── Accordian/              # DisclosureGroupStyle (.neoBrutalism)
-│       ├── Radio/                  # NBRadioGroup + NBRadioItem + Indicator
-│       ├── Tabs/                   # NBTabView + NBTab — inline tab view
-│       └── Skeleton/               # NBRoundSkeleton + NBTextSkeleton
-│
-├── Tests/NeoBrutalismTests/        # 13 snapshot test suites (light + dark)
-│   └── __Snapshots__/
-│
-└── Example/                        # Standalone iOS Xcode demo app
-    └── Sources/
-        ├── ContentView.swift       # Full component showcase
-        ├── TodoView.swift          # Real-world usage example
-        └── Theme+.swift            # Custom theme example
+See [Theming](#theming) for what each preset changes beyond color, and how to build your own.
+
+## What gets styled
+
+| Layer | Covers | How |
+|---|---|---|
+| Root modifier | [Button](#button) · [Checkbox/Switch](#checkbox) · [Input](#input) · [Progress](#progress)/Gauge · Label · LabeledContent · [Menu](#menu) trigger · [Accordion](#accordion) · Control Group · [Card](#card-group-box) | one `.neoBrutalism()` call, zero per-view modifiers |
+| Helpers | [List & Form](#list--form) · [Navigation](#navigation) bars · [Input](#input) editor · [Drawer](#drawer) sheets · Dialog alerts · [Swipe Actions](#swipe-actions) · [Skeleton loading](#skeleton-modifier) | `nbList()`/`nbListRow()` · `nbNavigationBar()` · `nbTextEditor()` · `nbDrawer()` · `nbDialog()` · `nbSwipeActions()` · `nbSkeleton()` |
+| Drop-in views | [Slider](#slider) · [Stepper](#stepper) · Segmented picker · [Radio](#radio) · [Tabs](#tabs) · [Alert](#alert) · [Badge](#badge) · [Collapsable](#collapsable) · [Skeletons](#round-skeleton) | `NBSlider` · `NBStepper` · `NBSegmentedPicker` · `NBRadioGroup` · `NBTabView` · `NBAlert` · `NBBadge` · `NBCollapsable` · `NBRoundSkeleton`/`NBTextSkeleton` |
+
+SwiftUI gives no style protocol for `List`/`Form` or navigation chrome, so the root modifier can't
+reach them — style those with the helpers above. Controls with no native style protocol at all
+(Slider, Stepper, segmented Picker, Radio, …) ship as drop-in `NB*` views that mirror the native
+initializer shape.
+
+## A real screen, one modifier
+
+The Example app opens on a small todo app. The text field, add button, progress bar,
+checkboxes, list rows, sort menu, and the "delete all" dialog are all styled by a single
+`.neoBrutalism()` call at the root of the screen — the whole file contains exactly two
+per-view style modifiers, and both are deliberate design choices, not workarounds.
+
+<p align="center">
+  <img src="docs/media/todo-light.png" width="280" alt="The Todo screen of the Example app in light mode" />
+  <img src="docs/media/todo-dark.png" width="280" alt="The Todo screen of the Example app in dark mode" />
+</p>
+
+The shape of it:
+
+```swift
+var body: some View {
+    VStack {
+        TextField("Add a task…", text: $newTodoText)  // nothing on this…
+        Button(action: addTodo) { Image(systemName: "plus") }  // …or this…
+        ProgressView(value: progress)                 // …or this…
+        List { /* rows via nbListRow() */ }
+    }
+    .neoBrutalism()                                   // …one call styles it all
+}
 ```
 
-**Key design decisions:**
-- `NBTheme` is injected via SwiftUI `@Environment` — components read it automatically, consumers override it with `.nbTheme()`
-- All visual styling funnels through `NeoBrutalismBoxModifier` for consistent border + shadow
-- Toggle-based components (Checkbox, Switch) use native `ToggleStyle`; tab/disclosure use native `DisclosureGroupStyle` — no custom gesture reimplementations
-- Snapshot tests run in both light and dark mode against stored reference images
+The full source is [TodoView.swift](Example/Sources/TodoView.swift) — about 200 lines. Open
+[Example](Example/) in Xcode and run it to poke around; the screenshots and demo GIF in this
+README come from [capture.sh](Example/capture.sh) in that folder.
+
+## Built with NeoBrutalism
+- [Mismatch](https://github.com/rational-kunal/mismatch)
+- _Building something with NeoBrutalism? [Open a PR](https://github.com/rational-kunal/NeoBrutalism/pulls) adding it here._
 
 ## Components
 
-NeoBrutalism includes commonly used UI components, with plans to expand as needed. Feel free to contribute!
+Everything below is also live in the Example app's Gallery tab, grouped the same way — handy
+if you'd rather tap through things than scroll a README.
+
+<p align="center">
+  <img src="docs/media/gallery-light.png" width="280" alt="The component gallery tab of the Example app in light mode" />
+  <img src="docs/media/gallery-dark.png" width="280" alt="The component gallery tab of the Example app in dark mode" />
+</p>
 
 
 ### Checkbox
@@ -188,6 +134,8 @@ Toggle(isOn: $checkboxState) { Text(checkboxState ? "(Alohomora!)" : "(Colloport
     <br />
     <img width="350" alt="image" src="https://github.com/user-attachments/assets/2b16dd43-ab86-42a2-b943-917c59598819" loading="lazy" />
 </p>
+
+The root modifier's default `Toggle` style is the switch (matching native semantics):
 
 ```swift
 Toggle(isOn: $switchState) { Text(switchState ? "(Lumos!)" : "(Nox!)") }
@@ -284,7 +232,7 @@ TextEditor(text: $notes)
     <img width="350" alt="image" src="https://github.com/user-attachments/assets/ddcdcc4c-2df3-411f-981c-45b81dbfd864" loading="lazy" />
 </p>
 
-```
+```swift
 ProgressView(value: 0.7)
     .progressViewStyle(.neoBrutalism)
 ```
@@ -297,7 +245,7 @@ ProgressView(value: 0.7)
     <img width="350" alt="image" src="https://github.com/user-attachments/assets/51924255-eaec-4de2-98b3-f78e52b0d2cb" loading="lazy" />
 </p>
 
-`NBSlider` is a generic slider that accepts any `BinaryFloatingPoint` value type and mirrors the native `Slider` API for drop-in compatibility.
+`NBSlider` takes any `BinaryFloatingPoint` value and matches the native `Slider` initializer shape, so swapping it in doesn't change your call sites.
 
 ```swift
 @State var volume: Double = 30
@@ -325,7 +273,7 @@ Accessibility: exposes an adjustable element; works with VoiceOver to adjust the
     <img width="350" alt="image" src="https://github.com/user-attachments/assets/51924255-eaec-4de2-98b3-f78e52b0d2cb" loading="lazy" />
 </p>
 
-`NBStepper` increments and decrements an integer value with a configurable step. Press and hold the +/– buttons for auto-repeat. Supports customizable steps and custom labels.
+`NBStepper` steps an integer value up and down. Hold the +/– buttons and it auto-repeats.
 
 ```swift
 @State private var quantity = 1
@@ -677,6 +625,107 @@ LazyVStack(spacing: 8.0) {
 
 **Not for `List`:** List owns its own pan gesture and fights a custom one — use native
 `.swipeActions` + `.tint(theme.destructive)` there instead (see List & Form above).
+
+## Theming
+
+NeoBrutalism themes every component through one `NBTheme` value, read from the environment.
+Override it for a subtree with `.nbTheme(_:)`, or derive a variant with `updateBy(...)`:
+
+```swift
+struct ContentView: View {
+    var theme = NBTheme.default.updateBy(background: .black, mainText: .white)
+
+    var body: some View {
+        ZStack {
+            theme.background
+                .ignoresSafeArea()
+            Toggle(isOn: .constant(true)) { Text("Are you a wizard?") }
+                .toggleStyle(.neoBrutalismCheckbox)
+        }.nbTheme(theme)
+    }
+}
+```
+
+**Available tokens:**
+- **Colors**: `main`, `bw`, `overlay`, `background`, `blank`, `border`, `text`, `mainText`, `destructive`, `destructiveText`
+- **Spacing**: `smsize`, `size`, `xlsize`, `smpadding`, `padding`, `xlpadding`, `smspacing`, `spacing`, `xlspacing`
+- **Shadow**: `boxShadowX`, `boxShadowY`
+- **Borders**: `borderWidth`, `borderRadius`
+- **Typography**: `fontDesign` — applies a `Font.Design` (e.g., `.rounded`) to the entire hierarchy via the root modifier
+
+**Preset themes:** ship five bundled looks besides `.default`, each a drop-in for the `theme:` argument of `.neoBrutalism(theme:)` / `.nbTheme(_:)`. They vary more than color — corner radius, border weight, shadow depth, padding/spacing density, and font design each give the presets a distinct personality:
+- `.sunnyPeach` — warm yellow on peach (the classic look)
+- `.bubblegum` — pink on blush; pillowy capsule corners, airy padding, rounded font
+- `.seafoam` — lime on sage; square corners, slab border, block shadow, monospaced font
+- `.tangerine` — orange on cream; thick border and a huge poster-style shadow
+- `.lavender` — purple on lilac; serif font, hairline border, completely flat (no shadow)
+
+<p align="center">
+  <img src="docs/media/themes-light.png" width="220" alt="Live theme gallery, light mode" />
+  <img src="docs/media/themes-dark.png" width="220" alt="Live theme gallery, dark mode" />
+</p>
+
+```swift
+ContentView().neoBrutalism(theme: .bubblegum, applyBackground: true)
+```
+
+## Architecture
+
+```
+NeoBrutalism (Swift Package, iOS 17+)
+│
+├── Sources/NeoBrutalism/
+│   ├── Common/
+│   │   ├── Theme.swift             # NBTheme — colors, spacing, shadow tokens
+│   │   ├── Theme+Presets.swift     # sunnyPeach/bubblegum/seafoam/tangerine/lavender
+│   │   ├── NeoBrutalismModifier    # .neoBrutalism() root modifier
+│   │   ├── NeoBrutalismBoxModifier # Shared border + drop-shadow ViewModifier
+│   │   └── Equatable+               # Equatable helpers
+│   │
+│   ├── Internal/
+│   │   └── NeoBrutalismPreviewHelper  # Canvas preview utilities
+│   │
+│   └── Components/
+│       ├── Button.swift            # ButtonStyle (.neoBrutalism)
+│       ├── GroupBox/               # GroupBoxStyle (.neoBrutalism) — card look for native GroupBox
+│       ├── Badge.swift             # NBBadge — inline label
+│       ├── Alert.swift             # NBAlert — icon + head + body
+│       ├── Input.swift             # TextFieldStyle (.neoBrutalism)
+│       ├── Progress.swift          # ProgressViewStyle (.neoBrutalism)
+│       ├── Slider.swift            # NBSlider — generic value/range/step drag slider
+│       ├── Stepper/                # NBStepper — increment/decrement with auto-repeat
+│       ├── Drawer.swift            # .nbDrawer() — bottom sheet
+│       ├── Dialog.swift            # .nbDialog() — centered modal (alert replacement)
+│       ├── Collapsable.swift       # NBCollapsable + Trigger + Content
+│       ├── Accordion/              # DisclosureGroupStyle (.neoBrutalism)
+│       ├── Radio/                  # NBRadioGroup + NBRadioItem + Indicator
+│       ├── Tabs/                   # NBTabView + NBTab — inline tab view
+│       ├── Menu/                   # MenuStyle (.neoBrutalism) + NBMenu dropdown
+│       ├── SwipeActions/           # nbSwipeActions() — themed drag-to-reveal row actions
+│       └── Skeleton/               # NBRoundSkeleton + NBTextSkeleton + nbSkeleton()
+│
+├── Tests/NeoBrutalismTests/        # Snapshot test suites (light + dark)
+│   └── __Snapshots__/
+│
+└── Example/                        # Standalone iOS Xcode demo app
+    └── Sources/
+        ├── ExampleApp.swift        # App entry point
+        ├── ContentView.swift       # Tab shell + grouped component gallery
+        ├── TodoView.swift          # Flagship: a real todo app, one `.neoBrutalism()` call
+        └── ThemeGalleryView.swift  # Live theme picker (preset gallery)
+```
+
+**Key design decisions:**
+- `NBTheme` is injected via SwiftUI `@Environment` — components read it automatically, consumers override it with `.nbTheme()`
+- All visual styling funnels through `NeoBrutalismBoxModifier` for consistent border + shadow
+- Toggle-based components (Checkbox, Switch) use native `ToggleStyle`; tab/disclosure use native `DisclosureGroupStyle` — no custom gesture reimplementations
+- Snapshot tests run in both light and dark mode against stored reference images
+
+## Contributing
+
+Found a bug, or missing a component you need? Open an issue or send a PR — both are welcome.
+[Plans/README.md](Plans/README.md) and [ROADMAP.md](ROADMAP.md) show how ongoing work is
+scoped and tracked, if you want to pick something up.
 
 ---
 

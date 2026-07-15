@@ -1,6 +1,17 @@
 import SwiftUI
 
+/// An inline, non-dismissible callout box for a title, message, and optional icon — the
+/// bordered `nbBox()` treatment applied to a banner rather than a full-screen dialog.
+///
+/// Prefer the string-based convenience initializers below unless you need custom
+/// `View` content for the icon, title, or message.
+///
+/// ```swift
+/// NBAlert("Warning", message: "The Chamber has been opened.",
+///         systemImage: "exclamationmark.triangle")
+/// ```
 public struct NBAlert<Icon, Head, Desc>: View where Icon: View, Head: View, Desc: View {
+    /// The alert's fill: `.default` uses the theme's `main` color, `.neutral` uses `bw`.
     public enum AlertType {
         case `default`, neutral
     }
@@ -22,6 +33,12 @@ public struct NBAlert<Icon, Head, Desc>: View where Icon: View, Head: View, Desc
         }
     }
 
+    /// Creates an alert from fully custom `View` content.
+    /// - Parameters:
+    ///   - type: The alert type (default or neutral). Defaults to `.default`.
+    ///   - desc: The alert's message content.
+    ///   - icon: The alert's leading icon content. Defaults to no icon.
+    ///   - head: The alert's title content.
     public init(
         type: AlertType = .default, @ViewBuilder desc: () -> Desc,
         @ViewBuilder icon: () -> Icon = { EmptyView() }, @ViewBuilder head: () -> Head

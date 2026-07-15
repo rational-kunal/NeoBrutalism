@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// One action revealed by ``SwiftUI/View/nbSwipeActions(edge:allowsFullSwipe:actions:)``.
+/// One action revealed by ``SwiftUICore/View/nbSwipeActions(edge:allowsFullSwipe:actions:initialOffset:)``.
 public struct NBSwipeAction: Identifiable {
     public let id = UUID()
     let title: String

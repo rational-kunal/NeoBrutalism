@@ -1,5 +1,14 @@
 import SwiftUI
 
+/// A pulsing rectangular loading placeholder sized like a line of text — full width, one
+/// theme `size` tall.
+///
+/// ```swift
+/// NBTextSkeleton()
+/// ```
+///
+/// For replacing an already-laid-out view with a same-sized placeholder, prefer
+/// `View.nbSkeleton(active:)` instead.
 public struct NBTextSkeleton: View {
     @Environment(\.nbTheme) var theme: NBTheme
 

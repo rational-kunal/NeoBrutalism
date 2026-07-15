@@ -1,5 +1,15 @@
 import SwiftUI
 
+/// Which corners of an `nbBox()` should be rounded; the rest render square.
+///
+/// Used for elements that join edge-to-edge with a neighbor (e.g. `NBControlGroupStyle`'s
+/// middle sections, or the first/last row of a boxed list), where only the outer corners of
+/// the joined group should round.
+///
+/// ```swift
+/// Text("Right-rounded only")
+///     .nbBox(roundedCorners: .right)
+/// ```
 public struct NBCornerSet: OptionSet, Sendable {
     public let rawValue: Int
 
@@ -17,6 +27,7 @@ public struct NBCornerSet: OptionSet, Sendable {
     public static let left: Self = [.topLeft, .bottomLeft]
     public static let right: Self = [.topRight, .bottomRight]
 
+    /// Every corner rounded — the default for a standalone box.
     public static let all: Self = [.top, .bottom]
 }
 
@@ -59,6 +70,22 @@ struct NBBoxModifier: ViewModifier {
 }
 
 public extension View {
+    /// Wraps this view in the signature neobrutalism surface: a themed background, a thick
+    /// black border, and — when `elevated` — a hard offset drop shadow. This is the building
+    /// block every bordered NeoBrutalism component (buttons, cards, inputs, badges…) is built
+    /// on top of.
+    ///
+    /// ```swift
+    /// Text("Harry Potter")
+    ///     .padding(8.0)
+    ///     .nbBox()
+    /// ```
+    ///
+    /// - Parameters:
+    ///   - elevated: Whether to draw the hard drop shadow. Pass `false` for a flat surface
+    ///     (e.g. a pressed state, or a nested/secondary surface). Defaults to `true`.
+    ///   - roundedCorners: Which corners to round. Defaults to `.all`.
+    /// - Returns: The view wrapped in a bordered, optionally-shadowed box.
     func nbBox(elevated: Bool = true, roundedCorners: NBCornerSet = .all) -> some View {
         modifier(
             NBBoxModifier(elevated: elevated, roundedCorners: roundedCorners)

@@ -1,18 +1,38 @@
 import SwiftUI
 
 public extension ButtonStyle where Self == NBButtonStyle {
+    /// A neobrutalism button style: a themed fill, thick border, and hard drop shadow that
+    /// collapses on press.
+    ///
+    /// ```swift
+    /// Button("Basic Button") {}
+    ///     .buttonStyle(.neoBrutalism())
+    /// ```
+    ///
+    /// - Parameters:
+    ///   - type: The button's fill. Defaults to `.default`.
+    ///   - variant: How the shadow behaves on press. Defaults to `.default`.
     static func neoBrutalism(type: NBButtonStyle.ButtonType = .default, variant: NBButtonStyle.ShadowVariant = .default) -> NBButtonStyle {
         return .init(type: type, variant: variant)
     }
 }
 
+/// The neobrutalism button style — see `ButtonStyle.neoBrutalism(type:variant:)`.
 public struct NBButtonStyle: ButtonStyle {
+    /// The button's fill: `.default` uses the theme's `main` color, `.neutral` uses `bw`.
     public enum ButtonType {
         case `default`, neutral
     }
 
+    /// How the hard drop shadow behaves as the button is pressed.
     public enum ShadowVariant {
-        case `default`, noShadow, reverse
+        /// The shadow is visible at rest and collapses on press — the standard "pressed
+        /// into the surface" feel.
+        case `default`
+        /// No shadow at any time; the button always renders flush against the surface.
+        case noShadow
+        /// The shadow is collapsed at rest and pops out on press — an inverted press effect.
+        case reverse
     }
 
     @Environment(\.nbTheme) private var theme

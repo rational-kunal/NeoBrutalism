@@ -1,9 +1,15 @@
 import SwiftUI
 
 public extension ProgressViewStyle where Self == NBProgressViewStyle {
+    /// A neobrutalism progress bar style: a themed fill inside a bordered, flat `nbBox()`
+    /// track. Renders an animated indeterminate bar when the `ProgressView` has no fraction
+    /// (e.g. `ProgressView()` with no `value:`).
     static var neoBrutalism: NBProgressViewStyle { .init() }
 }
 
+/// Renders a `ProgressView` as a themed bar meter. Apply via `.progressViewStyle(.neoBrutalism)`.
+///
+/// Shares its bar-drawing with `NBGaugeStyle` — see `NBBarMeter`.
 public struct NBProgressViewStyle: ProgressViewStyle {
     @Environment(\.nbTheme) var theme: NBTheme
     @Environment(\.accessibilityReduceMotion) var reduceMotion

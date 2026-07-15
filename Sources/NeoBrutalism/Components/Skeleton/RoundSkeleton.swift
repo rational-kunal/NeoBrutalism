@@ -1,5 +1,12 @@
 import SwiftUI
 
+/// A pulsing circular loading placeholder — fills the available space, so wrap it in a
+/// `.frame()` for avatar-shaped skeletons.
+///
+/// ```swift
+/// NBRoundSkeleton()
+///     .frame(width: 40, height: 40)
+/// ```
 public struct NBRoundSkeleton: View {
     @Environment(\.nbTheme) var theme: NBTheme
 

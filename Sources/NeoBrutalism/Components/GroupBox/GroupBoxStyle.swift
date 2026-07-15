@@ -24,6 +24,7 @@ public extension GroupBoxStyle where Self == NBGroupBoxStyle {
 /// Pass `elevated: false` for a flat card: the drop shadow is removed and the
 /// tighter default padding is used. Elevated cards use the theme's `xlpadding`.
 public struct NBGroupBoxStyle: GroupBoxStyle {
+    /// The group box's fill: `.default` uses the theme's `main` color, `.neutral` uses `bw`.
     public enum GroupBoxType {
         case `default`, neutral
     }

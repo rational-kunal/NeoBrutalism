@@ -1,23 +1,29 @@
 import SwiftUI
 
-/// Presents a centered neobrutalism dialog over a scrim — a themed replacement for
-/// `alert(_:isPresented:actions:message:)`.
-///
-/// ```swift
-/// .nbDialog("Delete spell?", isPresented: $confirming) {
-///     Button("Delete", role: .destructive) { delete() }
-///     Button("Keep") { }
-/// } message: {
-///     Text("This cannot be undone.")
-/// }
-/// ```
-///
-/// The dialog animates in with a pop effect and collapses when dismissed, respecting
-/// Reduce Motion settings. Tapping the scrim dismisses the dialog; actions must call
-/// your binding manually (just like SwiftUI's `alert` does). To apply destructive
-/// styling to a button, pass `.buttonStyle(.neoBrutalism(type: .neutral))` with a
-/// red-tinted theme, or document the limitation for your consumers.
 public extension View {
+    /// Presents a centered neobrutalism dialog over a scrim — a themed replacement for
+    /// `alert(_:isPresented:actions:message:)`.
+    ///
+    /// ```swift
+    /// .nbDialog("Delete spell?", isPresented: $confirming) {
+    ///     Button("Delete", role: .destructive) { delete() }
+    ///     Button("Keep") { }
+    /// } message: {
+    ///     Text("This cannot be undone.")
+    /// }
+    /// ```
+    ///
+    /// The dialog animates in with a pop effect and collapses when dismissed, respecting
+    /// Reduce Motion settings. Tapping the scrim dismisses the dialog; actions must call
+    /// your binding manually (just like SwiftUI's `alert` does). To apply destructive
+    /// styling to a button, pass `.buttonStyle(.neoBrutalism(type: .neutral))` with a
+    /// red-tinted theme, or document the limitation for your consumers.
+    ///
+    /// - Parameters:
+    ///   - title: The dialog's title.
+    ///   - isPresented: A binding that controls whether the dialog is shown.
+    ///   - actions: The dialog's buttons.
+    ///   - message: The dialog's body text.
     func nbDialog<Actions: View, Message: View>(
         _ title: LocalizedStringKey,
         isPresented: Binding<Bool>,

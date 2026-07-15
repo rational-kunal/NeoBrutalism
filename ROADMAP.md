@@ -131,8 +131,8 @@ apps (Example app, Mismatch, community requests) actually need next.
 
 - [ ] Add the package to the [Swift Package Index](https://swiftpackageindex.com)
       with hosted DocC and platform-compatibility badges.
-- [ ] README hero: an animated GIF/video of the Example app — motion sells this style
-      far better than screenshots.
+- [x] README hero: an animated GIF of the Example app (`docs/media/demo.gif`, T25) —
+      motion sells this style far better than screenshots.
 - [ ] Publish the Example app to TestFlight so people can feel the components.
 - [ ] Write build-log articles (personal blog / dev.to): "Restyling native SwiftUI
       controls with style protocols" — teaches something real, markets the library.
@@ -144,15 +144,5 @@ apps (Example app, Mismatch, community requests) actually need next.
 
 ---
 
-## Appendix: how to build a new component
-
-Follow the same pattern as `Badge.swift` or `Alert.swift`:
-1. Prefer a native style protocol; only make a `public struct NB<Name>` view if none exists.
-2. Read the theme with `@Environment(\.nbTheme)`; add a `.default` / `.neutral` type
-   if it needs a color variant.
-3. Style with theme tokens and finish with `.nbBox()`.
-4. Add a `#Preview` and a light + dark snapshot test in `Tests/NeoBrutalismTests/`.
-5. Add it to the README and the Example app.
-
-**Testing:** `swift build && swift test`. Record snapshots once for new components,
-then verify they pass; eyeball the result in the `Example/` app.
+Looking to contribute? See [CONTRIBUTING.md](CONTRIBUTING.md) for dev setup, how to build a
+new component, and the PR checklist.

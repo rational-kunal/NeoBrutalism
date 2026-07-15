@@ -8,6 +8,16 @@ public extension DisclosureGroupStyle where Self == NBAccordionDisclosureGroupSt
     static var neoBrutalismAccordion: NBAccordionDisclosureGroupStyle { .init() }
 }
 
+/// Renders a `DisclosureGroup` as a bordered card whose label sits on a themed header bar
+/// with a trailing chevron that rotates on expand/collapse. Apply via
+/// `.disclosureGroupStyle(.neoBrutalism)`.
+///
+/// ```swift
+/// DisclosureGroup("Expecto Patronum") {
+///     Text("Pitradev Sanrakshanam")
+/// }
+/// .disclosureGroupStyle(.neoBrutalism)
+/// ```
 public struct NBAccordionDisclosureGroupStyle: DisclosureGroupStyle {
     @Environment(\.nbTheme) var theme: NBTheme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion

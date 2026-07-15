@@ -87,12 +87,12 @@ us style (List, navigation, dialogs) with helpers or drop-in `NB*` views.
 | GroupBox | `GroupBoxStyle` | `.neoBrutalism(type:elevated:)` | ✅ |
 | ControlGroup | `ControlGroupStyle` | `.neoBrutalism` | ✅ press effect (T06) |
 | Menu | `MenuStyle` (trigger only) | style + `NBMenu` for the dropdown | ✅ T19 done (dividers/disabled/scroll) |
-| Slider | **no protocol** | `NBSlider` | ⚠️ not drop-in yet (T17) |
+| Slider | **no protocol** | `NBSlider` | ✅ T17 done (generic value/range/step/a11y) |
 | Stepper | **no protocol** | `NBStepper` | ✅ T18 done (step/auto-repeat/a11y; Int by design) |
 | Picker (segmented) | **no protocol** | `NBSegmentedPicker` | ✅ |
-| Picker (menu/wheel) | **no protocol** | document `NBMenu` as the alternative | 🔲 T26 docs |
+| Picker (menu/wheel) | **no protocol** | document `NBMenu` as the alternative | ✅ T26 docs |
 | List / Form | **not stylable** | `nbList()` / `nbListRow()` helpers | ✅ T12 done |
-| Swipe actions (row) | tint + label only | native tint (T12) / `nbSwipeActions` custom reveal (T31) | ✅ T12 native tint done · 🔲 T31 custom reveal |
+| Swipe actions (row) | tint + label only | native tint (T12) / `nbSwipeActions` custom reveal (T31) | ✅ T12 native tint done · ✅ T31 custom reveal done |
 | NavigationStack chrome | partial | `nbNavigationBar()` helper | ✅ T13 done |
 | TabView (screen-level) | **not stylable** | `NBTabView` (inline tabs) | ✅ |
 | alert / confirmationDialog | **not stylable** | `nbDialog()` | ✅ T16 done |
@@ -139,33 +139,33 @@ Diagnosis + strategy: [TESTING.md](TESTING.md))
 | [T15](T15-typography-token.md) | `fontDesign` theme token | XS | ✅ Done ([PR #34](https://github.com/rational-kunal/NeoBrutalism/pull/34)) |
 | [T16](T16-dialog.md) | `nbDialog()` centered modal (alert replacement) | M | ✅ Done ([PR #31](https://github.com/rational-kunal/NeoBrutalism/pull/31)) |
 
-**Phase 3 — Drop-in parity for custom components** (3/6 done — Wave 3B: T17, T20, T31 remain)
+**Phase 3 — Drop-in parity for custom components** (6/6 done)
 
 | Task | Title | Size | Status |
 |---|---|---|---|
-| [T17](T17-slider-v2.md) | NBSlider v2: generic value, range, step, a11y | M | 🔲 To do |
+| [T17](T17-slider-v2.md) | NBSlider v2: generic value, range, step, a11y | M | ✅ Done ([PR #40](https://github.com/rational-kunal/NeoBrutalism/pull/40)) |
 | [T18](T18-stepper-v2.md) | NBStepper v2: step, auto-repeat, a11y | S | ✅ Done ([PR #36](https://github.com/rational-kunal/NeoBrutalism/pull/36)) |
 | [T19](T19-menu-polish.md) | NBMenu: dividers, disabled items, long menus | S | ✅ Done ([PR #37](https://github.com/rational-kunal/NeoBrutalism/pull/37)) |
-| [T20](T20-skeleton-shimmer.md) | Skeleton pulse + `nbSkeleton()` modifier | S | 🔲 To do |
+| [T20](T20-skeleton-shimmer.md) | Skeleton pulse + `nbSkeleton()` modifier | S | ✅ Done ([PR #39](https://github.com/rational-kunal/NeoBrutalism/pull/39)) |
 | [T21](T21-alert-conveniences.md) | NBAlert string-based initializers | XS | ✅ Done ([PR #38](https://github.com/rational-kunal/NeoBrutalism/pull/38)) |
-| [T31](T31-nb-swipe-row.md) | Neobrutalist swipe actions (`nbSwipeActions`) — full drag-to-reveal look (depends on T12) | M | 🔲 To do |
+| [T31](T31-nb-swipe-row.md) | Neobrutalist swipe actions (`nbSwipeActions`) — full drag-to-reveal look (depends on T12) | M | ✅ Done ([PR #41](https://github.com/rational-kunal/NeoBrutalism/pull/41), follow-up fix [PR #45](https://github.com/rational-kunal/NeoBrutalism/pull/45)) |
 
-**Phase 4 — Theming as a feature**
+**Phase 4 — Theming as a feature** (2/2 done)
 
-| Task | Title | Size |
-|---|---|---|
-| [T22](T22-preset-themes.md) | Ship 5 preset themes | S |
-| [T23](T23-example-theme-gallery.md) | Live theme gallery in the Example app | S |
+| Task | Title | Size | Status |
+|---|---|---|---|
+| [T22](T22-preset-themes.md) | Ship 5 preset themes | S | ✅ Done ([PR #42](https://github.com/rational-kunal/NeoBrutalism/pull/42)) |
+| [T23](T23-example-theme-gallery.md) | Live theme gallery in the Example app | S | ✅ Done ([PR #43](https://github.com/rational-kunal/NeoBrutalism/pull/43)) |
 
-**Phase 5 — Adoption** (parallel to everything after Phase 2)
+**Phase 5 — Adoption** (parallel to everything after Phase 2; 2/5 done)
 
-| Task | Title | Size |
-|---|---|---|
-| [T24](T24-example-app-restructure.md) | Example app: real-app-first + capture kit | M |
-| [T25](T25-readme-overhaul.md) | README overhaul: hero, 10-second pitch | S |
-| [T26](T26-docc-and-spi.md) | DocC catalog + Swift Package Index | M |
-| [T27](T27-release-engineering.md) | CHANGELOG, CONTRIBUTING, CI artifacts, v2.1 | S |
-| [T28](T28-launch-kit.md) | Launch kit: posts, submissions, link-backs | S |
+| Task | Title | Size | Status |
+|---|---|---|---|
+| [T24](T24-example-app-restructure.md) | Example app: real-app-first + capture kit | M | ✅ Done (Todo is now the first tab with zero per-view style modifiers besides `.toggleStyle(.neoBrutalismCheckbox)` + one neutral button variant; Gallery grouped into Controls/Containers/Feedback/Loading; `Example/capture.sh` + `docs/media/` added) |
+| [T25](T25-readme-overhaul.md) | README overhaul: hero, 10-second pitch | S | ✅ Done (pitch code + hero `docs/media/demo.gif` above the fold; "What gets styled" table; `docs/media/preset-swatches.png`; architecture tree de-staled) |
+| [T26](T26-docc-and-spi.md) | DocC catalog + Swift Package Index | M | ✅ Done (DocC catalog + doc-comment audit + CI `docbuild` guard landed; SPI PackageList PR is a maintainer action — see task file Part 2.2) |
+| [T27](T27-release-engineering.md) | CHANGELOG, CONTRIBUTING, CI artifacts, v2.1 | S | 🔲 To do |
+| [T28](T28-launch-kit.md) | Launch kit: posts, submissions, link-backs | S | 🔲 To do |
 
 ## Conventions (the contract for every task)
 

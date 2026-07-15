@@ -1,5 +1,9 @@
 import SwiftUI
 
+/// A standalone expand/collapse card with a themed header and border.
+///
+/// - Deprecated: Use the native `DisclosureGroup` with `.disclosureGroupStyle(.neoBrutalism)`
+///   instead, which gets built-in accessibility handling for free.
 @available(*, deprecated, message: "Use DisclosureGroup with DisclosureGroupStyle.neoBrutalism instead")
 public struct NBAccordion<Trigger, Content>: View where Trigger: View, Content: View {
     @Environment(\.nbTheme) var theme: NBTheme

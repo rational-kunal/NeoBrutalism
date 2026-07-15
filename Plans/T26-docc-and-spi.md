@@ -44,9 +44,12 @@ Build check: `xcodebuild docbuild -scheme NeoBrutalism -destination "generic/pla
      configs:
        - documentation_targets: [NeoBrutalism]
    ```
-2. Submit the repo to SPI (PR to `SwiftPackageIndex/PackageList` adding
-   `https://github.com/rational-kunal/NeoBrutalism.git` — follow their CONTRIBUTING; it
-   validates automatically). **Maintainer action** — the task ends with the PR link ready.
+2. Submit the repo to SPI. As of 2026-07, submission is a GitHub Issue (not a manual PR to
+   `packages.json`): open
+   [SwiftPackageIndex/PackageList/issues/new?template=add_package.yml&title=Add+NeoBrutalism&list=https%3A%2F%2Fgithub.com%2Frational-kunal%2FNeoBrutalism.git](https://github.com/SwiftPackageIndex/PackageList/issues/new?template=add_package.yml&title=Add+NeoBrutalism&list=https%3A%2F%2Fgithub.com%2Frational-kunal%2FNeoBrutalism.git)
+   (pre-filled) and submit — their bot validates and lists it automatically. Requirements
+   already met: public repo, valid `Package.swift`, Swift 6.0, has a library product, tagged
+   semver releases (`2.0.0` latest). **Maintainer action** — the task ends with this link ready.
 3. After indexing, grab the SPI badge markdown (swift versions + platforms) for T25's badge
    row.
 

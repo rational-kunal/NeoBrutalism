@@ -28,6 +28,8 @@ public struct NBStepper<Label: View>: View {
     ///   - value: A binding to an integer value.
     ///   - range: The closed range of valid values.
     ///   - step: The value to increment or decrement by (default: 1).
+    ///   - accessibilityLabelText: Optional text VoiceOver reads for this control, in place of
+    ///     inferring one from `label`. Defaults to `nil`.
     ///   - label: A view that describes the stepper's purpose.
     public init(
         value: Binding<Int>,

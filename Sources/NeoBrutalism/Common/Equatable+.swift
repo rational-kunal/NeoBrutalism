@@ -1,4 +1,6 @@
 
+/// A type-erased `Equatable` value, used where `NBRadioGroup`/`NBRadioItem` need to compare
+/// selection values without being generic over a single concrete type.
 public typealias AnyEquatable = any Equatable
 
 extension Equatable {

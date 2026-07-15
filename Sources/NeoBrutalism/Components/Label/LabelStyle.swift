@@ -5,7 +5,7 @@ public extension LabelStyle where Self == NBLabelStyle {
     static var neoBrutalism: Self { NBLabelStyle() }
 }
 
-/// A ``LabelStyle`` implementation that applies the neobrutalism design language.
+/// A `LabelStyle` implementation that applies the neobrutalism design language.
 ///
 /// The style renders the title in bold with consistent spacing. The label
 /// inherits foreground color from its container (allowing proper rendering
