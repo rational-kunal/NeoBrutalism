@@ -10,10 +10,59 @@ struct NBPressEffectModifier: ViewModifier {
     let isPressed: Bool
     let roundedCorners: NBCornerSet
 
+    // A quick tap can flip `isPressed` true then false before SwiftUI ever renders the
+    // pressed frame, so the spring restarts toward "released" almost as soon as it begins
+    // and the press effect never reads as an animation. Holding the pressed visual on
+    // screen for at least one spring `response` guarantees both halves are seen.
+    @State private var displayedElevated: Bool
+    @State private var displayedIsPressed: Bool
+    @State private var pressBeganAt: Date?
+    @State private var releaseToken = UUID()
+
+    private static let minimumPressDuration: TimeInterval = 0.15
+
+    init(elevated: Bool, isPressed: Bool, roundedCorners: NBCornerSet) {
+        self.elevated = elevated
+        self.isPressed = isPressed
+        self.roundedCorners = roundedCorners
+        _displayedElevated = State(initialValue: elevated)
+        _displayedIsPressed = State(initialValue: isPressed)
+    }
+
     func body(content: Content) -> some View {
         content
-            .nbBox(elevated: elevated, roundedCorners: roundedCorners)
-            .animation(reduceMotion ? .none : .interactiveSpring(), value: isPressed)
+            .nbBox(elevated: displayedElevated, roundedCorners: roundedCorners)
+            .animation(reduceMotion ? .none : .interactiveSpring(), value: displayedIsPressed)
+            .onChange(of: isPressed) { _, pressed in
+                let token = UUID()
+                releaseToken = token
+
+                guard !reduceMotion else {
+                    displayedElevated = elevated
+                    displayedIsPressed = pressed
+                    return
+                }
+
+                guard pressed else {
+                    let elapsed = pressBeganAt.map { -$0.timeIntervalSinceNow } ?? Self.minimumPressDuration
+                    let remaining = Self.minimumPressDuration - elapsed
+                    guard remaining > 0 else {
+                        displayedElevated = elevated
+                        displayedIsPressed = false
+                        return
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + remaining) {
+                        guard releaseToken == token else { return }
+                        displayedElevated = elevated
+                        displayedIsPressed = false
+                    }
+                    return
+                }
+
+                pressBeganAt = Date()
+                displayedElevated = elevated
+                displayedIsPressed = true
+            }
     }
 }
 
