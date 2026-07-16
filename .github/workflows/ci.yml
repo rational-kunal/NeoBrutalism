@@ -5,27 +5,27 @@ on:
     branches:
       - main
     paths:
-      - 'Sources/**'
-      - 'Tests/**'
-      - 'Example/**'
-      - '.github/workflows/**'
-      - 'Package.swift'
+      - "Sources/**"
+      - "Tests/**"
+      - "Example/**"
+      - ".github/workflows/**"
+      - "Package.swift"
   pull_request:
     paths:
-      - 'Sources/**'
-      - 'Tests/**'
-      - 'Example/**'
-      - '.github/workflows/**'
-      - 'Package.swift'
+      - "Sources/**"
+      - "Tests/**"
+      - "Example/**"
+      - ".github/workflows/**"
+      - "Package.swift"
 
-concurrency: 
+concurrency:
   group: ${{ github.ref_name }}
   cancel-in-progress: true
 
 # Refer https://github.com/Alamofire/Alamofire/blob/master/.github/workflows/ci.yml
 jobs:
   iOS:
-    name: "iOS (pinned)"
+    name: "iOS Snapshot Tests"
     runs-on: macOS-15
     timeout-minutes: 20
     steps:
