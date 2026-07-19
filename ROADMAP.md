@@ -14,27 +14,26 @@ look. Custom `NB*` views exist only where SwiftUI has no native counterpart.
   test, README entry, Example app entry.
 - **Semver.** Breaking API changes only in major releases.
 
-Current release: **2.0.0** · iOS 17+ · 20 components
+Current release: **3.0.0** · iOS 17+
 
 > **Execution:** each roadmap item is broken into implementation-ready, single-session task
 > specs in [`Plans/`](Plans/README.md).
 
 ---
 
-## Milestone 1 — Out of the box (v2.1–v2.x)
+## Milestone 1 — Out of the box ✅ (shipped in 3.0.0)
 
 Goal: a new user gets the full neobrutalism look with **one modifier at the root of
 their view tree** — no per-control styling required.
 
 ### The one-line entry point
-- [ ] `.neoBrutalism()` root modifier — injects the theme *and* applies every default
+- [x] `.neoBrutalism()` root modifier — injects the theme *and* applies every default
       style (`buttonStyle`, `toggleStyle`, `textFieldStyle`, `progressViewStyle`,
       `disclosureGroupStyle`, plus new ones below) to the whole hierarchy in one call.
       This is the headline feature; everything else in this milestone feeds it.
-- [ ] `.neoBrutalism(theme:)` variant to pass a custom theme in the same call.
-- [ ] Background handling — today users must place `theme.background` themselves;
-      the root modifier should offer it (`.neoBrutalism(applyBackground: true)` or
-      similar) so the "How to use" example becomes two lines.
+- [x] `.neoBrutalism(theme:)` variant to pass a custom theme in the same call.
+- [x] Background handling — `.neoBrutalism(applyBackground: true)` places
+      `theme.background` for you, so the "How to use" example becomes two lines.
 
 ### Finish native style coverage
 Done already: ✅ Button · ✅ Checkbox/Switch (`ToggleStyle`) · ✅ TextField ·
@@ -42,45 +41,48 @@ Done already: ✅ Button · ✅ Checkbox/Switch (`ToggleStyle`) · ✅ TextField
 
 Each new style follows the same definition of done (docs + previews + snapshots + README):
 - [x] `GroupBoxStyle` — native `GroupBox` gets the Card look for free
-- [ ] `LabelStyle` — icon + text in theme style
-- [ ] `GaugeStyle` — bordered dial/meter; a natural fit for the style
-- [ ] `ControlGroupStyle` — bordered button group
-- [ ] `MenuStyle` — neobrutalist dropdown menu
-- [ ] `LabeledContentStyle` — settings-row style label/value pairs
-- [ ] Paged `TabView` page indicator — gives us a carousel for free
+- [x] `LabelStyle` — icon + text in theme style
+- [x] `GaugeStyle` — bordered dial/meter; a natural fit for the style
+- [x] `ControlGroupStyle` — bordered button group
+- [x] `MenuStyle` — neobrutalist dropdown menu
+- [x] `LabeledContentStyle` — settings-row style label/value pairs
+- [ ] Paged `TabView` page indicator — gives us a carousel for free (not yet; `NBTabView`
+      ships inline tabs, not a paged carousel)
 
 ### Native controls with no open style protocol
 SwiftUI doesn't let us style these via a protocol, so we mirror the native API with a
 drop-in view (same initializer shape, so migration is a rename):
-- [ ] `NBStepper` — mirrors `Stepper`
-- [ ] `NBSegmentedPicker` — segmented `Picker` is not stylable
+- [x] `NBStepper` — mirrors `Stepper`
+- [x] `NBSegmentedPicker` — segmented `Picker` is not stylable
 
 ### Design consistency
-- [ ] One shared press effect (shadow collapses, content translates by the shadow
-      offset) used by Button, Checkbox, Switch, Radio, Tabs, Collapsable trigger.
-- [ ] Respect Reduce Motion in the press effect and skeleton shimmer.
+- [x] One shared press effect (shadow collapses, content translates by the shadow
+      offset) used by Button, Checkbox, Switch, Radio, Stepper, ControlGroup, Collapsable trigger.
+- [x] Respect Reduce Motion in the press effect and skeleton shimmer.
 
 ---
 
-## Milestone 2 — Production ready (v3.0)
+## Milestone 2 — Production ready (v3.0+)
 
-Goal: a team can adopt this in a shipping app and trust it. The API audit is breaking,
-so this is the 3.0 release.
+Goal: a team can adopt this in a shipping app and trust it. The breaking API audit shipped
+in **3.0.0**; the remaining production-hardening (performance, macOS, deeper accessibility)
+continues in 3.x.
 
-### API audit (breaking, do once)
-- [ ] Consistent style naming — decide one convention for
-      `.neoBrutalism` / `.neoBrutalismChecklist` / `.neoBrutalismSwitch` /
-      `.neoBrutalismAccordion` and stick to it.
-- [ ] Resolve duplication between `NBButton` and `.buttonStyle(.neoBrutalism())` —
-      keep one, deprecate the other.
+### API audit (breaking, done in 3.0.0)
+- [x] Consistent style naming — one `.neoBrutalism` entry point per protocol, suffixed
+      variants (`.neoBrutalismCheckbox` / `.neoBrutalismSwitch` / `.neoBrutalismRadio`);
+      old names deprecated.
+- [x] Resolve duplication between `NBButton` and `.buttonStyle(.neoBrutalism())` —
+      only the `NBButtonStyle` style ships; there is no separate `NBButton` view.
 - [ ] Review the whole public surface: what's `public` today that shouldn't be?
       (e.g. the `UIColor`/`Color` helpers in Theme.swift leak into consumers' namespace).
-- [ ] Rename internals with typos (`Accordian/`, `Checbox/`) while nothing external
+- [x] Rename internals with typos (`Accordian/`, `Checbox/`) while nothing external
       depends on file layout.
 
 ### Accessibility
 - [ ] VoiceOver labels/values/traits for the custom-gesture components: Slider, Radio,
-      Tabs, Collapsable, Drawer (native-styled controls already inherit this).
+      Tabs, Collapsable, Drawer (native-styled controls already inherit this). *Slider and
+      Radio done (T17/T05); the rest remain.*
 - [ ] Dynamic Type — verify components scale; decide whether theme size tokens scale
       with the user's text size.
 - [ ] Contrast check on the default theme in light and dark.
@@ -98,12 +100,12 @@ so this is the 3.0 release.
 - [ ] visionOS / Mac Catalyst — verify after macOS lands; likely near-free.
 
 ### Docs & trust signals
-- [ ] DocC catalog: Getting Started, Theming guide (what every token controls, with an
-      annotated diagram), component gallery. Host on Swift Package Index.
-- [ ] `CHANGELOG.md`, kept from 3.0 onward.
-- [ ] `CONTRIBUTING.md` — move the "how to build a component" guide there (kept below
-      until then).
-- [ ] CI: snapshot tests on every PR, swiftformat/swiftlint check, DocC build check.
+- [x] DocC catalog: Getting Started, Theming guide, component gallery; CI `docbuild`
+      guard. Hosting on Swift Package Index is the remaining maintainer step (see Adoption).
+- [x] `CHANGELOG.md`, kept from 3.0 onward.
+- [x] `CONTRIBUTING.md` — moved the "how to build a component" guide there.
+- [x] CI: snapshot tests on every PR + DocC build check. *(SwiftFormat/SwiftLint
+      deliberately deferred — reformatting every file would pollute blame; see T27.)*
 
 ---
 
@@ -112,34 +114,40 @@ so this is the 3.0 release.
 Only components with no native counterpart. Ship in small releases; pick by what real
 apps (Example app, Mismatch, community requests) actually need next.
 
-**Quick wins** — Avatar · Toast/Snackbar · Dialog/Modal · Chip/Tag · Tooltip
+**Quick wins** — Avatar · Toast/Snackbar · ~~Dialog/Modal~~ (`nbDialog`, shipped) · Chip/Tag · Tooltip
 **Medium** — Select/Dropdown · Rating (stars) · Pagination · Breadcrumb
 **Large** — Calendar/DatePicker · Table/data grid · Image Card
 
 ---
 
-## Milestone 4 — Theming as a feature
+## Milestone 4 — Theming as a feature ✅ (shipped in 3.0.0)
 
-- [ ] Ship 3–4 bold preset themes (yellow, pink, green — bold color is the heart of
-      neobrutalism); today only `.default` exists.
-- [ ] Theme gallery in the Example app with live switching.
-- [ ] Document how to build a theme from scratch.
+- [x] Ship 3–4 bold preset themes — shipped 5 (`.sunnyPeach`, `.bubblegum`, `.seafoam`,
+      `.tangerine`, `.lavender`), each with its own shape, density, and font personality,
+      not just a recolor (T22).
+- [x] Theme gallery in the Example app with live switching (T23).
+- [x] Document how to build a theme from scratch (README "Theming" section).
 
 ---
 
 ## Adoption (ongoing, parallel to all milestones)
 
 - [ ] Add the package to the [Swift Package Index](https://swiftpackageindex.com)
-      with hosted DocC and platform-compatibility badges.
+      with hosted DocC and platform-compatibility badges — `.spi.yml` is in the repo;
+      the PackageList PR is the remaining maintainer action (T26).
 - [x] README hero: an animated GIF of the Example app (`docs/media/demo.gif`, T25) —
       motion sells this style far better than screenshots.
-- [ ] Publish the Example app to TestFlight so people can feel the components.
-- [ ] Write build-log articles (personal blog / dev.to): "Restyling native SwiftUI
-      controls with style protocols" — teaches something real, markets the library.
+- [ ] Publish the Example app to TestFlight so people can feel the components (needs a
+      paid dev account — optional).
+- [ ] Write build-log articles: "Restyling native SwiftUI controls with style protocols".
+      Canonical home is the author's [writings](https://github.com/rational-kunal/writings)
+      repo (cross-post to dev.to with a canonical link); outline drafted in
+      [`docs/launch/article.md`](docs/launch/article.md).
 - [ ] Submit to iOS Dev Weekly, awesome-swiftui / awesome-ios lists, r/SwiftUI,
-      Show HN, X/Mastodon with #SwiftUI.
-- [ ] Ask neobrutalism.dev (the design credit) to link this as the SwiftUI port.
-- [ ] Label `good first issue`s so the component backlog attracts contributors.
+      Show HN, X/Mastodon with #SwiftUI — post copy and exact submission URLs drafted in
+      [`docs/launch/`](docs/launch/) (`announcement.md` + `checklist.md`).
+- [ ] Ask neobrutalism.dev (the design credit) to link this as the SwiftUI port (T28).
+- [ ] Label `good first issue`s so the component backlog attracts contributors (T28).
 - [ ] Keep "apps built with NeoBrutalism" in the README (Mismatch today) and grow it.
 
 ---

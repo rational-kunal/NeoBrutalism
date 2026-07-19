@@ -23,17 +23,24 @@ produces the *materials*; posting is the maintainer's call. Everything lands in
 2. **`docs/launch/article.md`** — outline (not full draft) for a build-log article,
    *"Restyling native SwiftUI controls with style protocols"*: the protocol inventory table
    from `Plans/README.md`, the `_body` TextFieldStyle hack, the ControlGroup
-   `Group(subviews:)` corner trick, the NBMenu overlay-window story. Target: personal blog /
-   dev.to, cross-submitted to iOS Dev Weekly (they favor teaching posts over release notes).
+   `Group(subviews:)` corner trick, the NBMenu overlay-window story. **Canonical home: the
+   author's `writings` repo (https://github.com/rational-kunal/writings)** — publish the full
+   post there so the canonical URL is owned, cross-post to dev.to with a `rel=canonical` link
+   back, and submit *that* writings URL (not the repo) to iOS Dev Weekly (they favor teaching
+   posts over release notes). Keep the `docs/launch/article.md` outline here as the working
+   draft; `writings` being a work-in-progress must not block the rest of the launch kit.
 3. **`docs/launch/checklist.md`** — submission checklist with URLs:
    - [ ] Swift Package Index listed (T26) — verify page renders docs
    - [ ] awesome-swiftui + awesome-ios PRs (follow each list's contribution format)
    - [ ] iOS Dev Weekly submission (via their suggest form, link the article not the repo)
    - [ ] r/SwiftUI post · X thread · Show HN (space these out; HN last, README battle-tested)
-   - [ ] Issue on neobrutalism.dev's repo (samuelbreznjak/neobrutalism-components) offering
-         this as the SwiftUI port for their "ports" section — polite, zero-pressure
-   - [ ] 3–5 `good first issue`s created from remaining `Plans/` tasks (T19, T20, T21 are
-         ideal first issues — small, specced, snapshot-verified)
+   - [ ] Issue on neobrutalism.dev's repo (`ekmas/neobrutalism-components` — `ekmas` is the
+         creator of neobrutalism.dev) offering this as the SwiftUI port for their "ports"
+         section — polite, zero-pressure
+   - [ ] 3–5 `good first issue`s created from genuinely-open work (T19/T20/T21 have shipped, so
+         they are no longer candidates — draw from the open ROADMAP items instead: Avatar,
+         Chip/Tag, Tooltip, `NBCollapsable` VoiceOver, default-theme contrast check — all small,
+         specced, snapshot-verified)
    - [ ] TestFlight public link for the Example app (needs paid dev account — mark optional)
 4. **README hook**: add "★ if this saved you styling time" nowhere. Instead: "Using it in an
    app? Open a PR to add yours" — the apps-list is the credible social proof.

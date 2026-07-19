@@ -157,15 +157,16 @@ Diagnosis + strategy: [TESTING.md](TESTING.md))
 | [T22](T22-preset-themes.md) | Ship 5 preset themes | S | ✅ Done ([PR #42](https://github.com/rational-kunal/NeoBrutalism/pull/42)) |
 | [T23](T23-example-theme-gallery.md) | Live theme gallery in the Example app | S | ✅ Done ([PR #43](https://github.com/rational-kunal/NeoBrutalism/pull/43)) |
 
-**Phase 5 — Adoption** (parallel to everything after Phase 2; 2/5 done)
+**Phase 5 — Adoption** (T24–T26 done · T27 docs + CI shipped, `3.0.0` tag pending · T28 drafts
+written in `docs/launch/`, submissions pending maintainer)
 
 | Task | Title | Size | Status |
 |---|---|---|---|
 | [T24](T24-example-app-restructure.md) | Example app: real-app-first + capture kit | M | ✅ Done (Todo is now the first tab with zero per-view style modifiers besides `.toggleStyle(.neoBrutalismCheckbox)` + one neutral button variant; Gallery grouped into Controls/Containers/Feedback/Loading; `Example/capture.sh` + `docs/media/` added) |
 | [T25](T25-readme-overhaul.md) | README overhaul: hero, 10-second pitch | S | ✅ Done (pitch code + hero `docs/media/demo.gif` above the fold; "What gets styled" table; `docs/media/preset-swatches.png`; architecture tree de-staled) |
 | [T26](T26-docc-and-spi.md) | DocC catalog + Swift Package Index | M | ✅ Done (DocC catalog + doc-comment audit + CI `docbuild` guard landed; SPI PackageList PR is a maintainer action — see task file Part 2.2) |
-| [T27](T27-release-engineering.md) | CHANGELOG, CONTRIBUTING, CI artifacts, v2.1 | S | 🔲 To do |
-| [T28](T28-launch-kit.md) | Launch kit: posts, submissions, link-backs | S | 🔲 To do |
+| [T27](T27-release-engineering.md) | CHANGELOG, CONTRIBUTING, CI artifacts, v3.0 | S | 🟡 Docs + CI shipped; `3.0.0` tag pending (maintainer) |
+| [T28](T28-launch-kit.md) | Launch kit: posts, submissions, link-backs | S | 🟡 Drafts in `docs/launch/`; publishing is maintainer's |
 
 ## Conventions (the contract for every task)
 
@@ -182,7 +183,8 @@ Diagnosis + strategy: [TESTING.md](TESTING.md))
 5. **Definition of done** for anything public: DocC comment `///` with a code example ·
    `#Preview(traits: .modifier(NBPreviewHelper()))` · snapshot test(s) (light+dark are generated
    by the suite) · Example app entry (`Example/Sources/ContentView.swift`) · README section.
-6. **API stability.** Additive changes only until v3.0. Renames = add new name +
+6. **API stability.** Additive changes only until the next major (v4.0 — 3.0.0 shipped the
+   breaking audit). Renames = add new name +
    `@available(*, deprecated, renamed:)` on the old one. Never change `NBTheme`'s stored
    properties' meaning; adding tokens with defaulted `updateBy` parameters is fine.
 7. **Code style.** Match the existing files: 4-space indent, `// MARK: -` sections, private

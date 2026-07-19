@@ -1,4 +1,4 @@
-# T27 — CHANGELOG, CONTRIBUTING, CI artifacts, v2.1
+# T27 — CHANGELOG, CONTRIBUTING, CI artifacts, v3.0
 
 **Size:** S · **Depends on:** ships whenever Phase 1+2 are merged; earlier is fine
 
@@ -11,7 +11,7 @@ diagnose snapshot failures, and a tagged release so SPM users get the new work.
 
 1. **`CHANGELOG.md`** (repo root), Keep-a-Changelog format:
    - `## [Unreleased]` section on top.
-   - Backfill `## [2.1.0]` from the actual merged work (root modifier, new styles —
+   - Backfill `## [3.0.0]` from the actual merged work (root modifier, new styles —
      Gauge/Label/LabeledContent/ControlGroup/Menu/SegmentedPicker/Stepper/TabView — Tabs/Card
      removal with GroupBox migration note, plus whatever Phase 1/2 tasks landed).
    - Add a one-line "how to upgrade" for anything deprecated (T10 renames).
@@ -33,7 +33,7 @@ diagnose snapshot failures, and a tagged release so SPM users get the new work.
      (the `.xcresult` bundle contains the failure attachments; that's enough).
    - Add `Example/**` to the CI `paths` triggers and a build-only job for the Example app so
      it can't silently rot (it's not in the test plan today).
-4. **Release**: tag `2.1.0` on main once the above merges; GitHub Release notes = the
+4. **Release**: tag `3.0.0` on main once the above merges; GitHub Release notes = the
    changelog section. **Maintainer action** — prepare the notes in the PR, the human pushes
    the tag.
 

@@ -7,6 +7,10 @@
 
 # NeoBrutalism
 
+**Bold neobrutalism styling for native SwiftUI — one modifier, no reimplementation.** Write plain
+SwiftUI, add `.neoBrutalism()` at the root, and every control keeps its own code, accessibility,
+and behavior.
+
 ```swift
 struct ContentView: View {
     @State private var shieldOn = false
@@ -28,9 +32,15 @@ struct ContentView: View {
   <img src="docs/media/demo.gif" width="300" alt="The Example app cycling through its Todo, Gallery, and Themes tabs in light and dark mode" />
 </p>
 
-Native SwiftUI controls, restyled through standard style protocols — keep your code, your accessibility, your behavior.
+Native controls are restyled through their standard style protocols (`ButtonStyle`, `ToggleStyle`,
+…), which propagate down the environment — so one call at the root reaches them all. Where SwiftUI
+exposes no style hook, opt-in helpers and drop-in `NB*` views fill the gap.
+
+**Contents:** [Quick start](#quick-start) · [What gets styled](#what-gets-styled) · [A real screen](#a-real-screen-one-modifier) · [Components](#components) · [Theming](#theming) · [Architecture](#architecture) · [Contributing](#contributing)
 
 ## Quick start
+
+**Requirements:** iOS 17+ · Swift 6 · Xcode 16. Zero runtime dependencies.
 
 Add NeoBrutalism with Swift Package Manager:
 1. In Xcode, go to File → Add Package Dependencies.
@@ -729,4 +739,4 @@ scoped and tracked, if you want to pick something up.
 
 ---
 
-<small>The credit for the design belongs to https://www.neobrutalism.dev.<small>
+<small>The credit for the design belongs to <a href="https://www.neobrutalism.dev">neobrutalism.dev</a>.</small>

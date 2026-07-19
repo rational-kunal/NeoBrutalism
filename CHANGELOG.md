@@ -7,10 +7,14 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-## [2.1.0] - 2026-07-15
+## [3.0.0] - 2026-07-19
 
 The "one modifier" release: `.neoBrutalism()` at the root of your view tree now styles the
 whole hierarchy — native controls, drop-in `NB*` views, and layout helpers alike.
+
+This is a **major** release: `Card`, `FlatCard`, and the old `Tabs*` views are removed (see
+"Upgrading from 2.0.0"). Renamed styles still compile behind deprecation warnings, so most
+projects upgrade with no code changes.
 
 ### Added
 
@@ -91,8 +95,8 @@ whole hierarchy — native controls, drop-in `NB*` views, and layout helpers ali
 
 ### Deprecated
 
-Old names still compile with an `@available(*, deprecated)` warning; nothing is removed
-before v3.0.
+Renamed in 3.0.0; the old names still compile with an `@available(*, deprecated)` warning
+and will not be removed before v4.0.
 
 - `.neoBrutalismChecklist` (`ToggleStyle`) → renamed `.neoBrutalismCheckbox`.
 - `.neoBrutalismAccordion` (`DisclosureGroupStyle`) → renamed `.neoBrutalism`.
@@ -110,21 +114,29 @@ before v3.0.
 
 ## Upgrading from 2.0.0
 
-Nothing breaks — 2.1.0 is additive only. If you see deprecation warnings, migrate at your
-own pace before v3.0:
+3.0.0 is a major release. Two groups of types were **removed** and need a one-line migration
+to compile; everything else was **deprecated** and still compiles (with a warning) until at
+least v4.0.
+
+**Removed — update these to compile:**
+
+| Removed | Replacement |
+|---|---|
+| `Card` / `FlatCard` | `GroupBox` + `.groupBoxStyle(.neoBrutalism(type:elevated:))` |
+| `Tabs` / `TabsList` / `TabsTrigger` / `TabsContent` | `NBTabView` |
+
+**Deprecated — still compile, migrate at your own pace:**
 
 | Deprecated | Replacement |
 |---|---|
 | `.toggleStyle(.neoBrutalismChecklist)` | `.toggleStyle(.neoBrutalismCheckbox)` |
 | `.disclosureGroupStyle(.neoBrutalismAccordion)` | `.disclosureGroupStyle(.neoBrutalism)` |
 | `Accordion` | `DisclosureGroup` + `.disclosureGroupStyle(.neoBrutalism)` |
-| `Card` / `FlatCard` | `GroupBox` + `.groupBoxStyle(.neoBrutalism(type:elevated:))` |
-| `Tabs` / `TabsList` / `TabsTrigger` / `TabsContent` | `NBTabView` |
 
 ## [2.0.0] - 2025-05-11
 
 Initial tagged releases predate this changelog. See `git log 1.0.0..2.0.0` for detail.
 
-[Unreleased]: https://github.com/rational-kunal/NeoBrutalism/compare/2.1.0...HEAD
-[2.1.0]: https://github.com/rational-kunal/NeoBrutalism/compare/2.0.0...2.1.0
+[Unreleased]: https://github.com/rational-kunal/NeoBrutalism/compare/3.0.0...HEAD
+[3.0.0]: https://github.com/rational-kunal/NeoBrutalism/compare/2.0.0...3.0.0
 [2.0.0]: https://github.com/rational-kunal/NeoBrutalism/releases/tag/2.0.0
