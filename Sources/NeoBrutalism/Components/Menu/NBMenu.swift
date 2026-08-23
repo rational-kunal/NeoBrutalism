@@ -94,7 +94,7 @@ public struct NBMenu<Label: View>: View {
     }
 }
 
-/// The content hosted inside `NBOverlayWindow`: a full-screen tap-to-dismiss catcher plus the
+/// The content hosted inside `NBOverlayWindow`: a full-window tap-to-dismiss catcher plus the
 /// themed dropdown, positioned under the trigger using its frame in the original window.
 private struct NBMenuOverlayContent: View {
     let theme: NBTheme
@@ -119,7 +119,7 @@ private struct NBMenuOverlayContent: View {
                     .contentShape(Rectangle())
                     .onTapGesture { dismiss() }
 
-                dropdown(elevated: appear)
+                dropdown(elevated: appear, containerSize: proxy.size)
                     .background {
                         GeometryReader { dropdownProxy in
                             Color.clear
@@ -165,10 +165,10 @@ private struct NBMenuOverlayContent: View {
 
     /// Positions the dropdown under the trigger by default, but flips it above the trigger when
     /// there isn't enough room below (e.g. the trigger sits near the bottom of the screen), and
-    /// clamps both axes so it's never cut off by any screen edge.
-    private func placement(in screenSize: CGSize) -> (x: CGFloat, y: CGFloat, anchor: UnitPoint) {
+    /// clamps both axes so it's never cut off by any window edge.
+    private func placement(in containerSize: CGSize) -> (x: CGFloat, y: CGFloat, anchor: UnitPoint) {
         let spacing = theme.smspacing
-        let spaceBelow = screenSize.height - triggerFrame.maxY
+        let spaceBelow = containerSize.height - triggerFrame.maxY
         let spaceAbove = triggerFrame.minY
 
         let opensUpward = dropdownSize.height + spacing > spaceBelow && spaceAbove > spaceBelow
@@ -179,26 +179,29 @@ private struct NBMenuOverlayContent: View {
         let anchor: UnitPoint = opensUpward ? .bottom : .top
 
         let minY = spacing
-        let maxY = max(minY, screenSize.height - dropdownSize.height - spacing)
+        let maxY = max(minY, containerSize.height - dropdownSize.height - spacing)
         let y = min(max(rawY, minY), maxY)
 
         let minX = spacing
-        let maxX = max(minX, screenSize.width - dropdownSize.width - spacing)
+        let maxX = max(minX, containerSize.width - dropdownSize.width - spacing)
         let x = min(max(triggerFrame.minX, minX), maxX)
 
         return (x, y, anchor)
     }
 
-    /// - Parameter elevated: Whether the box's hard drop shadow is popped out (open) or
-    ///   collapsed flush against the surface (closed) — the same shadow-collapse language
-    ///   `nbPressEffect` uses for a pressed button.
-    private func dropdown(elevated: Bool) -> some View {
-        let screenHeight = UIScreen.main.bounds.height
-        let scrollCap = screenHeight * 0.6
+    /// - Parameters:
+    ///   - elevated: Whether the box's hard drop shadow is popped out (open) or collapsed
+    ///     flush against the surface (closed), matching `nbPressEffect`'s pressed language.
+    ///   - containerSize: The overlay window's current geometry.
+    private func dropdown(elevated: Bool, containerSize: CGSize) -> some View {
+        let scrollCap = NBMenuLayout.scrollCap(containerHeight: containerSize.height)
         // Decide from the items' natural height, NOT `dropdownSize`: `dropdownSize` measures the
         // final (possibly capped) container, so deriving `needsScroll` from it would oscillate —
         // capping shrinks the measured height back under the cap, which un-caps, which re-grows…
-        let needsScroll = contentHeight > scrollCap
+        let needsScroll = NBMenuLayout.needsScroll(
+            contentHeight: contentHeight,
+            containerHeight: containerSize.height
+        )
 
         let itemsView = VStack(spacing: 0) {
             ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
@@ -267,6 +270,17 @@ private struct NBMenuOverlayContent: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
             onDismiss()
         }
+    }
+}
+
+/// Pure container-relative sizing used by `NBMenuOverlayContent` and its unit tests.
+enum NBMenuLayout {
+    static func scrollCap(containerHeight: CGFloat) -> CGFloat {
+        containerHeight * 0.6
+    }
+
+    static func needsScroll(contentHeight: CGFloat, containerHeight: CGFloat) -> Bool {
+        contentHeight > scrollCap(containerHeight: containerHeight)
     }
 }
 
@@ -433,7 +447,7 @@ private struct NBMenuItemButtonStyle: ButtonStyle {
     .padding(.bottom, 40)
 }
 
-/// Demonstrates a long menu that scrolls when it exceeds 60% of screen height.
+/// Demonstrates a long menu that scrolls when it exceeds 60% of its window height.
 @available(iOS 18.0, *)
 #Preview("Long scrollable menu", traits: .modifier(NBPreviewHelper())) {
     VStack(alignment: .leading, spacing: 20) {
