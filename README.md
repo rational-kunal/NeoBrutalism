@@ -34,9 +34,13 @@ struct ContentView: View {
 
 ### 📖 [Read the documentation →](https://rational-kunal.github.io/NeoBrutalism/documentation/neobrutalism)
 
-Full API reference, a [Getting Started](https://rational-kunal.github.io/NeoBrutalism/documentation/neobrutalism/gettingstarted)
-guide, and the [Theming](https://rational-kunal.github.io/NeoBrutalism/documentation/neobrutalism/theming)
-guide — every component with code examples. This README is the tour; the docs are the manual.
+| | |
+|---|---|
+| [**Getting Started**](https://rational-kunal.github.io/NeoBrutalism/documentation/neobrutalism/gettingstarted) | Install it and style your first screen. |
+| [**Components**](https://rational-kunal.github.io/NeoBrutalism/documentation/neobrutalism/components) | A page per component — what it looks like in light and dark, the code to paste, every variant and state. |
+| [**Theming**](https://rational-kunal.github.io/NeoBrutalism/documentation/neobrutalism/theming) | Tokens, presets, and building a theme from scratch. |
+
+This README is the tour; the docs are the manual.
 
 ## Quick start
 
@@ -73,8 +77,9 @@ ContentView().neoBrutalism(theme: .bubblegum, applyBackground: true)
 | **Helpers** | List & Form · navigation bars · TextEditor · sheets · alerts · swipe actions · skeleton loading | `nbList()` · `nbListRow()` · `nbNavigationBar()` · `nbTextEditor()` · `nbDrawer()` · `nbDialog()` · `nbSwipeActions()` · `nbSkeleton()` |
 | **Drop-in views** | Slider · Stepper · segmented Picker · Radio · Tabs · Alert · Badge · Collapsable · Skeletons | `NBSlider` · `NBStepper` · `NBSegmentedPicker` · `NBRadioGroup` · `NBTabView` · `NBAlert` · `NBBadge` · `NBCollapsable` · `NBRoundSkeleton`/`NBTextSkeleton` |
 
-Every component has a live entry in the Example app's Gallery tab, and a full reference page with
-code examples in [the documentation](https://rational-kunal.github.io/NeoBrutalism/documentation/neobrutalism).
+Every component has a live entry in the Example app's Gallery tab, and its own page in
+[the component catalog](https://rational-kunal.github.io/NeoBrutalism/documentation/neobrutalism/components) —
+with the code to paste and every variant, state, and disabled appearance shown in light and dark.
 
 <p align="center">
   <img src="docs/media/gallery-light.png" width="280" alt="The component gallery tab of the Example app in light mode" />
@@ -177,6 +182,10 @@ reference images, on a pinned simulator (iPhone 16 · iOS 26.2) so text metrics 
 machines. 22 unit tests cover API shape and the pure helpers. Reference images are recorded by CI
 rather than locally — a dedicated workflow is the single source of truth, which keeps "works on my
 Mac" out of the diff. Every PR runs the suite plus a DocC build check.
+
+Those same reference images are what illustrate the component catalog: the docs build derives its
+imagery from `__Snapshots__` rather than from a second, hand-captured set, so the documentation
+cannot drift from what the components actually render.
 
 ## Built with NeoBrutalism
 

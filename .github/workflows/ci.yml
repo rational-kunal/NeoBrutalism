@@ -9,6 +9,7 @@ on:
       - "Tests/**"
       - "Example/**"
       - ".github/workflows/**"
+      - "Scripts/**"
       - "Package.swift"
   pull_request:
     paths:
@@ -16,6 +17,7 @@ on:
       - "Tests/**"
       - "Example/**"
       - ".github/workflows/**"
+      - "Scripts/**"
       - "Package.swift"
 
 concurrency:
@@ -35,6 +37,13 @@ jobs:
         run: |
           source Scripts/snapshot-env.sh
           echo "DEVELOPER_DIR=/Applications/$NB_CI_XCODE.app/Contents/Developer" >> "$GITHUB_ENV"
+
+      # Component pages reference the snapshot references by name, so the
+      # imagery has to exist for the DocC build to resolve them. This also
+      # fails the PR if a manifest row points at a snapshot that no longer
+      # exists (a renamed or deleted test).
+      - name: Sync component imagery from snapshots
+        run: Scripts/sync-doc-images.sh
 
       - name: Build documentation (DocC)
         run: |
