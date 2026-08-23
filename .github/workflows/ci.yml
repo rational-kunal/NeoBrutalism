@@ -9,6 +9,7 @@ on:
       - "Tests/**"
       - "Example/**"
       - ".github/workflows/**"
+      - "Scripts/**"
       - "Package.swift"
   pull_request:
     paths:
@@ -16,6 +17,7 @@ on:
       - "Tests/**"
       - "Example/**"
       - ".github/workflows/**"
+      - "Scripts/**"
       - "Package.swift"
 
 concurrency:
