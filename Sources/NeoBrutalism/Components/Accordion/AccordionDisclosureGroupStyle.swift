@@ -1,0 +1,85 @@
+import SwiftUI
+
+public extension DisclosureGroupStyle where Self == NBAccordionDisclosureGroupStyle {
+    /// Accordion look for `DisclosureGroup`.
+    static var neoBrutalism: NBAccordionDisclosureGroupStyle { .init() }
+
+    @available(*, deprecated, renamed: "neoBrutalism")
+    static var neoBrutalismAccordion: NBAccordionDisclosureGroupStyle { .init() }
+}
+
+/// Renders a `DisclosureGroup` as a bordered card whose label sits on a themed header bar
+/// with a trailing chevron that rotates on expand/collapse. Apply via
+/// `.disclosureGroupStyle(.neoBrutalism)`.
+///
+/// ```swift
+/// DisclosureGroup("Expecto Patronum") {
+///     Text("Pitradev Sanrakshanam")
+/// }
+/// .disclosureGroupStyle(.neoBrutalism)
+/// ```
+public struct NBAccordionDisclosureGroupStyle: DisclosureGroupStyle {
+    @Environment(\.nbTheme) var theme: NBTheme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+    public func makeBody(configuration: Configuration) -> some View {
+        VStack {
+            Button {
+                withAnimation(nbPressAnimation(reduceMotion: reduceMotion)) {
+                    configuration.isExpanded.toggle()
+                }
+            } label: {
+                makeTriggerWrappedView(configuration: configuration)
+                    .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .background(theme.bw)
+
+            if configuration.isExpanded {
+                configuration.content
+                    .padding(theme.padding)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .frame(maxHeight: configuration.isExpanded ? nil : 0.0)
+                    .clipped()
+                    .background(content: {
+                        theme.bw
+                    })
+                    .foregroundStyle(theme.text)
+            }
+        }
+        .foregroundStyle(theme.mainText)
+        .nbBox()
+    }
+
+    func makeTriggerWrappedView(configuration: Configuration) -> some View {
+        ZStack {
+            theme.main
+            HStack {
+                configuration.label
+                    .bold()
+                    .padding(theme.padding)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                Image(systemName: "chevron.down")
+                    .rotationEffect(.degrees(configuration.isExpanded ? 180 : 0))
+                    .animation(reduceMotion ? .none : .interactiveSpring(), value: configuration.isExpanded)
+                    .padding(.trailing, theme.padding)
+            }
+        }
+        .fixedSize(horizontal: false, vertical: true)
+        .overlay(
+            Divider()
+                .frame(maxWidth: .infinity, maxHeight: theme.borderWidth)
+                .background(theme.border), alignment: .bottom
+        )
+    }
+}
+
+@available(iOS 18.0, *)
+#Preview(traits: .modifier(NBPreviewHelper())) {
+    VStack(spacing: 18.0) {
+        DisclosureGroup("Expecto Patronum") {
+            Text("Pitradev Sanrakshanam - पितृदेव संरक्षणम्")
+        }.disclosureGroupStyle(.neoBrutalism)
+    }.padding()
+}

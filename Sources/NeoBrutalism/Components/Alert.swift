@@ -1,6 +1,17 @@
 import SwiftUI
 
+/// An inline, non-dismissible callout box for a title, message, and optional icon — the
+/// bordered `nbBox()` treatment applied to a banner rather than a full-screen dialog.
+///
+/// Prefer the string-based convenience initializers below unless you need custom
+/// `View` content for the icon, title, or message.
+///
+/// ```swift
+/// NBAlert("Warning", message: "The Chamber has been opened.",
+///         systemImage: "exclamationmark.triangle")
+/// ```
 public struct NBAlert<Icon, Head, Desc>: View where Icon: View, Head: View, Desc: View {
+    /// The alert's fill: `.default` uses the theme's `main` color, `.neutral` uses `bw`.
     public enum AlertType {
         case `default`, neutral
     }
@@ -22,6 +33,12 @@ public struct NBAlert<Icon, Head, Desc>: View where Icon: View, Head: View, Desc
         }
     }
 
+    /// Creates an alert from fully custom `View` content.
+    /// - Parameters:
+    ///   - type: The alert type (default or neutral). Defaults to `.default`.
+    ///   - desc: The alert's message content.
+    ///   - icon: The alert's leading icon content. Defaults to no icon.
+    ///   - head: The alert's title content.
     public init(
         type: AlertType = .default, @ViewBuilder desc: () -> Desc,
         @ViewBuilder icon: () -> Icon = { EmptyView() }, @ViewBuilder head: () -> Head
@@ -70,29 +87,57 @@ extension NBAlert {
     }
 }
 
+public extension NBAlert where Icon == Image, Head == Text, Desc == Text {
+    /// Creates an alert from a title, message, and SF Symbol.
+    ///
+    /// - Parameters:
+    ///   - title: The alert's title.
+    ///   - message: The alert's message text.
+    ///   - systemImage: The name of the SF Symbol to display as the icon.
+    ///   - type: The alert type (default or neutral). Defaults to `.default`.
+    ///
+    /// Example:
+    /// ```swift
+    /// NBAlert("Warning", message: "The Chamber has been opened.",
+    ///         systemImage: "exclamationmark.triangle")
+    /// ```
+    init(_ title: LocalizedStringKey, message: LocalizedStringKey,
+         systemImage: String, type: AlertType = .default) {
+        self.init(type: type, desc: { Text(message) }, icon: { Image(systemName: systemImage) }, head: { Text(title) })
+    }
+}
+
+public extension NBAlert where Icon == EmptyView, Head == Text, Desc == Text {
+    /// Creates an alert from a title and message, without an icon.
+    ///
+    /// - Parameters:
+    ///   - title: The alert's title.
+    ///   - message: The alert's message text.
+    ///   - type: The alert type (default or neutral). Defaults to `.default`.
+    init(_ title: LocalizedStringKey, message: LocalizedStringKey,
+         type: AlertType = .default) {
+        self.init(type: type, desc: { Text(message) }, head: { Text(title) })
+    }
+}
+
 @available(iOS 18.0, *)
 #Preview(traits: .modifier(NBPreviewHelper())) {
     VStack(spacing: 18.0) {
-        NBAlert {
-            Text("Desc")
-        } head: {
-            Text("Alert")
-        }
+        // String-based convenience initializers
+        NBAlert("Alert", message: "Desc")
 
+        NBAlert("Warning", message: "The Chamber has been opened.",
+                systemImage: "exclamationmark.triangle")
+
+        NBAlert("Neutral", message: "This is neutral.", type: .neutral)
+
+        // Builder form (showing it still exists)
         NBAlert(type: .neutral) {
-            Text("Desc")
+            Text("Builder form allows any View types for title, message, or icon")
         } icon: {
             Image(systemName: "questionmark")
         } head: {
-            Text("Head")
-        }
-
-        NBAlert {
-            Text("Desc")
-        } icon: {
-            EmptyView()
-        } head: {
-            Text("Head")
+            Text("Flexible")
         }
     }
 }

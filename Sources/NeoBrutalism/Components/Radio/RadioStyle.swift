@@ -1,16 +1,21 @@
 import SwiftUI
 
 public extension ToggleStyle where Self == NBRadioStyle {
+    /// Radio-button look for a single `Toggle`. For a mutually-exclusive group, prefer
+    /// `NBRadioGroup` + `NBRadioItem` instead — this style is for a single standalone toggle
+    /// that should read visually as a radio dot rather than a checkbox or switch.
     static var neoBrutalismRadio: NBRadioStyle { .init() }
 }
 
-// TODO: https://github.com/rational-kunal/NeoBrutalism/issues/9
+/// Renders a `Toggle` as a radio dot (`NBRadioIndicator`) instead of a checkbox or switch.
+/// Apply via `.toggleStyle(.neoBrutalismRadio)`.
 public struct NBRadioStyle: ToggleStyle {
     @Environment(\.nbTheme) var theme: NBTheme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     public func makeBody(configuration: Configuration) -> some View {
         Button {
-            withAnimation(.interactiveSpring) {
+            withAnimation(nbPressAnimation(reduceMotion: reduceMotion)) {
                 configuration.isOn.toggle()
             }
         } label: {
@@ -20,20 +25,14 @@ public struct NBRadioStyle: ToggleStyle {
             }
         }
         .buttonStyle(.plain)
+        .accessibilityAddTraits(configuration.isOn ? [.isSelected] : [])
+        .nbDisabledEffect()
     }
 }
 
 extension NBRadioStyle {
     private func makeRadio(configuration: Configuration) -> some View {
-        Button {
-            withAnimation(.interactiveSpring) {
-                configuration.isOn.toggle()
-            }
-        } label: {
-            HStack(spacing: theme.smspacing) {
-                NBRadioIndicator(selected: configuration.isOn)
-            }
-        }
+        NBRadioIndicator(selected: configuration.isOn)
     }
 }
 

@@ -1,24 +1,35 @@
 import SwiftUI
 
 public extension ToggleStyle where Self == NBSwitchToggleStyle {
+    /// The default neobrutalism toggle: a switch, matching native `Toggle` semantics.
+    static var neoBrutalism: NBSwitchToggleStyle { .init() }
+
+    /// Alias for `.neoBrutalism`, for call sites that want to name the switch style explicitly
+    /// (e.g. alongside `.neoBrutalismCheckbox`/`.neoBrutalismRadio`).
     static var neoBrutalismSwitch: NBSwitchToggleStyle { .init() }
 }
 
+/// Renders a `Toggle` as a bordered sliding switch, matching native `Toggle` semantics.
+/// Apply via `.toggleStyle(.neoBrutalism)` (the root modifier's default toggle style) or
+/// explicitly via `.toggleStyle(.neoBrutalismSwitch)`.
 public struct NBSwitchToggleStyle: ToggleStyle {
     @Environment(\.nbTheme) var theme: NBTheme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     public func makeBody(configuration: Configuration) -> some View {
         Button {
-            withAnimation(.interactiveSpring) {
+            withAnimation(nbPressAnimation(reduceMotion: reduceMotion)) {
                 configuration.isOn.toggle()
             }
         } label: {
             HStack {
-                makeSwitch(configuration: configuration)
                 configuration.label
+                Spacer(minLength: theme.spacing)
+                makeSwitch(configuration: configuration)
             }
         }
         .buttonStyle(.plain)
+        .nbDisabledEffect()
     }
 }
 
@@ -30,7 +41,7 @@ extension NBSwitchToggleStyle {
                 .padding(theme.borderWidth / 2)
                 .overlay(
                     RoundedRectangle(cornerRadius: theme.size, style: .circular)
-                        .stroke(.black, lineWidth: theme.borderWidth)
+                        .stroke(theme.border, lineWidth: theme.borderWidth)
                 )
 
             makeSwitchShape(configuration: configuration)
@@ -46,7 +57,7 @@ extension NBSwitchToggleStyle {
                 .padding(-1 * theme.borderWidth / 2)
                 .overlay(
                     Circle()
-                        .stroke(.black, lineWidth: theme.borderWidth)
+                        .stroke(theme.border, lineWidth: theme.borderWidth)
                 )
                 .padding(theme.borderWidth * 2)
                 .frame(maxWidth: .infinity, alignment: configuration.isOn ? .trailing : .leading)

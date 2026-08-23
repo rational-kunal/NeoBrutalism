@@ -1,37 +1,54 @@
 import NeoBrutalism
-import SnapshotTestingMacros
+import SnapshotTesting
 import SwiftUI
 import Testing
 
-@Suite @SnapshotSuite @MainActor
+@Suite(.snapshots) @MainActor
 struct SkeletonTests {
     // MARK: - Round Skeleton
 
-    @SnapshotTest(.sizes(width: .fixed(300.0)))
-    func roundSkeleton_default() -> some View {
-        NBRoundSkeleton()
-            .prettifyForTest()
+    @Test func roundSkeleton_default() {
+        assertNBSnapshot(of: NBRoundSkeleton())
     }
 
-    @SnapshotTest(.sizes(width: .fixed(300.0)))
-    func roundSkeleton_customSize() -> some View {
-        NBRoundSkeleton()
-            .frame(width: 120, height: 120)
-            .prettifyForTest()
+    @Test func roundSkeleton_customSize() {
+        assertNBSnapshot(
+            of: NBRoundSkeleton()
+                .frame(width: 120, height: 120)
+        )
     }
 
     // MARK: - Text Skeleton
 
-    @SnapshotTest(.sizes(width: .fixed(300.0)))
-    func textSkeleton_default() -> some View {
-        NBTextSkeleton()
-            .prettifyForTest()
+    @Test func textSkeleton_default() {
+        assertNBSnapshot(of: NBTextSkeleton())
     }
 
-    @SnapshotTest(.sizes(width: .fixed(300.0)))
-    func textSkeleton_customSize() -> some View {
-        NBTextSkeleton()
-            .frame(width: 120, height: 20.0)
-            .prettifyForTest()
+    @Test func textSkeleton_customSize() {
+        assertNBSnapshot(
+            of: NBTextSkeleton()
+                .frame(width: 120, height: 20.0)
+        )
+    }
+
+    // MARK: - Skeleton Modifier
+
+    @Test func skeletonModifier_active() {
+        assertNBSnapshot(
+            of: HStack(spacing: 12.0) {
+                NBRoundSkeleton()
+                    .frame(width: 48, height: 48)
+
+                VStack(alignment: .leading, spacing: 4.0) {
+                    NBTextSkeleton()
+                        .frame(height: 12.0)
+
+                    NBTextSkeleton()
+                        .frame(maxWidth: 120)
+                        .frame(height: 8.0)
+                }
+            }
+            .nbSkeleton(active: true)
+        )
     }
 }

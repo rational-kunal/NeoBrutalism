@@ -1,71 +1,80 @@
 import NeoBrutalism
-import SnapshotTestingMacros
+import SnapshotTesting
 import SwiftUI
 import Testing
 
-@Suite @SnapshotSuite @MainActor
+@Suite(.snapshots) @MainActor
 struct SwitchTests {
     // MARK: - Switch
 
-    @SnapshotTest func switch_on() -> some View {
-        Toggle(isOn: .constant(true)) {}
-            .toggleStyle(.neoBrutalismSwitch)
-            .prettifyForTest()
+    @Test func switch_on() {
+        assertNBSnapshot(
+            of: Toggle(isOn: .constant(true)) {}
+                .toggleStyle(.neoBrutalismSwitch)
+        )
     }
 
-    @SnapshotTest func switch_on_disabled() -> some View {
-        Toggle(isOn: .constant(true)) {}
-            .disabled(true)
-            .toggleStyle(.neoBrutalismSwitch)
-            .prettifyForTest()
+    @Test func switch_on_disabled() {
+        assertNBSnapshot(
+            of: Toggle(isOn: .constant(true)) {}
+                .disabled(true)
+                .toggleStyle(.neoBrutalismSwitch)
+        )
     }
 
-    @SnapshotTest func switch_off() -> some View {
-        Toggle(isOn: .constant(false)) {}
-            .toggleStyle(.neoBrutalismSwitch)
-            .prettifyForTest()
+    @Test func switch_off() {
+        assertNBSnapshot(
+            of: Toggle(isOn: .constant(false)) {}
+                .toggleStyle(.neoBrutalismSwitch)
+        )
     }
 
-    @SnapshotTest func switch_off_disabled() -> some View {
-        Toggle(isOn: .constant(false)) {}
-            .disabled(true)
-            .toggleStyle(.neoBrutalismSwitch)
-            .prettifyForTest()
+    @Test func switch_off_disabled() {
+        assertNBSnapshot(
+            of: Toggle(isOn: .constant(false)) {}
+                .disabled(true)
+                .toggleStyle(.neoBrutalismSwitch)
+        )
     }
 
     // MARK: - Switch with label
 
-    @SnapshotTest func switchWithLabel_on() -> some View {
-        Toggle(isOn: .constant(true)) { Text("Switch") }
-            .toggleStyle(.neoBrutalismSwitch)
-            .prettifyForTest()
+    @Test func switchWithLabel_on() {
+        assertNBSnapshot(
+            of: Toggle(isOn: .constant(true)) { Text("Switch") }
+                .toggleStyle(.neoBrutalismSwitch)
+        )
     }
 
-    @SnapshotTest func switchWithLabel_on_disabled() -> some View {
-        Toggle(isOn: .constant(true)) { Text("Switch") }
-            .disabled(true)
-            .toggleStyle(.neoBrutalismSwitch)
-            .prettifyForTest()
+    @Test func switchWithLabel_on_disabled() {
+        assertNBSnapshot(
+            of: Toggle(isOn: .constant(true)) { Text("Switch") }
+                .disabled(true)
+                .toggleStyle(.neoBrutalismSwitch)
+        )
     }
 
-    @SnapshotTest func switchWithLabel_off() -> some View {
-        Toggle(isOn: .constant(false)) { Text("Switch") }
-            .toggleStyle(.neoBrutalismSwitch)
-            .prettifyForTest()
+    @Test func switchWithLabel_off() {
+        assertNBSnapshot(
+            of: Toggle(isOn: .constant(false)) { Text("Switch") }
+                .toggleStyle(.neoBrutalismSwitch)
+        )
     }
 
-    @SnapshotTest func switchWithLabel_off_disabled() -> some View {
-        Toggle(isOn: .constant(false)) { Text("Switch") }
-            .disabled(true)
-            .toggleStyle(.neoBrutalismSwitch)
-            .prettifyForTest()
+    @Test func switchWithLabel_off_disabled() {
+        assertNBSnapshot(
+            of: Toggle(isOn: .constant(false)) { Text("Switch") }
+                .disabled(true)
+                .toggleStyle(.neoBrutalismSwitch)
+        )
     }
 
     // MARK: - Switch with large label
 
-    @SnapshotTest func switchWithLargeLabel() -> some View {
-        Toggle(isOn: .constant(true)) { Text("Switch").font(.largeTitle) }
-            .toggleStyle(.neoBrutalismSwitch)
-            .prettifyForTest()
+    @Test func switchWithLargeLabel() {
+        assertNBSnapshot(
+            of: Toggle(isOn: .constant(true)) { Text("Switch").font(.largeTitle) }
+                .toggleStyle(.neoBrutalismSwitch)
+        )
     }
 }

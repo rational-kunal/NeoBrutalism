@@ -1,6 +1,20 @@
 import SwiftUI
 
 public extension View {
+    /// Presents `content` as a neobrutalism-styled bottom sheet: a themed background, a thick
+    /// top border, and a drag indicator, sized to fit its content rather than a fixed detent.
+    ///
+    /// ```swift
+    /// Button("Open") { isShowingSheet = true }
+    ///     .nbDrawer(isPresented: $isShowingSheet) {
+    ///         Text("Drawer content")
+    ///     }
+    /// ```
+    ///
+    /// - Parameters:
+    ///   - isPresented: A binding that controls whether the drawer is shown.
+    ///   - onDismiss: A closure invoked after the drawer is dismissed.
+    ///   - content: The drawer's content.
     func nbDrawer<Content>(
         isPresented: Binding<Bool>,
         onDismiss: (() -> Void)? = nil,

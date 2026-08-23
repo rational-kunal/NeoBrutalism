@@ -6,12 +6,30 @@ extension EnvironmentValues {
 }
 
 typealias NBRadioItemDidSelect = (AnyEquatable) -> Void
+
+/// A group of mutually-exclusive `NBRadioItem` rows — the drop-in for radio selection,
+/// which has no native SwiftUI control on iOS.
+///
+/// Any `Equatable` type can back the selection; `NBRadioItem`'s own `value` is matched
+/// against the group's binding to decide which row renders selected.
+///
+/// ```swift
+/// @State var choice = 0
+/// NBRadioGroup(value: $choice) {
+///     NBRadioItem(value: 0) { Text("First") }
+///     NBRadioItem(value: 1) { Text("Second") }
+/// }
+/// ```
 public struct NBRadioGroup<Content, ValueType>: View where Content: View, ValueType: Equatable {
     @Environment(\.nbTheme) var theme: NBTheme
 
     @Binding var value: AnyEquatable
     let content: Content
 
+    /// Creates a radio group.
+    /// - Parameters:
+    ///   - value: A binding to the currently selected value, shared with every `NBRadioItem` inside `content`.
+    ///   - content: The group's rows — typically a series of `NBRadioItem`s, plus any other content (e.g. a heading).
     public init(
         value: Binding<ValueType>,
         @ViewBuilder content: () -> Content
@@ -32,6 +50,7 @@ public struct NBRadioGroup<Content, ValueType>: View where Content: View, ValueT
         VStack(alignment: .leading, spacing: theme.smspacing) {
             content
         }
+        .accessibilityElement(children: .contain)
         .environment(\.nbSelectedRadioItemValue, value)
         .environment(\.nbRadioItemDidSelect) { value in
             self.value = value
@@ -67,7 +86,7 @@ public struct NBRadioGroup<Content, ValueType>: View where Content: View, ValueT
                 Text("Second")
             }
             NBRadioItem(value: 2) {
-                Text("Thhird")
+                Text("Third")
             }
         }
     }

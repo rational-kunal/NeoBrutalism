@@ -5,11 +5,17 @@ extension EnvironmentValues {
     @Entry var nbCollapsableIsExpanded: Bool = false
 }
 
+/// Content that's only rendered while the enclosing `NBCollapsable` is expanded.
+///
+/// Must be placed inside an `NBCollapsable` — it reads the expanded state from the
+/// environment, so used standalone it never renders its content.
 public struct NBCollapsableContent<Content>: View where Content: View {
     @Environment(\.nbCollapsableIsExpanded) var isExpanded
 
     let content: Content
 
+    /// Creates collapsable content.
+    /// - Parameter content: The content to show only while expanded.
     public init(@ViewBuilder content: () -> Content) {
         self.content = content()
     }
@@ -21,11 +27,17 @@ public struct NBCollapsableContent<Content>: View where Content: View {
     }
 }
 
+/// A tappable control that toggles the enclosing `NBCollapsable`'s expanded state.
+///
+/// Must be placed inside an `NBCollapsable` — it reads the toggle callback from the
+/// environment, so used standalone tapping it does nothing.
 public struct NBCollapsibleTrigger<Trigger>: View where Trigger: View {
     @Environment(\.nbCollapsableDidToggle) var collapsableDidToggle
 
     let trigger: Trigger
 
+    /// Creates a collapsible trigger.
+    /// - Parameter trigger: The tappable content, e.g. a chevron icon.
     public init(@ViewBuilder trigger: () -> Trigger) {
         self.trigger = trigger()
     }
@@ -40,6 +52,28 @@ public struct NBCollapsibleTrigger<Trigger>: View where Trigger: View {
 }
 
 typealias NBCollapsableDidToggle = () -> Void
+
+/// A container that shares expand/collapse state with any `NBCollapsibleTrigger` and
+/// `NBCollapsableContent` placed inside it, letting you build a custom expandable layout
+/// (e.g. a `GroupBox` with a chevron in its header) out of plain views instead of a fixed
+/// accordion shape.
+///
+/// ```swift
+/// NBCollapsable(isExpanded: $isExpanded) {
+///     GroupBox {
+///         HStack {
+///             Text("Header")
+///             Spacer()
+///             NBCollapsibleTrigger {
+///                 Image(systemName: "chevron.up.chevron.down")
+///             }
+///         }
+///     }
+///     NBCollapsableContent {
+///         Text("Content")
+///     }
+/// }
+/// ```
 public struct NBCollapsable<Content>: View where Content: View {
     @Environment(\.nbTheme) var theme: NBTheme
 
@@ -48,6 +82,11 @@ public struct NBCollapsable<Content>: View where Content: View {
     @Binding var isExpanded: Bool
     let content: Content
 
+    /// Creates a collapsable container.
+    /// - Parameters:
+    ///   - isExpanded: A binding to the shared expanded state.
+    ///   - content: The container's content — typically a mix of always-visible views,
+    ///     an `NBCollapsibleTrigger`, and one or more `NBCollapsableContent` views.
     public init(isExpanded: Binding<Bool>,
                 @ViewBuilder content: () -> Content)
     {
@@ -70,7 +109,7 @@ public struct NBCollapsable<Content>: View where Content: View {
 
     VStack {
         NBCollapsable(isExpanded: $isExapanded) {
-            NBFlatCard {
+            GroupBox {
                 HStack {
                     Text("Some")
                     Spacer()
@@ -80,17 +119,19 @@ public struct NBCollapsable<Content>: View where Content: View {
                 }
             }
 
-            NBFlatCard(type: .neutral) {
+            GroupBox {
                 Text("another card")
             }
+            .groupBoxStyle(.neoBrutalism(type: .neutral, elevated: false))
 
             NBCollapsableContent {
-                NBFlatCard(type: .default) {
+                GroupBox {
                     Text("Content")
                     Text("Content")
                     Text("Content")
                 }
             }
         }
+        .groupBoxStyle(.neoBrutalism(elevated: false))
     }
 }

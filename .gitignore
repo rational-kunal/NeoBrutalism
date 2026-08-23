@@ -62,3 +62,6 @@ fastlane/screenshots/**/*.png
 fastlane/test_output
 
 *.DS_Store
+
+# Example/capture.sh output: keep the optimized PNGs/GIFs, not the raw recording.
+docs/media/*.mov

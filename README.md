@@ -1,447 +1,194 @@
-![nb](https://github.com/user-attachments/assets/a88dabb4-f970-4592-bb94-878d7c5e0d07)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/media/logo-dark.svg">
+  <img src="docs/media/logo-light.svg" width="360" alt="NeoBrutalism">
+</picture>
 
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/rational-kunal/NeoBrutalism/ci.yml?style=flat-square) ![GitHub Tag](https://img.shields.io/github/v/tag/rational-kunal/NeoBrutalism?sort=semver&style=flat-square&label=version) ![GitHub commits since latest release](https://img.shields.io/github/commits-since/rational-kunal/NeoBrutalism/latest?style=flat-square)
-
+[![CI](https://img.shields.io/github/actions/workflow/status/rational-kunal/NeoBrutalism/ci.yml?style=flat-square&label=CI)](https://github.com/rational-kunal/NeoBrutalism/actions/workflows/ci.yml) [![Documentation](https://img.shields.io/badge/docs-DocC-blue?style=flat-square)](https://rational-kunal.github.io/NeoBrutalism/documentation/neobrutalism) ![GitHub Tag](https://img.shields.io/github/v/tag/rational-kunal/NeoBrutalism?sort=semver&style=flat-square&label=version) ![Platform](https://img.shields.io/badge/platform-iOS%2017%2B-lightgrey?style=flat-square) ![Swift](https://img.shields.io/badge/swift-6.0-orange?style=flat-square) ![License](https://img.shields.io/github/license/rational-kunal/NeoBrutalism?style=flat-square)
 
 # NeoBrutalism
 
-A set of SwiftUI components inspired by the [NeoBrutalism design trend](https://author.envato.com/hub/trend-deep-dive-neo-brutalism).
+**Bold neobrutalism styling for native SwiftUI — one modifier, no reimplementation.** Write plain
+SwiftUI, add `.neoBrutalism()` at the root, and every control keeps its own code, accessibility,
+and behavior.
 
-This started as a learning project for SwiftUI but grew into a reusable UI library. It's useful for anyone looking to build apps with a bold, minimal style.
+```swift
+struct ContentView: View {
+    @State private var shieldOn = false
 
-Feel free to contribute by reporting bugs or submitting fixes.
+    // Plain SwiftUI…
+    var body: some View {
+        VStack(spacing: 16) {
+            Toggle("Shield Charm", isOn: $shieldOn)
+            Button("Cast Spell") {}
+        }
+        .padding()
+        // …one modifier later:
+        .neoBrutalism()
+    }
+}
+```
 
-<p float="left">
-  <img src="https://github.com/user-attachments/assets/5a81e0a3-8006-4ad0-903a-318ae8809e30" width="180px" />
-  <img src="https://github.com/user-attachments/assets/f1e745ce-765d-410f-9198-d4a3212c89f8" width="180px" />
-  <img src="https://github.com/user-attachments/assets/38664eaf-6d2c-4093-b317-0f425298882f" width="180px" />
-  <img src="https://github.com/user-attachments/assets/d41027d7-d483-4b2d-9320-f34505ebc2c5" width="180px" />
+<p align="center">
+  <img src="docs/media/demo.gif" width="300" alt="The Example app cycling through its Todo, Gallery, and Themes tabs in light and dark mode" />
 </p>
 
-## Checkout the library in action
-- [Mismatch](https://github.com/rational-kunal/mismatch)
-- _More coming soon..._
+### 📖 [Read the documentation →](https://rational-kunal.github.io/NeoBrutalism/documentation/neobrutalism)
 
-## How to install
+Full API reference, a [Getting Started](https://rational-kunal.github.io/NeoBrutalism/documentation/neobrutalism/gettingstarted)
+guide, and the [Theming](https://rational-kunal.github.io/NeoBrutalism/documentation/neobrutalism/theming)
+guide — every component with code examples. This README is the tour; the docs are the manual.
 
-You can add NeoBrutalism to your Swift project using Swift Package Manager.
-1. In Xcode, go to File -> Swift Packages -> Add Package Dependency.
-1. Enter the repository URL: https://github.com/rational-kunal/NeoBrutalism.git
-1. Choose the version or branch you want to use.
+## Quick start
 
-## How to use
+**Requirements:** iOS 17+ · Swift 6 · Xcode 16. Zero runtime dependencies.
 
-NeoBrutalism offers a variety of components that can be seamlessly integrated into your SwiftUI project.
+Add NeoBrutalism with Swift Package Manager — in Xcode, **File → Add Package Dependencies**, then
+enter `https://github.com/rational-kunal/NeoBrutalism.git`.
+
+Two lines to a fully styled app:
 
 ```swift
 import NeoBrutalism
 import SwiftUI
 
-struct ContentView: View {
-    var body: some View {
-        ZStack {
-            NBTheme.default.background
-                .ignoresSafeArea()
-            Toggle(isOn: .constant(true)) { Text("Are you a wizard?") }
-                .toggleStyle(.neoBrutalismChecklist)
-        }
+ContentView()
+    .neoBrutalism(applyBackground: true)
+```
+
+Want a different look? Swap the theme, same call:
+
+```swift
+ContentView().neoBrutalism(theme: .bubblegum, applyBackground: true)
+```
+
+<p align="center">
+  <img src="docs/media/preset-swatches.png" width="500" alt="Swatches for the .default, .sunnyPeach, .bubblegum, .seafoam, .tangerine, and .lavender preset themes" />
+</p>
+
+## What gets styled
+
+| Layer | Covers | How |
+|---|---|---|
+| **Root modifier** | Button · Toggle · TextField/SecureField · ProgressView · Gauge · Label · LabeledContent · Menu trigger · DisclosureGroup · ControlGroup · GroupBox | one `.neoBrutalism()` call, zero per-view modifiers |
+| **Helpers** | List & Form · navigation bars · TextEditor · sheets · alerts · swipe actions · skeleton loading | `nbList()` · `nbListRow()` · `nbNavigationBar()` · `nbTextEditor()` · `nbDrawer()` · `nbDialog()` · `nbSwipeActions()` · `nbSkeleton()` |
+| **Drop-in views** | Slider · Stepper · segmented Picker · Radio · Tabs · Alert · Badge · Collapsable · Skeletons | `NBSlider` · `NBStepper` · `NBSegmentedPicker` · `NBRadioGroup` · `NBTabView` · `NBAlert` · `NBBadge` · `NBCollapsable` · `NBRoundSkeleton`/`NBTextSkeleton` |
+
+Every component has a live entry in the Example app's Gallery tab, and a full reference page with
+code examples in [the documentation](https://rational-kunal.github.io/NeoBrutalism/documentation/neobrutalism).
+
+<p align="center">
+  <img src="docs/media/gallery-light.png" width="280" alt="The component gallery tab of the Example app in light mode" />
+  <img src="docs/media/gallery-dark.png" width="280" alt="The component gallery tab of the Example app in dark mode" />
+</p>
+
+## A real screen, one modifier
+
+The Example app opens on a small todo app. The text field, add button, progress bar, checkboxes,
+list rows, sort menu, and the "delete all" dialog are all styled by a single `.neoBrutalism()` call
+at the root of the screen.
+
+<p align="center">
+  <img src="docs/media/todo-light.png" width="280" alt="The Todo screen of the Example app in light mode" />
+  <img src="docs/media/todo-dark.png" width="280" alt="The Todo screen of the Example app in dark mode" />
+</p>
+
+The shape of it:
+
+```swift
+var body: some View {
+    VStack {
+        TextField("Add a task…", text: $newTodoText)  // nothing on this…
+        Button(action: addTodo) { Image(systemName: "plus") }  // …or this…
+        ProgressView(value: progress)                 // …or this…
+        List { /* rows via nbListRow() */ }
     }
+    .neoBrutalism()                                   // …one call styles it all
 }
 ```
 
-## Styling
+The full source is [TodoView.swift](Example/Sources/TodoView.swift) — 204 lines, of which exactly
+two are per-view style modifiers, and both are deliberate design choices rather than workarounds:
+one checkbox opt-in (the root default for `Toggle` is the switch, matching native semantics) and
+one neutral button variant for the secondary "delete all" action.
 
-NeoBrutalism supports theming, with both light and dark mode options. You can customize or create your own themes. To apply a theme to a view, use the `nbTheme()` modifier.
+Open [Example](Example/) in Xcode to poke around; the screenshots and demo GIF in this README are
+generated by [capture.sh](Example/capture.sh) in that folder.
 
-```swift
-struct ContentView: View {
-    var theme = NBTheme.default.updateBy(background: .black, mainText: .white)
+## Theming
 
-    var body: some View {
-        ZStack {
-            theme.background
-                .ignoresSafeArea()
-            Toggle(isOn: .constant(true)) { Text("Are you a wizard?") }
-                .toggleStyle(.neoBrutalismChecklist)
-        }.nbTheme(theme)
-    }
-}
-```
-
-## Components
-
-NeoBrutalism includes commonly used UI components, with plans to expand as needed. Feel free to contribute!
-
-
-### Checkbox
-<p float="left">
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/0239f56e-c375-4e3b-9c04-05788350e266" loading="lazy" />
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/62019831-1f62-464e-abb0-5d505080c8c3" loading="lazy" />
-<p>
+Every component reads its colors and metrics from one `NBTheme` value, injected through the
+SwiftUI environment. Components never hardcode a color, a radius, or a shadow offset — override the
+theme for a whole app or any subtree, or derive a variant with `updateBy(...)`:
 
 ```swift
-Toggle(isOn: $checkboxState) { Text(checkboxState ? "(Alohomora!)" : "(Colloportus!)") }
-    .toggleStyle(.neoBrutalismChecklist)
+let theme = NBTheme.default.updateBy(background: .black, mainText: .white)
+
+ContentView().nbTheme(theme)
 ```
 
-### Switch
-<p float="left">
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/8eae5d33-bb2d-4d63-aace-478e64b40d30" loading="lazy" />
-    <br />
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/2b16dd43-ab86-42a2-b943-917c59598819" loading="lazy" />
+Five presets ship besides `.default`, and they vary more than color — corner radius, border weight,
+shadow depth, padding density, and font design each give them a distinct personality:
+
+| Preset | Personality |
+|---|---|
+| `.sunnyPeach` | Warm yellow on peach — the classic look |
+| `.bubblegum` | Pink on blush; pillowy capsule corners, airy padding, rounded font |
+| `.seafoam` | Lime on sage; square corners, slab border, block shadow, monospaced font |
+| `.tangerine` | Orange on cream; thick border and a huge poster-style shadow |
+| `.lavender` | Purple on lilac; serif font, hairline border, completely flat (no shadow) |
+
+<p align="center">
+  <img src="docs/media/themes-light.png" width="220" alt="Live theme gallery, light mode" />
+  <img src="docs/media/themes-dark.png" width="220" alt="Live theme gallery, dark mode" />
 </p>
 
-```swift
-Toggle(isOn: $switchState) { Text(switchState ? "(Lumos!)" : "(Nox!)") }
-    .toggleStyle(.neoBrutalismSwitch)
-```
-### Accordion
-<p float="left">
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/c714c277-734f-4195-90f1-9eff86aa767a" loading="lazy" />
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/fc1fd621-2764-4a6a-a0fb-b9034e0197d3" loading="lazy" />
-<p>
+The full token reference — colors, spacing, borders, shadow, typography — and a walkthrough for
+building a theme from scratch are in the
+[Theming guide](https://rational-kunal.github.io/NeoBrutalism/documentation/neobrutalism/theming).
 
-```swift
-DisclosureGroup("Expecto Patronum") {
-    Text("Pitradev Sanrakshanam - पितृदेव संरक्षणम्")
-}.disclosureGroupStyle(.neoBrutalismAccordion)
-```
+## Design notes
 
-### Button
-<p>
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/9852326a-cb3c-439b-8a2d-dd05398c38e6" loading="lazy" />
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/85079e19-e62d-42e2-82de-b38ce2647327" loading="lazy" />
-<br />
+**Native controls are restyled, never reimplemented.** SwiftUI's style protocols — `ButtonStyle`,
+`ToggleStyle`, `TextFieldStyle`, and eight more — propagate down the environment, so a single call
+at the root reaches every control beneath it. The payoff is that VoiceOver, Dynamic Type, focus
+handling, keyboard behavior, and every future SwiftUI fix keep working, because the control is
+still Apple's. Adopting the library is adding one line, not migrating a screen.
 
-</p>
+**Where SwiftUI offers no hook, the gap is filled deliberately — and the ceiling is documented.**
+Three cases, in descending order of preference:
 
-```swift
-Button {
-    counter += 1
-} label: {
-    Text("Accio")
-}.buttonStyle(.neoBrutalism())
+1. *A style protocol exists* → implement it. Eleven of them are covered.
+2. *No protocol, but the view is reachable* → an opt-in helper modifier (`nbList()`,
+   `nbNavigationBar()`, `nbTextEditor()`). `List`/`Form` and navigation chrome live here: they
+   aren't stylable through the environment, so the root modifier honestly cannot reach them.
+3. *No native counterpart at all* → a drop-in `NB*` view that mirrors the native initializer shape,
+   so migration is a rename. `NBSlider`, `NBStepper`, `NBSegmentedPicker`, `NBRadioGroup`.
 
-Button {
-    counter += 1
-} label: {
-    Image(systemName: "wand.and.sparkles.inverse")
-        .bold()
-}.buttonStyle(.neoBrutalism(type: .neutral, variant: .reverse))
-```
+Some ceilings are the system's, not ours, and the docs say so rather than shipping an off-brand
+compromise: `Menu`'s dropdown is UIKit-owned (use `NBMenu` if you need the popup themed too), and
+native swipe-action chrome only exposes a tint (use `nbSwipeActions()` for a fully themed reveal).
 
-### Card
+**One theme value, one box modifier.** `NBTheme` is a single environment value; every bordered
+surface funnels through one shared `nbBox()` modifier and one shared press effect, so "pressed"
+means the same thing on a button, a checkbox, and a stepper. Reduce Motion is respected throughout.
 
-<p>
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/d5c57136-fc6e-4494-bb61-2e25838ec8e3" loading="lazy" />
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/63137542-48aa-4903-8c5c-6fb1112c10e7" loading="lazy" />
-<br />
+**Testing.** 119 snapshot tests render every component in light and dark against 238 stored
+reference images, on a pinned simulator (iPhone 16 · iOS 26.2) so text metrics can't drift between
+machines. 22 unit tests cover API shape and the pure helpers. Reference images are recorded by CI
+rather than locally — a dedicated workflow is the single source of truth, which keeps "works on my
+Mac" out of the diff. Every PR runs the suite plus a DocC build check.
 
-```swift
-NBCard {
-    Text("Hogwarts Letter")
-} main: {
-    Text("You have been accepted to Hogwarts School of Witchcraft and Wizardry!")
-} footer: {
-    Button {
-        // No-op
-    } label: {
-        Text("Open Letter").frame(maxWidth: .infinity)
-    }.buttonStyle(.neoBrutalism())
-}
+## Built with NeoBrutalism
 
-NBCard(type: .neutral) {
-    Text("Quidditch Gear")
-} main: {
-    Text("Get your broomstick, Quidditch robes, and golden snitch!")
-} footer: {
-    HStack(spacing: 12.0) {
-        Button {
-            // No-op
-        } label: {
-            Text("Open Firebolt")
-        }.buttonStyle(.neoBrutalism(type: .neutral))
+- [Mismatch](https://github.com/rational-kunal/mismatch)
+- _Building something with NeoBrutalism? [Open a PR](https://github.com/rational-kunal/NeoBrutalism/pulls) adding it here._
 
-        Spacer()
+## Contributing
 
-        Button {
-            // No-op
-        } label: {
-            Text("Snitch")
-        }.buttonStyle(.neoBrutalism())
-    }
-}
-```
-
-### Input
-
-<p>
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/db0039d9-f5bd-4963-9054-e9ac18e8698b" loading="lazy" />
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/f2379fae-d46b-42b7-89b2-ceb670c63c35" loading="lazy" />
-</p>
-
-```swift
-TextField("Enter your spell", text: $text)
-    .textFieldStyle(.neoBrutalism)
-```
-
-### Progress
-
-<p>
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/6f6c3ba2-4afc-450b-8b18-a7cb4d278394" loading="lazy" />
-    <br />
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/ddcdcc4c-2df3-411f-981c-45b81dbfd864" loading="lazy" />
-</p>
-
-```
-ProgressView(value: 0.7)
-    .progressViewStyle(.neoBrutalism)
-```
-
-### Slider
-
-<p>
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/cd674947-b9ce-482f-ac4f-1dcfa7ba2279" loading="lazy" />
-    <br />
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/51924255-eaec-4de2-98b3-f78e52b0d2cb" loading="lazy" />
-</p>
-
-```swift
-struct SliderExampleView: View {
-    @State var sliderValue: CGFloat = 0.0
-
-    var body: some View {
-        HStack {
-            Text("\(sliderValue, specifier: "%.2f")")
-                .frame(width: 50.0, alignment: .leading)
-            NBSlider(value: $sliderValue)
-        }
-    }
-}
-```
-
-### Radio
-
-<p>
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/5c87337e-c49a-4d80-8718-f5a702d28f82" loading="lazy" />
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/9d9ea612-3f25-465d-a14f-39bdc2359881" loading="lazy" />
-</p>
-
-```swift
-struct RadioGroupExampleView: View {
-    @State private var selectedSpell: Int = 0
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8.0) {
-            Text("Selected Spell: \(selectedSpell)")
-                .font(.title3)
-
-            NBRadioGroup(value: $selectedSpell) {
-                VStack(alignment: .leading) {
-                    NBRadioItem(value: 0) {
-                        Text("Expelliarmus")
-                    }
-                    NBRadioItem(value: 1) {
-                        Text("Lumos")
-                    }
-                    NBRadioItem(value: 2) {
-                        Text("Wingardium Leviosa")
-                    }
-                }.frame(maxWidth: .infinity, alignment: .leading)
-            }
-        }
-    }
-}
-```
-
-### Tabs
-<p>
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/fab71387-fa01-4db4-af93-c78d55fb3432" loading="lazy" />
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/e2cb642a-dde3-4ca8-a268-1b2375a6200c" loading="lazy" />
-</p>
-
-```swift
-struct TabsExampleView: View {
-    @State private var selectedTab: Int = 0
-
-    var body: some View {
-        VStack(spacing: 8.0) {
-            Text("House Selection: \(selectedTab)")
-                .font(.title3)
-
-            NBTabs(selectedTabItem: $selectedTab) {
-                NBTabsList {
-                    NBTabsTrigger(tabItem: 0) { Image(systemName: "flame.fill") }
-                    NBTabsTrigger(tabItem: 1) { Image(systemName: "lanyardcard.fill") }
-                    NBTabsTrigger(tabItem: 2) { Image(systemName: "book.fill") }
-                    NBTabsTrigger(tabItem: 3) { Image(systemName: "leaf.fill") }
-                }
-                NBFlatCard {
-                    ZStack {
-                        NBTabsContent(tabItem: 0) { Text("Bravery and Daring!") }
-                        NBTabsContent(tabItem: 1) { Text("Cunning and Ambition!") }
-                        NBTabsContent(tabItem: 2) { Text("Wisdom and Learning!") }
-                        NBTabsContent(tabItem: 3) { Text("Loyalty and Hard Work!") }
-                    }
-                }
-            }
-        }
-        .padding()
-    }
-}
-```
-
-### Collapsable
-
-<p>
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/3227440a-06bc-4631-a6fc-bbdc223d9739" loading="lazy" />
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/bc0b5c7f-ce19-499a-aaac-78505bf67166" loading="lazy" />
-</p>
-
-```swift
-NBCollapsable(isExpanded: $isExpanded) {
-    NBFlatCard {
-        HStack {
-            Text("Need something?")
-            Spacer()
-            NBCollapsibleTrigger {
-                Image(systemName: isExpanded ? "door.left.hand.open" : "door.left.hand.closed")
-            }
-        }
-    }
-    NBCollapsableContent {
-        NBFlatCard(type: .neutral) {
-            Text("Here’s what you need!")
-        }
-    }
-}
-```
-
-### Drawer
-
-<p>
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/ff97b5c8-e6d7-417b-b2ba-f2f547244906" loading="lazy" />
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/81f65e76-9eab-4680-bc68-d045044fc2e9" loading="lazy" />
-</p>
-
-```swift
-struct DrawerExampleView: View {
-    @State private var isDrawerOpen: Bool = false
-
-    var body: some View {
-        VStack(spacing: 16.0) {
-            NBButton {
-                Text("Open the Chamber")
-            } action: {
-                isDrawerOpen.toggle()
-            }
-        }
-        .nbDrawer(isPresented: $isDrawerOpen) {
-            VStack(spacing: 16) {
-                Text("Parseltongue Required")
-                    .font(.title2)
-
-                Text("Only those who can speak to snakes may proceed.")
-                    .padding(.horizontal, 4.0)
-
-                NBButton {
-                    Text("I Understand")
-                } action: {
-                    isDrawerOpen.toggle()
-                }
-            }
-        }
-    }
-}
-```
-
-### Flat Card
-
-<p>
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/d9a8e2b5-2522-47b5-885f-00d57504e4fa" loading="lazy" />
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/1103942e-519c-4813-8a01-60f1a653ce18" loading="lazy" />
-</p>
-
-```swift
-NBFlatCard {
-    Text("Quidditch Tryouts - This Saturday!")
-}
-
-NBFlatCard(type: .neutral) {
-    Text("O.W.L. Exams Approaching - Study Hard!")
-}
-```
-
-### Alert
-<p float="left">
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/99f5328a-205c-4a25-b2b1-be3a1dbc5830" loading="lazy" />
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/6d630714-e48d-4f3d-af1a-366e8defc2a4" loading="lazy" />
-<p />
-
-```swift
-NBAlert {
-    Text("The Chamber of Secrets has been opened. Enemies of the heir, beware!")
-} icon: {
-    Image(systemName: "exclamationmark.triangle")
-} head: {
-    Text("Warning")
-}
-
-NBAlert(type: .neutral) {
-    Text("Dementors are nearby. Expecto Patronum!")
-} head: {
-    Text("Caution")
-}
-```
-
-### Badge
-
-<p>
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/6367d01d-c33f-40bb-961e-6beefd496efe" loading="lazy" />
-    <br />
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/03d84111-83c1-4167-be1b-2bc7a5056a77" loading="lazy" />
-</p>
-
-```swift
-NBBadge {
-    Text("Gryffindor")
-        .font(.title3)
-}
-NBBadge(type: .neutral) {
-    Text("Slytherin")
-}
-```
-
-### Round Skeleton
-
-<p>
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/3b031329-fcff-4da5-9755-2d3c59e7d6aa" loading="lazy" />
-    <br />
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/c7a41ae0-9d0b-4737-8e79-513edea7df3d" loading="lazy" />
-</p>
-
-```swift
-NBFlatCard {
-    NBRoundSkeleton()
-}
-.frame(width: 120, height: 120)
-```
-
-### Text Skeleton
-<p>
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/0235262d-5f2c-4611-bce4-a7b73709b104" loading="lazy" />
-    <img width="350" alt="image" src="https://github.com/user-attachments/assets/43d32664-4d57-45a3-8de2-05f8885c7613" loading="lazy" />
-</p>
-
-```swift
-VStack(alignment: .leading, spacing: 12.0) {
-    NBTextSkeleton()
-
-    NBTextSkeleton()
-        .frame(width: 120)
-}
-```
+Found a bug, or missing a component you need? Open an issue or send a PR — both are welcome.
+[CONTRIBUTING.md](CONTRIBUTING.md) covers dev setup, how to build a new component, and the PR
+checklist; [ROADMAP.md](ROADMAP.md) shows what's planned and what's already shipped.
 
 ---
 
-<small>The credit for the design belongs to https://www.neobrutalism.dev.<small>
+<small>The credit for the design belongs to <a href="https://www.neobrutalism.dev">neobrutalism.dev</a>.</small>

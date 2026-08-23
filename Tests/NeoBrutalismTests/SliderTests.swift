@@ -1,25 +1,31 @@
 import NeoBrutalism
-import SnapshotTestingMacros
+import SnapshotTesting
 import SwiftUI
 import Testing
 
-@Suite @SnapshotSuite @MainActor
+@Suite(.snapshots) @MainActor
 struct SliderTests {
-    @SnapshotTest(.sizes(width: .fixed(300.0)))
-    func slider_0() -> some View {
-        NBSlider(value: .constant(0))
-            .prettifyForTest()
+    @Test func slider_0() {
+        assertNBSnapshot(of: NBSlider(value: .constant(0)))
     }
 
-    @SnapshotTest(.sizes(width: .fixed(300.0)))
-    func slider_100() -> some View {
-        NBSlider(value: .constant(1.0))
-            .prettifyForTest()
+    @Test func slider_100() {
+        assertNBSnapshot(of: NBSlider(value: .constant(1.0)))
     }
 
-    @SnapshotTest(.sizes(width: .fixed(300.0)))
-    func slider_48() -> some View {
-        NBSlider(value: .constant(0.48))
-            .prettifyForTest()
+    @Test func slider_48() {
+        assertNBSnapshot(of: NBSlider(value: .constant(0.48)))
+    }
+
+    @Test func slider_disabled() {
+        assertNBSnapshot(of: NBSlider(value: .constant(0.48)).disabled(true))
+    }
+
+    @Test func slider_range_with_step() {
+        assertNBSnapshot(of: NBSlider(value: .constant(50.0), in: 0...100, step: 5))
+    }
+
+    @Test func slider_range_disabled() {
+        assertNBSnapshot(of: NBSlider(value: .constant(30.0), in: 0...100, step: 5).disabled(true))
     }
 }
