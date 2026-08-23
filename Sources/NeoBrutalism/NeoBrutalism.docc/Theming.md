@@ -73,6 +73,14 @@ shadow — set both to `0` for a fully flat, shadow-free look (as `.lavender` do
 the whole hierarchy by the root modifier. `nil` (the default) leaves the system font
 untouched.
 
+```swift
+let rounded = NBTheme.default.updateBy(fontDesign: .rounded)
+```
+
+![A screen of controls in the default system font](nb-kitchen-sink)
+
+![The same screen with a rounded font design applied](nb-kitchen-sink-rounded)
+
 ## Deriving a variant with `updateBy`
 
 ``NBTheme/updateBy(main:bw:overlay:background:blank:border:text:mainText:destructive:destructiveText:smsize:size:xlsize:smpadding:padding:xlpadding:smspacing:spacing:xlspacing:borderWidth:borderRadius:boxShadowX:boxShadowY:fontDesign:)``
@@ -106,16 +114,53 @@ Five bundled looks besides `.default`, each a drop-in for the `theme:` argument 
 more than color — corner radius, border weight, shadow depth, padding/spacing density, and
 font design each give the presets a distinct personality:
 
-- ``NBTheme/sunnyPeach`` — warm yellow on peach (the classic neobrutalism look).
-- ``NBTheme/bubblegum`` — pink on blush; pillowy capsule corners, airy padding, rounded font.
-- ``NBTheme/seafoam`` — lime on sage; square corners, slab border, block shadow, monospaced font.
-- ``NBTheme/tangerine`` — orange on cream; thick border and a huge poster-style shadow.
-- ``NBTheme/lavender`` — purple on lilac; serif font, hairline border, completely flat (no shadow).
-
-![Swatches for the default and five preset themes](preset-swatches)
-
 ```swift
 ContentView().neoBrutalism(theme: .bubblegum, applyBackground: true)
 ```
 
+![Swatches for the default and five preset themes](preset-swatches)
+
+### `sunnyPeach`
+
+Warm yellow on peach — the classic neobrutalism look.
+
+![The same controls rendered in the sunnyPeach preset](nb-preset-sunnypeach)
+
+### `bubblegum`
+
+Pink on blush; pillowy capsule corners, airy padding, rounded font.
+
+![The same controls rendered in the bubblegum preset](nb-preset-bubblegum)
+
+### `seafoam`
+
+Lime on sage; square corners, slab border, block shadow, monospaced font.
+
+![The same controls rendered in the seafoam preset](nb-preset-seafoam)
+
+### `tangerine`
+
+Orange on cream; thick border and a huge poster-style shadow.
+
+![The same controls rendered in the tangerine preset](nb-preset-tangerine)
+
+### `lavender`
+
+Purple on lilac; serif font, hairline border, completely flat (no shadow).
+
+![The same controls rendered in the lavender preset](nb-preset-lavender)
+
+Each is a value you pass to `theme:`, so switching the whole app's personality is a one-word
+change. The Example app's Themes tab cycles through all six live:
+
 ![Live theme gallery from the Example app, light and dark mode](themes)
+
+## Topics
+
+### Presets
+
+- ``NBTheme/sunnyPeach``
+- ``NBTheme/bubblegum``
+- ``NBTheme/seafoam``
+- ``NBTheme/tangerine``
+- ``NBTheme/lavender``

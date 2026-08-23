@@ -65,3 +65,8 @@ fastlane/test_output
 
 # Example/capture.sh output: keep the optimized PNGs/GIFs, not the raw recording.
 docs/media/*.mov
+
+# Scripts/sync-doc-images.sh output: DocC component imagery derived from the
+# snapshot references. Generated at docs-build time so it can never drift from
+# what the tests actually render.
+Sources/NeoBrutalism/NeoBrutalism.docc/Resources/Generated/

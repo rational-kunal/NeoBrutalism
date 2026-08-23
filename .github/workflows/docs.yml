@@ -12,6 +12,8 @@ on:
       - main
     paths:
       - "Sources/**"
+      - "Tests/NeoBrutalismTests/__Snapshots__/**"
+      - "Scripts/**"
       - ".github/workflows/docs.yml"
       - "Package.swift"
   workflow_dispatch:
@@ -38,6 +40,12 @@ jobs:
         run: |
           source Scripts/snapshot-env.sh
           echo "DEVELOPER_DIR=/Applications/$NB_CI_XCODE.app/Contents/Developer" >> "$GITHUB_ENV"
+
+      # The component pages illustrate themselves with the snapshot references,
+      # which are the only source of truth for what a component renders. They
+      # are derived here rather than committed, so they cannot go stale.
+      - name: Sync component imagery from snapshots
+        run: Scripts/sync-doc-images.sh
 
       - name: Build documentation
         run: |
@@ -78,6 +86,13 @@ jobs:
 
           test -f _site/documentation/neobrutalism/index.html \
             || { echo "::error::Entry point documentation/neobrutalism/index.html missing"; exit 1; }
+
+          # A missing sync step would publish every component page with broken
+          # imagery and no build failure, so assert the images actually shipped.
+          IMAGES=$(find _site/images -name "nb-*.png" | wc -l | tr -d ' ')
+          echo "Bundled $IMAGES component images"
+          test "$IMAGES" -gt 150 \
+            || { echo "::error::Only $IMAGES component images bundled; expected the full set from Scripts/sync-doc-images.sh"; exit 1; }
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
