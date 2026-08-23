@@ -6,26 +6,27 @@ public extension LabeledContentStyle where Self == NBLabeledContentStyle {
 
 /// A neo-brutalism styled `LabeledContentStyle` for settings-row style label/value pairs.
 ///
-/// Displays the label on the left with regular weight and the value on the right with bold weight,
-/// both using the theme's text color for proper contrast.
+/// Displays the label on the left with regular weight and the value on the right with bold
+/// weight. Like ``NBLabelStyle``, the row inherits its foreground color from the container
+/// rather than pinning one, so it stays legible on whatever surface it lands on.
 ///
 /// ```swift
 /// LabeledContent("Username", value: "johndoe")
 ///     .labeledContentStyle(.neoBrutalism)
 /// ```
 public struct NBLabeledContentStyle: LabeledContentStyle {
-    @Environment(\.nbTheme) var theme: NBTheme
-
     public func makeBody(configuration: Configuration) -> some View {
+        // Deliberately no `foregroundStyle` here. Pinning `theme.text` overrode the
+        // `theme.mainText` that surfaces like `NBGroupBoxStyle(.default)` set for their
+        // subtree, which in dark mode painted near-white text on the light `main` fill —
+        // about 1.87:1, well under the 3:1 floor.
         HStack {
             configuration.label
-                .foregroundStyle(theme.text)
                 .fontWeight(.regular)
 
             Spacer()
 
             configuration.content
-                .foregroundStyle(theme.text)
                 .fontWeight(.bold)
         }
     }
@@ -46,7 +47,7 @@ public struct NBLabeledContentStyle: LabeledContentStyle {
                 .labeledContentStyle(.neoBrutalism)
         }
 
-        // Inside a neutral GroupBox (demonstrates proper contrast)
+        // Inside a `main`-filled GroupBox — the row must pick up the card's `mainText`
         GroupBox {
             VStack(spacing: 12) {
                 LabeledContent("Username", value: "johndoe")

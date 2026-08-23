@@ -69,6 +69,12 @@ public struct NBMenu<Label: View>: View {
         .onChange(of: isOpen) { _, newValue in
             if newValue {
                 presentOverlay()
+            } else {
+                // Both close paths land here — the dropdown's own dismiss and the
+                // trigger-moved guard above — so the overlay window is torn down either way.
+                // Hiding only from the dismiss closure left a menu closed by a moved trigger
+                // (rotation, programmatic scroll) still painted at its stale anchor.
+                overlayWindow.hide()
             }
         }
         .onDisappear { overlayWindow.hide() }
@@ -82,10 +88,7 @@ public struct NBMenu<Label: View>: View {
                 reduceMotion: reduceMotion,
                 triggerFrame: triggerFrame,
                 items: items,
-                onDismiss: { [overlayWindow] in
-                    isOpen = false
-                    overlayWindow.hide()
-                }
+                onDismiss: { isOpen = false }
             )
         }
     }

@@ -121,7 +121,12 @@ struct NBSwipeActionsModifier: ViewModifier {
                                     : -value.translation.width
 
                                 if allowsFullSwipe {
-                                    offset = translation
+                                    // Only the reveal direction runs unclamped — a full swipe
+                                    // legitimately travels the whole row. The other direction
+                                    // still stops at rest: without `min(0,)` the row slides off
+                                    // its own leading edge with no tiles behind it, and only
+                                    // `.clipped()` hides the bare gap.
+                                    offset = min(0, translation)
                                 } else {
                                     offset = min(0, max(translation, -totalActionsWidth))
                                 }
@@ -131,9 +136,12 @@ struct NBSwipeActionsModifier: ViewModifier {
                                     ? value.translation.width
                                     : -value.translation.width
 
-                                // Check for full-swipe action
+                                // Check for full-swipe action. `translation` is
+                                // edge-normalized, so revealing is always
+                                // negative; comparing the magnitude would let a drag *away*
+                                // from the actions trigger them.
                                 if allowsFullSwipe,
-                                   abs(translation) > fullSwipeThreshold,
+                                   translation < -fullSwipeThreshold,
                                    let firstAction = actions.first {
                                     let animation: Animation? = reduceMotion
                                         ? .none
@@ -143,10 +151,17 @@ struct NBSwipeActionsModifier: ViewModifier {
                                     }
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                         firstAction.action()
+                                        // The action isn't required to remove the row — it may
+                                        // just mark it done. Restore the row afterwards, or a
+                                        // non-deleting full swipe leaves it stranded at
+                                        // opacity 0 forever. If it *was* deleted this view is
+                                        // already gone and the reset is a no-op.
+                                        isAnimatingOut = false
+                                        offset = 0
                                     }
                                 } else {
                                     // Snap open or closed
-                                    let shouldOpen = abs(translation) > snapThreshold
+                                    let shouldOpen = translation < -snapThreshold
                                     let targetOffset: CGFloat = shouldOpen
                                         ? (edge == .trailing ? -totalActionsWidth : totalActionsWidth)
                                         : 0

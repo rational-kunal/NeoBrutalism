@@ -13,7 +13,7 @@ import SwiftUI
 /// ```
 ///
 /// The slider provides:
-/// - Drag anywhere on the track to adjust the value
+/// - Drag the thumb to adjust the value
 /// - Automatic step snapping when configured
 /// - Accessibility support for VoiceOver
 /// - Apple's minimum 44pt touch target for the thumb
@@ -129,7 +129,9 @@ public struct NBSlider<V: BinaryFloatingPoint>: View where V.Stride: BinaryFloat
 
 // MARK: - Helpers
 
-private extension NBSlider {
+/// Internal (not `private`) so `Tests/NeoBrutalismTests/Unit/SliderMathTests.swift` can
+/// exercise the pure fraction math via `@testable import`.
+extension NBSlider {
     /// Normalize the value to a 0…1 fraction.
     func normalize(_ val: V) -> Double {
         let span = Double(bounds.upperBound - bounds.lowerBound)
@@ -149,7 +151,13 @@ private extension NBSlider {
         let lowerBound = bounds.lowerBound
         let stepsFromLower = (raw - lowerBound) / V(Double(step))
         let roundedSteps = Double(stepsFromLower).rounded(.toNearestOrEven)
-        return lowerBound + V(roundedSteps) * V(Double(step))
+        let snapped = lowerBound + V(roundedSteps) * V(Double(step))
+
+        // Rounding to the *nearest* step overshoots whenever the span isn't a whole number
+        // of steps: 0...10 by 6 rounds a full-right drag (raw 10) up to 12. `normalize`
+        // clamps for rendering, so the slider still looks pinned at the end while the
+        // binding silently holds an out-of-range value — clamp here so it can't.
+        return min(max(snapped, bounds.lowerBound), bounds.upperBound)
     }
 
     /// Update the value from a normalized fraction.

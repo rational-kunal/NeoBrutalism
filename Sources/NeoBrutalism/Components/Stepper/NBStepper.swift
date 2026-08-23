@@ -125,6 +125,15 @@ public struct NBStepper<Label: View>: View {
             .nbPressEffect(isPressed: isMinusPressed || isPlusPressed)
         }
         .nbDisabledEffect()
+        // `stopRepeating()` is otherwise only reachable from `DragGesture.onEnded`, which
+        // never fires if the view goes away mid-hold (or a parent scroll view claims the
+        // gesture). Without this the repeat `Timer` keeps firing — and keeps writing to the
+        // binding — long after the stepper is gone.
+        .onDisappear {
+            isMinusPressed = false
+            isPlusPressed = false
+            stopRepeating()
+        }
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(accessibilityLabelText ?? "Stepper")
         .accessibilityValue("\(value)")
