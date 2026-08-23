@@ -12,8 +12,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 The "one modifier" release: `.neoBrutalism()` at the root of your view tree now styles the
 whole hierarchy — native controls, drop-in `NB*` views, and layout helpers alike.
 
-This is a **major** release: `Card`, `FlatCard`, and the old `Tabs*` views are removed (see
-"Upgrading from 2.0.0"). Renamed styles still compile behind deprecation warnings, so most
+This is a **major** release: `NBCard`, `NBFlatCard`, and the old `NBTabs*` views are removed
+(see "Upgrading from 2.0.0"). Renamed styles still compile behind deprecation warnings, so most
 projects upgrade with no code changes.
 
 ### Added
@@ -65,7 +65,7 @@ projects upgrade with no code changes.
   suffix for named variants (`.neoBrutalismCheckbox`, `.neoBrutalismSwitch`,
   `.neoBrutalismRadio`) ([#32](https://github.com/rational-kunal/NeoBrutalism/pull/32)).
   See "Upgrading from 2.0.0" below.
-- One shared press effect (shadow collapses, content translates by the shadow offset) used
+- One shared press effect (the hard drop shadow collapses flush against the surface) used
   by Button, Checkbox, Switch, Radio, Stepper, ControlGroup, and the Collapsable trigger
   ([#25](https://github.com/rational-kunal/NeoBrutalism/pull/25); fixed to animate
   correctly on quick taps in
@@ -86,12 +86,14 @@ projects upgrade with no code changes.
 
 ### Removed
 
-- `Card` and `FlatCard` — use native `GroupBox` styled with
+- `NBCard` and `NBFlatCard` — use native `GroupBox` styled with
   `.groupBoxStyle(.neoBrutalism(type:elevated:))` instead.
-- The old bar-style `Tabs` / `TabsList` / `TabsTrigger` / `TabsContent` — replaced by
+- The old bar-style `NBTabs` / `NBTabsList` / `NBTabsTrigger` / `NBTabsContent` — replaced by
   `NBTabView`.
-- Dead `NB` namespace and folder-name typos (`Accordian` → `Accordion`,
-  `Checbox` → `Checkbox`) ([#26](https://github.com/rational-kunal/NeoBrutalism/pull/26)).
+- The empty `NB` namespace struct.
+- Folder-name typos fixed: `Accordian` → `Accordion`, `Checbox` → `Checkbox` (directory
+  names only — no public symbol changed)
+  ([#26](https://github.com/rational-kunal/NeoBrutalism/pull/26)).
 
 ### Deprecated
 
@@ -100,7 +102,7 @@ and will not be removed before v4.0.
 
 - `.neoBrutalismChecklist` (`ToggleStyle`) → renamed `.neoBrutalismCheckbox`.
 - `.neoBrutalismAccordion` (`DisclosureGroupStyle`) → renamed `.neoBrutalism`.
-- `Accordion` view → use `DisclosureGroup` styled with
+- `NBAccordion` view → use `DisclosureGroup` styled with
   `.disclosureGroupStyle(.neoBrutalism)`.
 
 ### Fixed
@@ -114,16 +116,17 @@ and will not be removed before v4.0.
 
 ## Upgrading from 2.0.0
 
-3.0.0 is a major release. Two groups of types were **removed** and need a one-line migration
-to compile; everything else was **deprecated** and still compiles (with a warning) until at
+3.0.0 is a major release. The types below were **removed** and need a one-line migration to
+compile; everything else was **deprecated** and still compiles (with a warning) until at
 least v4.0.
 
 **Removed — update these to compile:**
 
 | Removed | Replacement |
 |---|---|
-| `Card` / `FlatCard` | `GroupBox` + `.groupBoxStyle(.neoBrutalism(type:elevated:))` |
-| `Tabs` / `TabsList` / `TabsTrigger` / `TabsContent` | `NBTabView` |
+| `NBCard` / `NBFlatCard` | `GroupBox` + `.groupBoxStyle(.neoBrutalism(type:elevated:))` |
+| `NBTabs` / `NBTabsList` / `NBTabsTrigger` / `NBTabsContent` | `NBTabView` |
+| `NB` (empty namespace) | — |
 
 **Deprecated — still compile, migrate at your own pace:**
 
@@ -131,7 +134,7 @@ least v4.0.
 |---|---|
 | `.toggleStyle(.neoBrutalismChecklist)` | `.toggleStyle(.neoBrutalismCheckbox)` |
 | `.disclosureGroupStyle(.neoBrutalismAccordion)` | `.disclosureGroupStyle(.neoBrutalism)` |
-| `Accordion` | `DisclosureGroup` + `.disclosureGroupStyle(.neoBrutalism)` |
+| `NBAccordion` | `DisclosureGroup` + `.disclosureGroupStyle(.neoBrutalism)` |
 
 ## [2.0.0] - 2025-05-11
 
