@@ -1,8 +1,8 @@
 # Testing strategy
 
-**Status:** decided 2026-07-11 · implemented by [T29](T29-snapshot-migration-and-pinning.md) +
-[T30](T30-ci-record-workflow.md) · **do these before the Phase 1 tasks**, which all lean on
-"snapshots must not change" as their safety net.
+**Status:** decided 2026-07-11 · implemented and shipped in 3.0.0 (snapshot-stack migration,
+environment pinning, the CI re-record workflow, and the unit-test layer). This file is the
+standing policy; the specs that delivered it live in git history.
 
 ## Diagnosis — why the tests feel unreliable
 

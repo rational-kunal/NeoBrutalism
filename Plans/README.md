@@ -45,15 +45,6 @@ unless it repeats. (4) When the "Re-record snapshots" workflow's own commit (aut
 `action_required` pending manual approval in the Actions tab — a repo-owner action, not something
 a coding agent should (or, per this session, even technically could) approve on its own.
 
-## Phase 0 — before any task runs (maintainer, by hand)
-
-- [ ] Commit the current working tree (it builds: `BUILD SUCCEEDED` on 2026-07-11). It contains
-      the new Gauge/Label/LabeledContent/ControlGroup/Menu/SegmentedPicker/Stepper/TabView work,
-      the `.neoBrutalism()` root modifier, and the Tabs/Card/FlatCard deletions.
-- [ ] Prune stale agent worktrees: `git worktree list` shows ~10 under `.claude/worktrees/`;
-      remove with `git worktree remove <path>` + delete their branches once confirmed merged/abandoned.
-- [ ] Run the full snapshot suite once locally so every task starts from green.
-
 ## The target (recap)
 
 One modifier at the root restyles a plain SwiftUI app:
@@ -104,67 +95,72 @@ skeletons.
 
 ## Task index
 
+> **Note (2026-07-26):** the completed task specs (T01–T26, T29, T30, T31) were removed once
+> merged — they live in git history and in the PRs linked below. Only the still-open specs
+> ([T27](T27-release-engineering.md), [T28](T28-launch-kit.md)) plus [TESTING.md](TESTING.md)
+> remain as files. The rows below stay as a record of shipped work.
+
 **Phase T — Testing foundation** (do before everything else: Phase 1 tasks all use
 "snapshots must not change" as their safety net, which requires snapshots you can trust.
 Diagnosis + strategy: [TESTING.md](TESTING.md))
 
 | Task | Title | Size | Status |
 |---|---|---|---|
-| [T29](T29-snapshot-migration-and-pinning.md) | Snapshot stack migration + environment pinning (iPhone 16 · iOS 18.5) | M | ✅ Done |
-| [T30](T30-ci-record-workflow-and-unit-layer.md) | CI re-record workflow + unit-test layer | S | ✅ Done |
+| T29 | Snapshot stack migration + environment pinning (iPhone 16 · iOS 18.5) | M | ✅ Done |
+| T30 | CI re-record workflow + unit-test layer | S | ✅ Done |
 
 **Phase 1 — Correctness & consistency** (small mechanical fixes)
 
 | Task | Title | Size | Status |
 |---|---|---|---|
-| [T01](T01-theme-token-color-sweep.md) | Replace hardcoded blacks with theme tokens | XS | ✅ Done |
-| [T02](T02-reduce-motion-sweep.md) | Respect Reduce Motion everywhere | XS | ✅ Done |
-| [T03](T03-disabled-states.md) | Disabled-state rendering for all controls | S | ✅ Done |
-| [T04](T04-bar-meter-dedupe-indeterminate.md) | Shared bar meter for Progress+Gauge; indeterminate progress | S | ✅ Done |
-| [T05](T05-radio-structure-a11y.md) | Radio: remove nested button, add accessibility | S | ✅ Done ([PR #24](https://github.com/rational-kunal/NeoBrutalism/pull/24)) |
-| [T06](T06-press-effect-unification.md) | One shared press effect everywhere | S | ✅ Done ([PR #25](https://github.com/rational-kunal/NeoBrutalism/pull/25)) |
-| [T07](T07-snapshot-coverage-gaps.md) | Snapshot tests for Accordion/Alert/Badge/Collapsable | S | ✅ Done ([PR #27](https://github.com/rational-kunal/NeoBrutalism/pull/27)) |
-| [T08](T08-dead-code-and-typos.md) | Dead code, folder typos, namespace cleanup | XS | ✅ Done ([PR #26](https://github.com/rational-kunal/NeoBrutalism/pull/26)) |
+| T01 | Replace hardcoded blacks with theme tokens | XS | ✅ Done |
+| T02 | Respect Reduce Motion everywhere | XS | ✅ Done |
+| T03 | Disabled-state rendering for all controls | S | ✅ Done |
+| T04 | Shared bar meter for Progress+Gauge; indeterminate progress | S | ✅ Done |
+| T05 | Radio: remove nested button, add accessibility | S | ✅ Done ([PR #24](https://github.com/rational-kunal/NeoBrutalism/pull/24)) |
+| T06 | One shared press effect everywhere | S | ✅ Done ([PR #25](https://github.com/rational-kunal/NeoBrutalism/pull/25)) |
+| T07 | Snapshot tests for Accordion/Alert/Badge/Collapsable | S | ✅ Done ([PR #27](https://github.com/rational-kunal/NeoBrutalism/pull/27)) |
+| T08 | Dead code, folder typos, namespace cleanup | XS | ✅ Done ([PR #26](https://github.com/rational-kunal/NeoBrutalism/pull/26)) |
 
 **Phase 2 — The one-modifier headline**
 
 | Task | Title | Size | Status |
 |---|---|---|---|
-| [T09](T09-label-labeledcontent-hygiene.md) | Label/LabeledContent style fixes (prereq for T11) | XS | ✅ Done |
-| [T10](T10-style-naming-convention.md) | Naming convention: `.neoBrutalism` everywhere, deprecations | S | ✅ Done ([PR #32](https://github.com/rational-kunal/NeoBrutalism/pull/32)) |
-| [T11](T11-root-modifier-v2.md) | Root modifier v2: full coverage, one signature | M | ✅ Done ([PR #33](https://github.com/rational-kunal/NeoBrutalism/pull/33)) |
-| [T12](T12-list-and-form-support.md) | List & Form support (`nbList`, `nbListRow`) | M | ✅ Done ([PR #35](https://github.com/rational-kunal/NeoBrutalism/pull/35)) |
-| [T13](T13-navigation-chrome.md) | Navigation bar/toolbar helper | S | ✅ Done ([PR #30](https://github.com/rational-kunal/NeoBrutalism/pull/30)) |
-| [T14](T14-texteditor-securefield.md) | TextEditor helper + SecureField verification | S | ✅ Done ([PR #29](https://github.com/rational-kunal/NeoBrutalism/pull/29)) |
-| [T15](T15-typography-token.md) | `fontDesign` theme token | XS | ✅ Done ([PR #34](https://github.com/rational-kunal/NeoBrutalism/pull/34)) |
-| [T16](T16-dialog.md) | `nbDialog()` centered modal (alert replacement) | M | ✅ Done ([PR #31](https://github.com/rational-kunal/NeoBrutalism/pull/31)) |
+| T09 | Label/LabeledContent style fixes (prereq for T11) | XS | ✅ Done |
+| T10 | Naming convention: `.neoBrutalism` everywhere, deprecations | S | ✅ Done ([PR #32](https://github.com/rational-kunal/NeoBrutalism/pull/32)) |
+| T11 | Root modifier v2: full coverage, one signature | M | ✅ Done ([PR #33](https://github.com/rational-kunal/NeoBrutalism/pull/33)) |
+| T12 | List & Form support (`nbList`, `nbListRow`) | M | ✅ Done ([PR #35](https://github.com/rational-kunal/NeoBrutalism/pull/35)) |
+| T13 | Navigation bar/toolbar helper | S | ✅ Done ([PR #30](https://github.com/rational-kunal/NeoBrutalism/pull/30)) |
+| T14 | TextEditor helper + SecureField verification | S | ✅ Done ([PR #29](https://github.com/rational-kunal/NeoBrutalism/pull/29)) |
+| T15 | `fontDesign` theme token | XS | ✅ Done ([PR #34](https://github.com/rational-kunal/NeoBrutalism/pull/34)) |
+| T16 | `nbDialog()` centered modal (alert replacement) | M | ✅ Done ([PR #31](https://github.com/rational-kunal/NeoBrutalism/pull/31)) |
 
 **Phase 3 — Drop-in parity for custom components** (6/6 done)
 
 | Task | Title | Size | Status |
 |---|---|---|---|
-| [T17](T17-slider-v2.md) | NBSlider v2: generic value, range, step, a11y | M | ✅ Done ([PR #40](https://github.com/rational-kunal/NeoBrutalism/pull/40)) |
-| [T18](T18-stepper-v2.md) | NBStepper v2: step, auto-repeat, a11y | S | ✅ Done ([PR #36](https://github.com/rational-kunal/NeoBrutalism/pull/36)) |
-| [T19](T19-menu-polish.md) | NBMenu: dividers, disabled items, long menus | S | ✅ Done ([PR #37](https://github.com/rational-kunal/NeoBrutalism/pull/37)) |
-| [T20](T20-skeleton-shimmer.md) | Skeleton pulse + `nbSkeleton()` modifier | S | ✅ Done ([PR #39](https://github.com/rational-kunal/NeoBrutalism/pull/39)) |
-| [T21](T21-alert-conveniences.md) | NBAlert string-based initializers | XS | ✅ Done ([PR #38](https://github.com/rational-kunal/NeoBrutalism/pull/38)) |
-| [T31](T31-nb-swipe-row.md) | Neobrutalist swipe actions (`nbSwipeActions`) — full drag-to-reveal look (depends on T12) | M | ✅ Done ([PR #41](https://github.com/rational-kunal/NeoBrutalism/pull/41), follow-up fix [PR #45](https://github.com/rational-kunal/NeoBrutalism/pull/45)) |
+| T17 | NBSlider v2: generic value, range, step, a11y | M | ✅ Done ([PR #40](https://github.com/rational-kunal/NeoBrutalism/pull/40)) |
+| T18 | NBStepper v2: step, auto-repeat, a11y | S | ✅ Done ([PR #36](https://github.com/rational-kunal/NeoBrutalism/pull/36)) |
+| T19 | NBMenu: dividers, disabled items, long menus | S | ✅ Done ([PR #37](https://github.com/rational-kunal/NeoBrutalism/pull/37)) |
+| T20 | Skeleton pulse + `nbSkeleton()` modifier | S | ✅ Done ([PR #39](https://github.com/rational-kunal/NeoBrutalism/pull/39)) |
+| T21 | NBAlert string-based initializers | XS | ✅ Done ([PR #38](https://github.com/rational-kunal/NeoBrutalism/pull/38)) |
+| T31 | Neobrutalist swipe actions (`nbSwipeActions`) — full drag-to-reveal look (depends on T12) | M | ✅ Done ([PR #41](https://github.com/rational-kunal/NeoBrutalism/pull/41), follow-up fix [PR #45](https://github.com/rational-kunal/NeoBrutalism/pull/45)) |
 
 **Phase 4 — Theming as a feature** (2/2 done)
 
 | Task | Title | Size | Status |
 |---|---|---|---|
-| [T22](T22-preset-themes.md) | Ship 5 preset themes | S | ✅ Done ([PR #42](https://github.com/rational-kunal/NeoBrutalism/pull/42)) |
-| [T23](T23-example-theme-gallery.md) | Live theme gallery in the Example app | S | ✅ Done ([PR #43](https://github.com/rational-kunal/NeoBrutalism/pull/43)) |
+| T22 | Ship 5 preset themes | S | ✅ Done ([PR #42](https://github.com/rational-kunal/NeoBrutalism/pull/42)) |
+| T23 | Live theme gallery in the Example app | S | ✅ Done ([PR #43](https://github.com/rational-kunal/NeoBrutalism/pull/43)) |
 
 **Phase 5 — Adoption** (T24–T26 done · T27 docs + CI shipped, `3.0.0` tag pending · T28 drafts
 written in `docs/launch/`, submissions pending maintainer)
 
 | Task | Title | Size | Status |
 |---|---|---|---|
-| [T24](T24-example-app-restructure.md) | Example app: real-app-first + capture kit | M | ✅ Done (Todo is now the first tab with zero per-view style modifiers besides `.toggleStyle(.neoBrutalismCheckbox)` + one neutral button variant; Gallery grouped into Controls/Containers/Feedback/Loading; `Example/capture.sh` + `docs/media/` added) |
-| [T25](T25-readme-overhaul.md) | README overhaul: hero, 10-second pitch | S | ✅ Done (pitch code + hero `docs/media/demo.gif` above the fold; "What gets styled" table; `docs/media/preset-swatches.png`; architecture tree de-staled) |
-| [T26](T26-docc-and-spi.md) | DocC catalog + Swift Package Index | M | ✅ Done (DocC catalog + doc-comment audit + CI `docbuild` guard landed; SPI PackageList PR is a maintainer action — see task file Part 2.2) |
+| T24 | Example app: real-app-first + capture kit | M | ✅ Done (Todo is now the first tab with zero per-view style modifiers besides `.toggleStyle(.neoBrutalismCheckbox)` + one neutral button variant; Gallery grouped into Controls/Containers/Feedback/Loading; `Example/capture.sh` + `docs/media/` added) |
+| T25 | README overhaul: hero, 10-second pitch | S | ✅ Done (pitch code + hero `docs/media/demo.gif` above the fold; "What gets styled" table; `docs/media/preset-swatches.png`; architecture tree de-staled) |
+| T26 | DocC catalog + Swift Package Index | M | ✅ Done (DocC catalog + doc-comment audit + CI `docbuild` guard landed; SPI PackageList PR is a maintainer action — see task file Part 2.2) |
 | [T27](T27-release-engineering.md) | CHANGELOG, CONTRIBUTING, CI artifacts, v3.0 | S | 🟡 Docs + CI shipped; `3.0.0` tag pending (maintainer) |
 | [T28](T28-launch-kit.md) | Launch kit: posts, submissions, link-backs | S | 🟡 Drafts in `docs/launch/`; publishing is maintainer's |
 
@@ -226,7 +222,7 @@ treat it as a preview, never as the verdict or the source of committed reference
 - Intentional visual change → same flow; eyeball every changed PNG (and the Example app) in the
   PR diff before merging.
 - Never blanket-delete `__Snapshots__` (T29's one-time exception aside — see
-  [T29](T29-snapshot-migration-and-pinning.md)).
+  T29).
 
 **2026-07 repin:** the reference environment moved from iPhone 16 · iOS 18.5 to iPhone 16 ·
 iOS 26.2 (`Scripts/snapshot-env.sh`) — Xcode 16.4/iOS 18.5 is no longer installable on the dev
