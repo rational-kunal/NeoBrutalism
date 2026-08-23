@@ -25,4 +25,25 @@ struct GaugeTests {
                 .gaugeStyle(.neoBrutalism)
         )
     }
+
+    @Test func gauge_valueLabels() {
+        assertNBSnapshot(of: valueLabeledGauge)
+    }
+
+    @Test func gauge_valueLabels_narrow() {
+        assertNBSnapshot(of: valueLabeledGauge, width: 180)
+    }
+
+    private var valueLabeledGauge: some View {
+        Gauge(value: 72, in: 0...100) {
+            Text("Temperature")
+        } currentValueLabel: {
+            Text("72°")
+        } minimumValueLabel: {
+            Text("0°")
+        } maximumValueLabel: {
+            Text("100°")
+        }
+        .gaugeStyle(.neoBrutalism)
+    }
 }
