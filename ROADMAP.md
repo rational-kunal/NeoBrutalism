@@ -21,47 +21,6 @@ Current release: **3.0.0** · iOS 17+
 
 ---
 
-## Milestone 1 — Out of the box ✅ (shipped in 3.0.0)
-
-Goal: a new user gets the full neobrutalism look with **one modifier at the root of
-their view tree** — no per-control styling required.
-
-### The one-line entry point
-- [x] `.neoBrutalism()` root modifier — injects the theme *and* applies every default
-      style (`buttonStyle`, `toggleStyle`, `textFieldStyle`, `progressViewStyle`,
-      `disclosureGroupStyle`, plus new ones below) to the whole hierarchy in one call.
-      This is the headline feature; everything else in this milestone feeds it.
-- [x] `.neoBrutalism(theme:)` variant to pass a custom theme in the same call.
-- [x] Background handling — `.neoBrutalism(applyBackground: true)` places
-      `theme.background` for you, so the "How to use" example becomes two lines.
-
-### Finish native style coverage
-Done already: ✅ Button · ✅ Checkbox/Switch (`ToggleStyle`) · ✅ TextField ·
-✅ ProgressView · ✅ Accordion (`DisclosureGroupStyle`)
-
-Each new style follows the same definition of done (docs + previews + snapshots + README):
-- [x] `GroupBoxStyle` — native `GroupBox` gets the Card look for free
-- [x] `LabelStyle` — icon + text in theme style
-- [x] `GaugeStyle` — bordered dial/meter; a natural fit for the style
-- [x] `ControlGroupStyle` — bordered button group
-- [x] `MenuStyle` — neobrutalist dropdown menu
-- [x] `LabeledContentStyle` — settings-row style label/value pairs
-- [ ] Paged `TabView` page indicator — gives us a carousel for free (not yet; `NBTabView`
-      ships inline tabs, not a paged carousel)
-
-### Native controls with no open style protocol
-SwiftUI doesn't let us style these via a protocol, so we mirror the native API with a
-drop-in view (same initializer shape, so migration is a rename):
-- [x] `NBStepper` — mirrors `Stepper`
-- [x] `NBSegmentedPicker` — segmented `Picker` is not stylable
-
-### Design consistency
-- [x] One shared press effect (shadow collapses, content translates by the shadow
-      offset) used by Button, Checkbox, Switch, Radio, Stepper, ControlGroup, Collapsable trigger.
-- [x] Respect Reduce Motion in the press effect and skeleton shimmer.
-
----
-
 ## Milestone 2 — Production ready (v3.0+)
 
 Goal: a team can adopt this in a shipping app and trust it. The breaking API audit shipped
@@ -114,19 +73,13 @@ continues in 3.x.
 Only components with no native counterpart. Ship in small releases; pick by what real
 apps (Example app, Mismatch, community requests) actually need next.
 
-**Quick wins** — Avatar · Toast/Snackbar · ~~Dialog/Modal~~ (`nbDialog`, shipped) · Chip/Tag · Tooltip
+**Quick wins** — Avatar · Toast/Snackbar · ~~Dialog/Modal~~ (`nbDialog`, shipped) · Chip/Tag · Tooltip ·
+Paged `TabView` carousel*
 **Medium** — Select/Dropdown · Rating (stars) · Pagination · Breadcrumb
 **Large** — Calendar/DatePicker · Table/data grid · Image Card
 
----
-
-## Milestone 4 — Theming as a feature ✅ (shipped in 3.0.0)
-
-- [x] Ship 3–4 bold preset themes — shipped 5 (`.sunnyPeach`, `.bubblegum`, `.seafoam`,
-      `.tangerine`, `.lavender`), each with its own shape, density, and font personality,
-      not just a recolor (T22).
-- [x] Theme gallery in the Example app with live switching (T23).
-- [x] Document how to build a theme from scratch (README "Theming" section).
+\* The one exception to "no native counterpart": paged `TabView` exists natively but its page
+indicator isn't stylable, so a carousel needs a custom view. `NBTabView` ships inline tabs only.
 
 ---
 
