@@ -19,10 +19,6 @@ public extension NBTheme {
             light: .rgb(0.996, 0.949, 0.91), // #FEF2E8
             dark: .rgb(0.216, 0.255, 0.318) // #374151
         ),
-        blank: Color(
-            light: .rgb(0.0, 0.0, 0.0), // #000
-            dark: .rgb(1.0, 1.0, 1.0) // #fff
-        ),
         border: Color(
             light: .rgb(0.0, 0.0, 0.0),
             dark: .rgb(0.0, 0.0, 0.0)
