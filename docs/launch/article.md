@@ -2,7 +2,10 @@
      Canonical home is the writings repo — https://github.com/rational-kunal/writings —
      publish there first so the canonical URL is yours. Then cross-post to dev.to with a
      rel="canonical" pointing back, and submit the writings URL (not this repo) to iOS Dev
-     Weekly. Re-grep the code before publishing; APIs move. -->
+     Weekly. Re-grep the code before publishing; APIs move.
+     Images: the ../media/* paths render on GitHub as-is; when you cross-post to dev.to /
+     writings, swap them for absolute raw URLs or re-upload. The user-attachments URLs are
+     already absolute and portable. -->
 
 # Restyling native SwiftUI controls with style protocols
 
@@ -20,6 +23,12 @@ ContentView()
 ```
 
 That's the whole adoption story for the common case. Your `Button` is still a `Button`. Your `Toggle` is still a `Toggle`. They just look different now. This post is about why that works — and, the part I actually enjoyed, the handful of places where SwiftUI dug its heels in.
+
+<p align="center">
+  <img src="../media/demo.gif" width="320" alt="A plain SwiftUI app taking on the neobrutalism look after one .neoBrutalism() call, cycling through Todo, Gallery, and Themes in light and dark" />
+</p>
+
+*The whole thing in motion: plain SwiftUI, one modifier, cycling through the Example app's tabs in light and dark.*
 
 ## Why not just build custom controls
 
@@ -58,6 +67,13 @@ That's the headline feature, and it's honestly a bit anticlimactic once you see 
 
 The one opinionated call in there: the default `Toggle` style is the switch, not the checkbox, because that's what a bare `Toggle` means natively. If you want checkboxes in a subtree you ask for them — `.toggleStyle(.neoBrutalismCheckbox)` — and that closer modifier wins. Which is the propagation rule working exactly as advertised.
 
+<p align="center">
+  <img src="../media/todo-light.png" width="280" alt="The Example app's Todo screen in light mode" />
+  <img src="../media/todo-dark.png" width="280" alt="The Example app's Todo screen in dark mode" />
+</p>
+
+*A real screen — the Example app's Todo tab — styled top to bottom by that single call. The text field, the add button, the progress bar, the checkboxes, the rows: all native, all reached through the environment.*
+
 ## Three tiers, because SwiftUI doesn't open every door
 
 If the story ended at "set all the styles," this would be a short post. It doesn't, because SwiftUI only exposes a style protocol for *some* of its controls. So the library ended up with three tiers, and I think that ladder is the actually-reusable lesson here if you're building your own design system:
@@ -67,6 +83,13 @@ If the story ended at "set all the styles," this would be a short post. It doesn
 3. **There's no native control at all, or nothing stylable** → ship a drop-in view. `Slider`, `Stepper`, segmented `Picker`, radio groups, screen-level tabs — these become `NBSlider`, `NBStepper`, `NBSegmentedPicker`, `NBRadioGroup`, `NBTabView`. Each one mirrors the native initializer as closely as I could manage, so adopting it is a rename rather than a rewrite.
 
 The tiers are a preference order, not just a taxonomy. I only drop down a rung when the one above genuinely isn't available. Most of the churn in building the library was figuring out, control by control, which rung I was actually on — and a few of those were not obvious.
+
+<p align="center">
+  <img src="../media/gallery-light.png" width="280" alt="The Example app's component gallery in light mode" />
+  <img src="../media/gallery-dark.png" width="280" alt="The Example app's component gallery in dark mode" />
+</p>
+
+*All three tiers on one screen — the Example app's gallery. Styled protocols, helper modifiers, and drop-in `NB*` views, side by side and hard to tell apart.*
 
 ## Where it got weird
 
@@ -92,6 +115,13 @@ public struct NBInputStyle: TextFieldStyle {
 ```
 
 The nice surprise: the same style also covers `SecureField`, so the password field matches the text field with zero extra work. The not-nice surprise, and a good example of tier 1 falling through to tier 2: `TextEditor` has no style protocol at all. So right next to the style there's an `nbTextEditor()` helper that paints the same treatment by hand. Two controls that look identical on screen, reached two completely different ways, because SwiftUI decided one of them gets a protocol and the other doesn't.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/db0039d9-f5bd-4963-9054-e9ac18e8698b" width="330" alt="A neobrutalism-styled TextField" />
+  <img src="https://github.com/user-attachments/assets/f2379fae-d46b-42b7-89b2-ceb670c63c35" width="330" alt="A neobrutalism-styled SecureField" />
+</p>
+
+*`TextField` and `SecureField`, both wearing `.textFieldStyle(.neoBrutalism)` — one `_body`, two controls.*
 
 ### 2. Rounding only the ends of a ControlGroup
 

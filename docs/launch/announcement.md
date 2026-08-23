@@ -7,6 +7,10 @@ Grab a variant, attach the asset it asks for, drop in the repo link, hit post.
 Keep the voice like [ROADMAP.md](../../ROADMAP.md): plain and honest, no hype, no rocket emojis.
 You're asking for feedback, not applause.
 
+<p align="center">
+  <img src="../media/demo.gif" width="300" alt="A plain SwiftUI app taking on the neobrutalism look after one .neoBrutalism() call, cycling through Todo, Gallery, and Themes in light and dark" />
+</p>
+
 ## The facts every variant is checked against
 
 - One modifier — `.neoBrutalism()` at the root — restyles a plain, native SwiftUI app.
@@ -34,6 +38,17 @@ You're asking for feedback, not applause.
 | **Theming GIF** (thread, post 3) | ⚠️ need to capture | record the Themes tab live-switching with [`Example/capture.sh`](../../Example/capture.sh); in a pinch, `preset-swatches.png` works |
 | **Code screenshot** (thread, post 2) | ⚠️ need to capture | run the snippet below through carbon.now.sh or CodeSnap |
 | **Before/after GIF** (optional) | ⚠️ nice to have | plain SwiftUI → `.neoBrutalism()` side by side; the demo GIF stands in fine if you skip it |
+
+Previews of the ready-to-attach stills (all in [`docs/media/`](../media/)):
+
+<p align="center">
+  <img src="../media/todo-light.png" width="180" alt="Todo screen, light mode" />
+  <img src="../media/gallery-light.png" width="180" alt="Component gallery, light mode" />
+  <img src="../media/themes-light.png" width="150" alt="Theme gallery, light mode" />
+</p>
+<p align="center">
+  <img src="../media/preset-swatches.png" width="440" alt="Swatches for the six preset themes" />
+</p>
 
 Repo link to paste everywhere: `https://github.com/rational-kunal/NeoBrutalism`
 
