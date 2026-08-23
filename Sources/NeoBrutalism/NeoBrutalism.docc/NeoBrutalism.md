@@ -33,6 +33,7 @@ initializer shape.
 
 | If you want to… | Read |
 |---|---|
+| Just get the line to type | <doc:WhatDoIType> |
 | Install it and style your first screen | <doc:GettingStarted> |
 | See a component and copy its code | <doc:Components> |
 | Change colors, spacing, or borders | <doc:Theming> |
@@ -41,9 +42,15 @@ initializer shape.
 
 ### Essentials
 
+- <doc:WhatDoIType>
 - <doc:GettingStarted>
 - <doc:Components>
 - <doc:Theming>
+
+### Guides
+
+- <doc:BuildAForm>
+- <doc:BuildAListScreen>
 
 ### Root modifier
 

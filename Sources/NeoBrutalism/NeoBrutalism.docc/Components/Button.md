@@ -4,8 +4,7 @@ A thick-bordered, hard-shadowed button that presses into the page.
 
 ## Overview
 
-`Button` is styled automatically by ``SwiftUICore/View/neoBrutalism(theme:applyBackground:)``, so
-most screens need nothing at all:
+`Button` needs nothing from you. With `.neoBrutalism()` at the root, this is already styled:
 
 ```swift
 Button("Cast Spell") {}
@@ -13,13 +12,8 @@ Button("Cast Spell") {}
 
 ![A default neobrutalism button](nb-button-default)
 
-To style one button on its own — or to pick a type or variant — apply
-``NBButtonStyle`` directly:
-
-```swift
-Button("Cast Spell") {}
-    .buttonStyle(.neoBrutalism())
-```
+Reach for ``NBButtonStyle`` only when you want a **variant** — a different fill or shadow
+behavior than the default, covered in the next two sections.
 
 ## Types
 

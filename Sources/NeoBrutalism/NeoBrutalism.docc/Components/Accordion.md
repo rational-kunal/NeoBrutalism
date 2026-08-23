@@ -4,8 +4,8 @@ A titled row that expands to reveal content.
 
 ## Overview
 
-`DisclosureGroup` is styled by the root modifier through
-``NBAccordionDisclosureGroupStyle``:
+`DisclosureGroup` needs nothing from you. With `.neoBrutalism()` at the root, this is already
+an accordion:
 
 ```swift
 DisclosureGroup("Expecto Patronum") {
@@ -16,15 +16,6 @@ DisclosureGroup("Expecto Patronum") {
 ![A collapsed accordion row with a title and chevron](nb-accordion-collapsed)
 
 ![The same accordion expanded to show its content](nb-accordion-expanded)
-
-Or explicitly — `.neoBrutalism` and `.neoBrutalismAccordion` are the same style under two names:
-
-```swift
-DisclosureGroup("Expecto Patronum") {
-    Text("Hidden content")
-}
-.disclosureGroupStyle(.neoBrutalism)
-```
 
 ## Controlling expansion
 
@@ -42,6 +33,18 @@ DisclosureGroup("Expecto Patronum", isExpanded: $isExpanded) {
 
 `DisclosureGroup` always draws a title row with a chevron. When the trigger has to be something
 else entirely — a card, an image, a custom header — use <doc:Collapsable> instead.
+
+## Styling it directly
+
+You rarely need this. If a `DisclosureGroup` sits outside the root modifier's reach, apply
+``NBAccordionDisclosureGroupStyle`` yourself:
+
+```swift
+DisclosureGroup("Expecto Patronum") {
+    Text("Hidden content")
+}
+.disclosureGroupStyle(.neoBrutalism)
+```
 
 ## Topics
 

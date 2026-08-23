@@ -4,8 +4,7 @@ The default `Toggle` look — a sliding thumb in a bordered track.
 
 ## Overview
 
-``SwiftUICore/View/neoBrutalism(theme:applyBackground:)`` styles every `Toggle` as a switch, so
-this needs no per-view modifier:
+A `Toggle` needs nothing from you — the switch is what you get by default:
 
 ```swift
 Toggle("Shield Charm", isOn: $shieldOn)
@@ -13,22 +12,13 @@ Toggle("Shield Charm", isOn: $shieldOn)
 
 ![A neobrutalism switch in the on position with a label](nb-switch-label-on)
 
-Apply ``NBSwitchToggleStyle`` explicitly when you want a switch inside a subtree that isn't
-covered by the root modifier, or to override a nearer `.neoBrutalismCheckbox`:
-
-```swift
-Toggle("Shield Charm", isOn: $shieldOn)
-    .toggleStyle(.neoBrutalismSwitch)
-```
+For the boxed check mark instead, see <doc:Checkbox>.
 
 ## States
 
 ```swift
 Toggle(isOn: .constant(true)) {}
-    .toggleStyle(.neoBrutalismSwitch)
-
 Toggle(isOn: .constant(false)) {}
-    .toggleStyle(.neoBrutalismSwitch)
 ```
 
 ![A switch in the on position](nb-switch-on)
@@ -41,12 +31,22 @@ accent fill in dark mode as well as light. See <doc:Theming> for why those two t
 ## Disabled
 
 ```swift
-Toggle("Shield Charm", isOn: .constant(true))
-    .toggleStyle(.neoBrutalismSwitch)
+Toggle("Shield Charm", isOn: $shieldOn)
     .disabled(true)
 ```
 
 ![A disabled switch in the on position](nb-switch-disabled)
+
+## Styling it directly
+
+You rarely need this. Apply ``NBSwitchToggleStyle`` when a `Toggle` sits outside the root
+modifier's reach, or to force the switch look where a nearer `.neoBrutalismCheckbox` would
+otherwise win:
+
+```swift
+Toggle("Shield Charm", isOn: $shieldOn)
+    .toggleStyle(.neoBrutalismSwitch)
+```
 
 ## Topics
 

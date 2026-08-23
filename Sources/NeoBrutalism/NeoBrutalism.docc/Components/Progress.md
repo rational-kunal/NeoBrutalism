@@ -4,20 +4,13 @@ A bordered bar that fills as work completes.
 
 ## Overview
 
-`ProgressView` is styled by the root modifier through ``NBProgressViewStyle``:
+`ProgressView` needs nothing from you. With `.neoBrutalism()` at the root, this is already styled:
 
 ```swift
 ProgressView(value: 0.52)
 ```
 
 ![A progress bar filled to just over half](nb-progress-52)
-
-Or apply it to a single view:
-
-```swift
-ProgressView(value: progress)
-    .progressViewStyle(.neoBrutalism)
-```
 
 ![An empty progress bar](nb-progress-0)
 
@@ -36,6 +29,16 @@ ProgressView { Text("Loading...") }
 ![An indeterminate progress view labelled Loading](nb-progress-indeterminate)
 
 The animation respects Reduce Motion.
+
+## Styling it directly
+
+You rarely need this. If a `ProgressView` sits outside the root modifier's reach, apply
+``NBProgressViewStyle`` yourself:
+
+```swift
+ProgressView(value: progress)
+    .progressViewStyle(.neoBrutalism)
+```
 
 ## Topics
 
