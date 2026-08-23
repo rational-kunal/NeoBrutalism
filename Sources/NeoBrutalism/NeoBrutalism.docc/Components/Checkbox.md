@@ -4,8 +4,7 @@ A boxed check mark for opting in — a `Toggle` wearing a different style.
 
 ## Overview
 
-A checkbox is a standard SwiftUI `Toggle` with ``NBCheckboxToggleStyle`` applied. It stays a
-`Toggle`, so bindings, VoiceOver, and Dynamic Type behave exactly as they always do.
+One modifier turns a `Toggle` into a checkbox:
 
 ```swift
 Toggle("Remember me", isOn: $rememberMe)
@@ -14,8 +13,10 @@ Toggle("Remember me", isOn: $rememberMe)
 
 ![A checked neobrutalism checkbox with a label](nb-checkbox-label-on)
 
-> Note: The root modifier styles `Toggle` as a **switch**, matching native semantics. The
-> checkbox is opt-in per toggle — see <doc:Switch> for the default.
+It's still a `Toggle`, so your binding, VoiceOver, and Dynamic Type all behave as usual.
+
+> Note: A plain `Toggle` is a **switch** — see <doc:Switch>. The checkbox is opt-in per toggle,
+> which matches how `Toggle` behaves natively.
 
 ## States
 

@@ -53,18 +53,16 @@ zero per-view modifiers required:
 <doc:LabeledContent> · <doc:Menu> (trigger only) · <doc:Accordion> · <doc:ControlGroup> ·
 <doc:GroupBox>
 
-Two deliberate omissions from that automatic coverage:
+Two things it deliberately leaves to you:
 
-- The default `Toggle` style is the **switch**. Opt a specific `Toggle` into the
-  <doc:Checkbox> look with `.toggleStyle(.neoBrutalismCheckbox)`, or the <doc:Radio> dot with
+- A `Toggle` is a **switch**. Ask for the <doc:Checkbox> with
+  `.toggleStyle(.neoBrutalismCheckbox)`, or the <doc:Radio> dot with
   `.toggleStyle(.neoBrutalismRadio)`.
-- SwiftUI gives `List`/`Form` and navigation chrome no style protocol to hook into, so the
-  root modifier can't reach them — see the next section.
+- `List`, `Form`, and navigation bars need their own modifiers — see the next section.
 
-## Styling List, Form, and navigation
+## Lists, forms, and navigation
 
-`List`/`Form` and the navigation bar aren't reachable through the environment, so they get
-dedicated helper modifiers instead of a style protocol:
+These three need modifiers from you — the root modifier can't reach them:
 
 ```swift
 NavigationStack {
@@ -87,18 +85,21 @@ NavigationStack {
   neobrutalism card.
 - ``SwiftUICore/View/nbNavigationBar()`` on the screen content themes the navigation bar to match.
 
-`TextEditor` (no style protocol either) gets the same treatment via
-``SwiftUICore/View/nbTextEditor()``, and controls with no native counterpart at all — sliders,
-steppers, radio groups — ship as drop-in `NB*` views (``NBSlider``, ``NBStepper``,
-``NBRadioGroup``) that mirror the native initializer shape, so adopting them is a rename, not
-a rewrite.
+`TextEditor` needs ``SwiftUICore/View/nbTextEditor()`` the same way. And a few controls have no
+native equivalent at all, so they ship as `NB…` views — ``NBSlider``, ``NBStepper``,
+``NBRadioGroup`` — copying the native initializer shape, so switching is a rename.
 
-Full details in <doc:ListsAndForms> and <doc:Navigation>.
+<doc:WhatDoIType> lists every component and its one line.
 
 ## Find the component you need
 
-<doc:Components> has a page per component: what it looks like in light and dark, the code to
-paste, and its variants, states, and disabled appearance.
+<doc:WhatDoIType> is the fast path: every component and its one line, in one table.
+
+<doc:Components> is the long form — a page per component with what it looks like in light and
+dark, the code to paste, and its variants, states, and disabled appearance.
+
+Or start from a goal: <doc:BuildAForm> and <doc:BuildAListScreen> walk through a whole screen
+and point out which lines needed anything at all.
 
 ## See it in a real app
 

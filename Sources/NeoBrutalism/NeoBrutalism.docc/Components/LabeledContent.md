@@ -4,20 +4,13 @@ A caption on the left, its value on the right.
 
 ## Overview
 
-`LabeledContent` is styled by the root modifier through ``NBLabeledContentStyle``:
+`LabeledContent` needs nothing from you. With `.neoBrutalism()` at the root, this is already styled:
 
 ```swift
 LabeledContent("Username", value: "johndoe")
 ```
 
 ![A row reading Username on the left and johndoe on the right](nb-labeledcontent-basic)
-
-Or explicitly:
-
-```swift
-LabeledContent("Username", value: "johndoe")
-    .labeledContentStyle(.neoBrutalism)
-```
 
 ## Building a detail card
 
@@ -38,6 +31,16 @@ GroupBox {
 
 The trailing-closure form takes any view, so the value side isn't limited to text — a
 <doc:Badge> or a `Toggle` works just as well.
+
+## Styling it directly
+
+You rarely need this. If a `LabeledContent` row sits outside the root modifier's reach, apply
+``NBLabeledContentStyle`` yourself:
+
+```swift
+LabeledContent("Username", value: "johndoe")
+    .labeledContentStyle(.neoBrutalism)
+```
 
 ## Topics
 

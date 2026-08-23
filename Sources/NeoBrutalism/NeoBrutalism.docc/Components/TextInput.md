@@ -4,8 +4,8 @@ Bordered fields for single-line, secure, and multi-line text.
 
 ## Overview
 
-`TextField` and `SecureField` are styled by
-``SwiftUICore/View/neoBrutalism(theme:applyBackground:)`` through ``NBInputStyle``:
+`TextField` and `SecureField` need nothing from you. With `.neoBrutalism()` at the root, this
+is already styled:
 
 ```swift
 TextField("Add a task…", text: $text)
@@ -13,12 +13,7 @@ TextField("Add a task…", text: $text)
 
 ![A neobrutalism text field containing text](nb-input-filled)
 
-To style a field on its own, apply the style directly:
-
-```swift
-TextField("Add a task…", text: $text)
-    .textFieldStyle(.neoBrutalism)
-```
+`TextEditor` is the exception — it needs one modifier. See **Multi-line text** below.
 
 ## Placeholder and content
 
@@ -64,6 +59,16 @@ TextField("Add a task…", text: $text)
 ![A disabled text field](nb-input-disabled)
 
 ![A disabled text editor](nb-texteditor-disabled)
+
+## Styling it directly
+
+You rarely need this. If a field sits outside the root modifier's reach, apply ``NBInputStyle``
+yourself:
+
+```swift
+TextField("Add a task…", text: $text)
+    .textFieldStyle(.neoBrutalism)
+```
 
 ## Topics
 

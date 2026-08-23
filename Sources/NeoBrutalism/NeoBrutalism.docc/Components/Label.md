@@ -4,20 +4,13 @@ An icon and title pair, boxed to match the rest of the theme.
 
 ## Overview
 
-`Label` is styled by the root modifier through ``NBLabelStyle``:
+`Label` needs nothing from you. With `.neoBrutalism()` at the root, this is already styled:
 
 ```swift
 Label("Favorites", systemImage: "star.fill")
 ```
 
 ![A label pairing a star icon with the word Favorites](nb-label-default)
-
-Or explicitly:
-
-```swift
-Label("Settings", systemImage: "gear")
-    .labelStyle(.neoBrutalism)
-```
 
 ![A label pairing a gear icon with the word Settings](nb-label-icon)
 
@@ -36,6 +29,16 @@ GroupBox {
     }
 }
 .groupBoxStyle(.neoBrutalism())
+```
+
+## Styling it directly
+
+You rarely need this. If a `Label` sits outside the root modifier's reach, apply
+``NBLabelStyle`` yourself:
+
+```swift
+Label("Settings", systemImage: "gear")
+    .labelStyle(.neoBrutalism)
 ```
 
 ## Topics

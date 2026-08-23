@@ -4,7 +4,7 @@ The bordered card that most neobrutalism layouts are built from.
 
 ## Overview
 
-`GroupBox` is styled by the root modifier through ``NBGroupBoxStyle``:
+`GroupBox` needs nothing from you. With `.neoBrutalism()` at the root, this is already a card:
 
 ```swift
 GroupBox("Hogwarts Letter") {
@@ -14,14 +14,8 @@ GroupBox("Hogwarts Letter") {
 
 ![A card with a title and body text](nb-groupbox-default)
 
-Applied directly, the style takes arguments:
-
-```swift
-GroupBox("Hogwarts Letter") {
-    Text("You have been accepted!")
-}
-.groupBoxStyle(.neoBrutalism())
-```
+Reach for ``NBGroupBoxStyle`` only when you want a **variant** — a quieter fill, or a card with
+no shadow. Both are below.
 
 ## Types
 
