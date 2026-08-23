@@ -1,0 +1,97 @@
+name: "Documentation"
+
+# Builds the DocC catalog and publishes it to GitHub Pages at
+# https://rational-kunal.github.io/NeoBrutalism/
+#
+# One-time repo setup (maintainer): Settings → Pages → Build and deployment →
+# Source: "GitHub Actions". Without that, the deploy step fails.
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "Sources/**"
+      - ".github/workflows/docs.yml"
+      - "Package.swift"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Let a running deploy finish rather than cancelling it half-published.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: "Build DocC archive"
+    runs-on: macOS-15
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Load pinned Xcode
+        run: |
+          source Scripts/snapshot-env.sh
+          echo "DEVELOPER_DIR=/Applications/$NB_CI_XCODE.app/Contents/Developer" >> "$GITHUB_ENV"
+
+      - name: Build documentation
+        run: |
+          set -o pipefail
+          xcodebuild docbuild \
+            -scheme NeoBrutalism \
+            -destination "generic/platform=iOS Simulator" \
+            -derivedDataPath .derivedData 2>&1 | xcbeautify --renderer github-actions
+
+      - name: Transform for static hosting
+        run: |
+          set -eo pipefail
+          ARCHIVE=$(find .derivedData/Build/Products -maxdepth 2 -name "NeoBrutalism.doccarchive" | head -1)
+          test -n "$ARCHIVE" || { echo "::error::No .doccarchive produced"; exit 1; }
+
+          "$(xcrun --find docc)" process-archive transform-for-static-hosting \
+            "$ARCHIVE" \
+            --hosting-base-path NeoBrutalism \
+            --output-path _site
+
+          # The transform leaves the archive's own root index.html untouched (its
+          # baseUrl stays "/"), so the bare Pages URL would load a broken shell.
+          # Replace it with a redirect to the real entry point.
+          cat > _site/index.html <<'HTML'
+          <!doctype html>
+          <html lang="en">
+            <head>
+              <meta charset="utf-8">
+              <title>NeoBrutalism</title>
+              <meta http-equiv="refresh" content="0; url=/NeoBrutalism/documentation/neobrutalism/">
+              <link rel="canonical" href="/NeoBrutalism/documentation/neobrutalism/">
+            </head>
+            <body>
+              <p>Redirecting to <a href="/NeoBrutalism/documentation/neobrutalism/">the NeoBrutalism documentation</a>.</p>
+            </body>
+          </html>
+          HTML
+
+          test -f _site/documentation/neobrutalism/index.html \
+            || { echo "::error::Entry point documentation/neobrutalism/index.html missing"; exit 1; }
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    name: "Deploy to GitHub Pages"
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -60,7 +60,8 @@ continues in 3.x.
 
 ### Docs & trust signals
 - [x] DocC catalog: Getting Started, Theming guide, component gallery; CI `docbuild`
-      guard. Hosting on Swift Package Index is the remaining maintainer step (see Adoption).
+      guard; published to GitHub Pages by `.github/workflows/docs.yml` and linked from the
+      README. Swift Package Index hosting is separate and still open (see Adoption).
 - [x] `CHANGELOG.md`, kept from 3.0 onward.
 - [x] `CONTRIBUTING.md` — moved the "how to build a component" guide there.
 - [x] CI: snapshot tests on every PR + DocC build check. *(SwiftFormat/SwiftLint
@@ -85,6 +86,8 @@ indicator isn't stylable, so a carousel needs a custom view. `NBTabView` ships i
 
 ## Adoption (ongoing, parallel to all milestones)
 
+- [x] Host the DocC catalog publicly — GitHub Pages, built and deployed on every push to
+      `main`. **One-time maintainer step:** Settings → Pages → Source: "GitHub Actions".
 - [ ] Add the package to the [Swift Package Index](https://swiftpackageindex.com)
       with hosted DocC and platform-compatibility badges — `.spi.yml` is in the repo;
       the PackageList PR is the remaining maintainer action (T26).
