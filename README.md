@@ -13,6 +13,10 @@ Add `.neoBrutalism()` at the root and every native control underneath picks up t
 shadows, and a matching palette. Your `Button` is still a `Button` — same code, same accessibility,
 nothing to migrate.
 
+> [!NOTE]
+> Every line here was once typed by hand. Then the AI revolution happened — so these days most
+> changes come with a copilot riding shotgun. The taste is still mine; the typing, less so.
+
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/media/before-after-dark.png">
