@@ -440,8 +440,14 @@ struct LabelStyleExampleView: View {
 struct GaugeStyleExampleView: View {
     var body: some View {
         VStack(spacing: 12) {
-            Gauge(value: 0.75) {
+            Gauge(value: 75, in: 0...100) {
                 Text("Patronus Power")
+            } currentValueLabel: {
+                Text("75%")
+            } minimumValueLabel: {
+                Text("0%")
+            } maximumValueLabel: {
+                Text("100%")
             }
             .gaugeStyle(.neoBrutalism)
         }
